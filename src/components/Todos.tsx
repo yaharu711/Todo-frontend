@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styles from './Todos.module.css'
-import type { ButtonProps } from './Button';
 import Button from './Button';
 import { CiEdit } from "react-icons/ci";
 import TextInput from './TextInput';
+import { ButtonProps } from '../App';
 
 type TodosProps = {
     section: string,
@@ -87,7 +87,7 @@ const Todos: React.FC<TodosProps> = ({
                             {/* このボタンは動的に削除されたり更新されたりしないので、mapのindexをコンポーネントのkeyに指定しても問題ない */}
                             {buttonPropsList.map((buttonProps) => (
                                 <Button 
-                                    key={buttonProps.children} 
+                                    key={buttonProps.children}
                                     disabled={isDisabledButton}
                                     onClick={() => buttonProps.onClick(todo)}
                                     children={buttonProps.children}

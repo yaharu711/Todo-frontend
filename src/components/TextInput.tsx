@@ -6,7 +6,7 @@ type TextInputProps = {
     value: string,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
     onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void,
-    onBlur?: (e: React.FocusEventHandler<HTMLInputElement>) => void,
+    onBlur?: () => void,
     errorMessage: string
 }
 

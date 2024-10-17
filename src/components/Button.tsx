@@ -1,10 +1,10 @@
 import React from 'react'
 import styles from './Button.module.css'
 
-export type ButtonProps<> = {
+export type ButtonProps = {
     disabled?: boolean,
-    onClick: (todo: string) => void,
-    children: React.ReactNode
+    onClick: () => void,
+    children: string
 }
 
 const Button: React.FC<ButtonProps> = ({disabled=false, onClick, children}) => {

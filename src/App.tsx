@@ -2,7 +2,11 @@ import React, { useState } from 'react'
 import TodoInputForm from './components/TodoInputForm';
 import styles from './App.module.css';
 import Todos from './components/Todos';
-import { ButtonProps } from './components/Button';
+
+export type ButtonProps = {
+    onClick: (todo: string) => void,
+    children: string
+}
 
 const App: React.FC = () => {
     const [imcompletedTodos, setImcompletedTodos] = useState<string[]>([]);
@@ -18,7 +22,7 @@ const App: React.FC = () => {
         setImcompletedTodos([...imcompletedTodos, todo]);
         setCompletedTodos(completedTodos.filter((completedTodo) => completedTodo !== todo))
     }
-
+    
     // 未完了TODOについての処理
     const imcompletedTodosButtonPropsList: ButtonProps[] = [
         {
