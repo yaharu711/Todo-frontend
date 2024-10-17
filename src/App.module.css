@@ -1,0 +1,21 @@
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+input {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 32px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+}

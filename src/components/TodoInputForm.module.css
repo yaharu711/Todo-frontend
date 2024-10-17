@@ -1,0 +1,10 @@
+/* wrappは他のコンポーネントでも使う共通のものだが、
+CSSモジュールを使っている場合はどのように共通化する？？？ */
+.wrapp {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 16px;
+    width: 600px;
+}
