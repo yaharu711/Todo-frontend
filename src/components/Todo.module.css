@@ -1,0 +1,53 @@
+.todo_name_wrapp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 16px;
+}
+
+.todo_name_edit_button {
+    cursor: pointer;
+    background-color: #242424;
+    border: none;
+    padding: 4px;
+    border-radius: 5px;
+
+}
+
+.todo_name {
+    font-size: 1.3rem;
+    width: 150px;
+    overflow-wrap: break-word;
+}
+
+.li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 64px;
+}
+
+.buttons_wrap {
+    display: flex;
+    column-gap: 16px;
+}
+
+@media screen and (max-width: 768px) {
+    .wrap {
+        min-width: 400px;
+        max-width: 400px;
+    }
+
+    .li {
+        display: flex;
+        align-items: center;
+        column-gap: 16px;
+        width: 93%;
+        margin: 0 auto;
+    }
+
+    .buttons_wrap {
+        display: flex;
+        column-gap: 8px;
+    }
+}

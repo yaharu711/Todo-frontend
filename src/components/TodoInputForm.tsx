@@ -2,11 +2,11 @@ import React, { SetStateAction, useState } from 'react'
 import styles from './TodoInputForm.module.css';
 import Button from './Button';
 import TextInput from './TextInput';
-import type { Todo } from '../App';
+import type { TodoType } from '../App';
 
 type TodoInputFormProps = {
-    imcompletedTodos: Todo[],
-    setImcompletedTodos: React.Dispatch<SetStateAction<Todo[]>>
+    imcompletedTodos: TodoType[],
+    setImcompletedTodos: React.Dispatch<SetStateAction<TodoType[]>>
 }
 
 const TodoInputForm: React.FC<TodoInputFormProps> = ({imcompletedTodos, setImcompletedTodos}) => {
@@ -23,7 +23,7 @@ const TodoInputForm: React.FC<TodoInputFormProps> = ({imcompletedTodos, setImcom
             setInputError('既に同じTODOがあります');
             return;
         }
-        const newTodo: Todo = {
+        const newTodo: TodoType = {
             name: inputedTodoName,
             isEditMode: false
         }

@@ -4,26 +4,26 @@ import styles from './App.module.css';
 import Todos from './components/Todos';
 
 export type ButtonProps = {
-    onClick: (target: Todo) => void,
+    onClick: (target: TodoType) => void,
     children: string
 }
 
-export type Todo = {
+export type TodoType = {
     name: string,
     isEditMode: boolean
 }
 
 const App: React.FC = () => {
-    const [imcompletedTodos, setImcompletedTodos] = useState<Todo[]>([]);
-    const [completedTodos, setCompletedTodos] = useState<Todo[]>([]);
-    const completeTodo = (target: Todo) => {
+    const [imcompletedTodos, setImcompletedTodos] = useState<TodoType[]>([]);
+    const [completedTodos, setCompletedTodos] = useState<TodoType[]>([]);
+    const completeTodo = (target: TodoType) => {
         setCompletedTodos([...completedTodos, target]);
         setImcompletedTodos(imcompletedTodos.filter((imcompletedTodo) => imcompletedTodo.name !== target.name));
     }
-    const deleteTodo = (target: Todo) => {
+    const deleteTodo = (target: TodoType) => {
         setImcompletedTodos(imcompletedTodos.filter((imcompletedTodo) => imcompletedTodo.name !== target.name));
     }
-    const imcompleteTodo = (target: Todo) => {
+    const imcompleteTodo = (target: TodoType) => {
         setImcompletedTodos([...imcompletedTodos, target]);
         setCompletedTodos(completedTodos.filter((completedTodo) => completedTodo.name !== target.name))
     }
