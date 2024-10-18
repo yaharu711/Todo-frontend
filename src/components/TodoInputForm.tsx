@@ -30,7 +30,7 @@ const TodoInputForm: React.FC<TodoInputFormProps> = ({imcompletedTodo, setImcomp
         e.preventDefault();
     }
     return (
-        <div className={styles.wrapp}>
+        <div className={styles.wrap}>
 
             <TextInput 
                 placeholder="TODO名" 

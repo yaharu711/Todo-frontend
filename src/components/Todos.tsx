@@ -51,7 +51,7 @@ const Todos: React.FC<TodosProps> = ({
     const editTodoOnBlur = (target: string): void => editTodo(target);
 
     return (
-        <section className={styles.wrapp}>
+        <section className={styles.wrap}>
             <h2>{section}</h2>
             <ul className={styles.ul }>
                 {todos.map((todo: string) => {
@@ -86,6 +86,7 @@ const Todos: React.FC<TodosProps> = ({
                         <div className={styles.buttons_wrap}>
                             {/* このボタンは動的に削除されたり更新されたりしないので、mapのindexをコンポーネントのkeyに指定しても問題ない */}
                             {buttonPropsList.map((buttonProps) => (
+                                // 汎用性が高くなったかな。高くなった分、親で色々定義して準備して渡す用になった。
                                 <Button 
                                     key={buttonProps.children}
                                     disabled={isDisabledButton}

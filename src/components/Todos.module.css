@@ -1,6 +1,7 @@
-.wrapp {
+.wrap {
     display: flex;
     flex-direction: column; 
+    justify-content: center;
     align-items: center;
     row-gap: 32px;
     width: auto; 
@@ -25,6 +26,8 @@
 
 .todo_name {
     font-size: 1.3rem;
+    width: 150px;
+    overflow-wrap: break-word;
 }
 
 .ul {
@@ -44,4 +47,24 @@
 .buttons_wrap {
     display: flex;
     column-gap: 16px;
+}
+
+@media screen and (max-width: 768px) {
+    .wrap {
+        min-width: 400px;
+        max-width: 400px;
+    }
+
+    .li {
+        display: flex;
+        align-items: center;
+        column-gap: 16px;
+        width: 93%;
+        margin: 0 auto;
+    }
+
+    .buttons_wrap {
+        display: flex;
+        column-gap: 8px;
+    }
 }

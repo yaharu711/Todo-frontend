@@ -23,3 +23,9 @@
     left: 5px;
     color: red;
 }
+
+@media screen and (max-width: 768px) {
+    .input {
+        width: 230px;
+    }
+}
