@@ -25,27 +25,22 @@ const Todos: React.FC<TodosProps> = ({
     const toggleEditMode = (target: Todo) => {
         setTodos(prev => prev.map(todo => {
             if (todo.name !== target.name) return todo;
-            todo.isEditMode = true;
-            return todo;
+            return {...todo, isEditMode: !todo.isEditMode}
         }))
         setIsDisabledButton(prev => !prev);
     }
     const editTodo = (target: Todo) => {
         const todoNames = todos.map(todo => todo.name);
-        if (inputedTodoName === "") {
-            setEditInputError("入力は必須です");
-            return;
-        }
         if (target.name !== inputedTodoName && todoNames.includes(inputedTodoName)) {
             setEditInputError('既に同じTODOがあります');
             return;
         }
+
         const updatedTodo: Todo = {
-            name: inputedTodoName,
+            name: inputedTodoName === "" ? target.name : inputedTodoName,
             isEditMode: false
         }
         setTodos(prev => prev.map(todo => (todo.name === target.name ? updatedTodo : todo)));
-
         setInputedTodoName('');
         setIsDisabledButton(false);
     }
