@@ -4,23 +4,28 @@ import styles from './App.module.css';
 import Todos from './components/Todos';
 
 export type ButtonProps = {
-    onClick: (todo: string) => void,
+    onClick: (target: Todo) => void,
     children: string
 }
 
+export type Todo = {
+    name: string,
+    isEditMode: boolean
+}
+
 const App: React.FC = () => {
-    const [imcompletedTodos, setImcompletedTodos] = useState<string[]>([]);
-    const [completedTodos, setCompletedTodos] = useState<string[]>([]);
-    const completeTodo = (todo: string) => {
-        setCompletedTodos([...completedTodos, todo]);
-        setImcompletedTodos(imcompletedTodos.filter((imcompletedTodo) => imcompletedTodo !== todo));
+    const [imcompletedTodos, setImcompletedTodos] = useState<Todo[]>([]);
+    const [completedTodos, setCompletedTodos] = useState<Todo[]>([]);
+    const completeTodo = (target: Todo) => {
+        setCompletedTodos([...completedTodos, target]);
+        setImcompletedTodos(imcompletedTodos.filter((imcompletedTodo) => imcompletedTodo.name !== target.name));
     }
-    const deleteTodo = (todo: string) => {
-        setImcompletedTodos(imcompletedTodos.filter((imcompletedTodo) => imcompletedTodo !== todo));
+    const deleteTodo = (target: Todo) => {
+        setImcompletedTodos(imcompletedTodos.filter((imcompletedTodo) => imcompletedTodo.name !== target.name));
     }
-    const imcompleteTodo = (todo: string) => {
-        setImcompletedTodos([...imcompletedTodos, todo]);
-        setCompletedTodos(completedTodos.filter((completedTodo) => completedTodo !== todo))
+    const imcompleteTodo = (target: Todo) => {
+        setImcompletedTodos([...imcompletedTodos, target]);
+        setCompletedTodos(completedTodos.filter((completedTodo) => completedTodo.name !== target.name))
     }
     
     // 未完了TODOについての処理
@@ -50,8 +55,8 @@ const App: React.FC = () => {
     return (
         <div className={styles.container}>
             <TodoInputForm 
-                imcompletedTodo={imcompletedTodos} 
-                setImcompletedTodo={setImcompletedTodos} 
+                imcompletedTodos={imcompletedTodos} 
+                setImcompletedTodos={setImcompletedTodos} 
             />
             <Todos 
                 section='未完了のTOOD一覧'

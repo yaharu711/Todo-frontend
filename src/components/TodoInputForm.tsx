@@ -2,27 +2,33 @@ import React, { SetStateAction, useState } from 'react'
 import styles from './TodoInputForm.module.css';
 import Button from './Button';
 import TextInput from './TextInput';
+import type { Todo } from '../App';
 
 type TodoInputFormProps = {
-    imcompletedTodo: string[],
-    setImcompletedTodo: React.Dispatch<SetStateAction<string[]>>
+    imcompletedTodos: Todo[],
+    setImcompletedTodos: React.Dispatch<SetStateAction<Todo[]>>
 }
 
-const TodoInputForm: React.FC<TodoInputFormProps> = ({imcompletedTodo, setImcompletedTodo}) => {
-    const [inputedTodo, setInputedTodo] = useState<string>("");
+const TodoInputForm: React.FC<TodoInputFormProps> = ({imcompletedTodos, setImcompletedTodos}) => {
+    const [inputedTodoName, setInputedTodoName] = useState<string>("");
     const [inputError, setInputError] = useState<string>('');
 
     const createTodo = (): void => {
-        if (inputedTodo === "") {
+        const imcompletedTodoNames = imcompletedTodos.map(imcompletedTodo => imcompletedTodo.name);
+        if (inputedTodoName === "") {
             setInputError("入力は必須です");
             return;
         }
-        if (imcompletedTodo.includes(inputedTodo)) {
+        if (imcompletedTodoNames.includes(inputedTodoName)) {
             setInputError('既に同じTODOがあります');
             return;
         }
-        setImcompletedTodo([...imcompletedTodo, inputedTodo]);
-        setInputedTodo("");
+        const newTodo: Todo = {
+            name: inputedTodoName,
+            isEditMode: false
+        }
+        setImcompletedTodos([...imcompletedTodos, newTodo]);
+        setInputedTodoName("");
     }
     const createTodoOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
         if (e.key !== "Enter") return;
@@ -34,16 +40,16 @@ const TodoInputForm: React.FC<TodoInputFormProps> = ({imcompletedTodo, setImcomp
 
             <TextInput 
                 placeholder="TODO名" 
-                value={inputedTodo}
+                value={inputedTodoName}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setInputedTodo(e.target.value);
+                    setInputedTodoName(e.target.value);
                     setInputError('');
                 }}
                 onKeyDown={(e) => createTodoOnKeyDown(e)}
                 errorMessage={inputError}
             />
             <Button
-                disabled={inputedTodo === ""}
+                disabled={inputedTodoName === ""}
                 onClick={createTodo}
             >作成</Button>
         </div>

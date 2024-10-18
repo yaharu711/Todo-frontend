@@ -3,12 +3,12 @@ import styles from './Todos.module.css'
 import Button from './Button';
 import { CiEdit } from "react-icons/ci";
 import TextInput from './TextInput';
-import { ButtonProps } from '../App';
+import { ButtonProps, Todo } from '../App';
 
 type TodosProps = {
     section: string,
-    todos: string[],
-    setTodos: React.Dispatch<React.SetStateAction<string[]>>,
+    todos: Todo[],
+    setTodos: React.Dispatch<React.SetStateAction<Todo[]>>,
     buttonPropsList: ButtonProps[]
 }
 
@@ -18,48 +18,52 @@ const Todos: React.FC<TodosProps> = ({
     setTodos,
     buttonPropsList
 }) => {
-    // todo名は重複を許していないので、キーをとりあえずはtodo名にする
-    const [editMode, setEditMode] = useState<Map<string, boolean>>(new Map());
-    const [editInput, setEditInput] = useState<string>('');
+    const [inputedTodoName, setInputedTodoName] = useState<string>('');
     const [editInputError, setEditInputError] = useState<string>('');
-    // これだと、完了と未完了のTODOで状態が共通化されないので、親でこのステートを定義しないといけない。。
-    // そうすれば、input領域もdisableにできるしよさそう
     const [isDisabledButton, setIsDisabledButton] = useState<boolean>(false);
 
-    const toggleEditMode = (target: string) => {
-        setEditMode(prev => new Map(prev).set(target, !prev.get(target)));
+    const toggleEditMode = (target: Todo) => {
+        setTodos(prev => prev.map(todo => {
+            if (todo.name !== target.name) return todo;
+            todo.isEditMode = true;
+            return todo;
+        }))
         setIsDisabledButton(prev => !prev);
     }
-    const editTodo = (target: string) => {
-        if (editInput === "") {
+    const editTodo = (target: Todo) => {
+        const todoNames = todos.map(todo => todo.name);
+        if (inputedTodoName === "") {
             setEditInputError("入力は必須です");
             return;
         }
-        if (target !== editInput && todos.includes(editInput)) {
+        if (target.name !== inputedTodoName && todoNames.includes(inputedTodoName)) {
             setEditInputError('既に同じTODOがあります');
             return;
         }
-        setTodos(prev => prev.map(todo => (todo === target ? editInput : todo)));
+        const updatedTodo: Todo = {
+            name: inputedTodoName,
+            isEditMode: false
+        }
+        setTodos(prev => prev.map(todo => (todo.name === target.name ? updatedTodo : todo)));
 
-        setEditInput('');
-        setEditMode(prev => new Map(prev).set(target, false));
+        setInputedTodoName('');
         setIsDisabledButton(false);
     }
-    const editTodoOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, target: string): void => {
+    const editTodoOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, target: Todo): void => {
         if (e.key !== "Enter") return;
         editTodo(target);
         e.preventDefault();
     }
-    const editTodoOnBlur = (target: string): void => editTodo(target);
+    const editTodoOnBlur = (target: Todo): void => editTodo(target);
 
     return (
         <section className={styles.wrap}>
             <h2>{section}</h2>
             <ul className={styles.ul }>
-                {todos.map((todo: string) => {
+                {todos.map((todo: Todo) => {
                 return (
                     <li
-                        key={todo}
+                        key={todo.name}
                         className={styles.li}
                     >
                         <div className={styles.todo_name_wrapp}>
@@ -69,12 +73,12 @@ const Todos: React.FC<TodosProps> = ({
                             >
                                 <CiEdit size={25} color='white'/>
                             </button>
-                            {editMode.get(todo) ? (
+                            {todo.isEditMode ? (
                                 <TextInput
-                                    placeholder={todo}
-                                    value={editInput}
+                                    placeholder={todo.name}
+                                    value={inputedTodoName}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                        setEditInput(e.target.value);
+                                        setInputedTodoName(e.target.value);
                                         setEditInputError('');
                                     }}
                                     onKeyDown={(e) => editTodoOnKeyDown(e, todo)}
@@ -82,7 +86,7 @@ const Todos: React.FC<TodosProps> = ({
                                     errorMessage={editInputError}
                                 />
                             ): (
-                                <p className={styles.todo_name}>{todo}</p>
+                                <p className={styles.todo_name}>{todo.name}</p>
                             )}
                         </div>
                         <div className={styles.buttons_wrap}>
