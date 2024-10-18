@@ -22,6 +22,8 @@ const Todos: React.FC<TodosProps> = ({
     const [editMode, setEditMode] = useState<Map<string, boolean>>(new Map());
     const [editInput, setEditInput] = useState<string>('');
     const [editInputError, setEditInputError] = useState<string>('');
+    // これだと、完了と未完了のTODOで状態が共通化されないので、親でこのステートを定義しないといけない。。
+    // そうすれば、input領域もdisableにできるしよさそう
     const [isDisabledButton, setIsDisabledButton] = useState<boolean>(false);
 
     const toggleEditMode = (target: string) => {
