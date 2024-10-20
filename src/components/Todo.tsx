@@ -13,9 +13,9 @@ type TodoProps = {
 }
 
 const Todo: React.FC<TodoProps> = ({
-    target, 
-    todos, 
-    setTodos, 
+    target,
+    todos,
+    setTodos,
     buttonPropsList
 }) => {
     const [inputedTodoName, setInputedTodoName] = useState<string>('');
