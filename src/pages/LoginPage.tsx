@@ -1,12 +1,16 @@
 import { useLogin } from "../api/User/hooks";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const loginMutation = useLogin();
   const navigate = useNavigate();
+  const location = useLocation();
+  const message = location.state?.message;
+
   return (
     <div>
       <h1>ログインページ</h1>
+      {message && <div>{message}</div>}
       <button
         onClick={() =>
           loginMutation.mutate(
