@@ -13,6 +13,8 @@ export type TodoType = {
   isEditMode: boolean;
 };
 
+// TODO: components配下にあるコンポーネントはすべてpage/Todo/components配下に移動させよう
+
 const TodoPage = () => {
   const [imcompletedTodos, setImcompletedTodos] = useState<TodoType[]>([]);
   const [completedTodos, setCompletedTodos] = useState<TodoType[]>([]);
