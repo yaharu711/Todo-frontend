@@ -1,5 +1,5 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
+import { Route, Routes } from "react-router-dom";
+import LoginPage from "./pages/Login";
 import PublicLayout from "./components/PublicLayout";
 import PrivateLayout from "./components/PrivateLayout";
 import TodoPage from "./pages/Todo";
@@ -13,25 +13,6 @@ export type ButtonProps = {
 export type TodoType = {
   name: string;
   isEditMode: boolean;
-};
-
-export type apiErrorHandlesType = {
-  onUnAuthorized?: () => void;
-  onDefault?: () => void;
-};
-
-export const useApiErrorHandles = (): apiErrorHandlesType => {
-  const navigate = useNavigate();
-
-  return {
-    onUnAuthorized: () =>
-      navigate("/login", {
-        state: {
-          message: "セッションが切れました。再度ログインをお願いします",
-        },
-      }),
-    onDefault: () => navigate("/500"),
-  };
 };
 
 const App = () => {

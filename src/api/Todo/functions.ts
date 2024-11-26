@@ -1,11 +1,12 @@
 import axios, { AxiosResponse } from "axios";
-import { apiErrorHandlesType } from "../../App";
+import { apiErrorHandlesType } from "../common/ErrorHanleHook";
 
 const ENDPOINT: string = import.meta.env.VITE_API_URL;
 
 const getHelloMessage = async (
   errorHandle?: apiErrorHandlesType
 ): Promise<string | undefined> => {
+  // TODO: interceptorを使って共通化するか。
   try {
     const res = await axios.get(ENDPOINT + "/api/hello-message", {
       withCredentials: true,
