@@ -5,6 +5,7 @@ import PrivateLayout from "./components/PrivateLayout";
 import TodoPage from "./pages/Todo";
 import HomePage from "./pages/HomePage";
 import UnExpectedErrorPage from "./pages/UnExpectedErrorPage";
+import ToastProvider from "./components/ToastProvider";
 
 export type ButtonProps = {
   onClick: (target: TodoType) => void;
@@ -18,16 +19,18 @@ export type TodoType = {
 const App = () => {
   return (
     <div className="App">
-      <Routes>
-        <Route element={<PublicLayout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/500" element={<UnExpectedErrorPage />} />
-        </Route>
-        <Route element={<PrivateLayout />}>
-          <Route path="/todo" element={<TodoPage />} />
-        </Route>
-      </Routes>
+      <ToastProvider>
+        <Routes>
+          <Route element={<PublicLayout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/500" element={<UnExpectedErrorPage />} />
+          </Route>
+          <Route element={<PrivateLayout />}>
+            <Route path="/todo" element={<TodoPage />} />
+          </Route>
+        </Routes>
+      </ToastProvider>
     </div>
   );
 };
