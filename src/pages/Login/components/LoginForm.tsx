@@ -1,6 +1,5 @@
 import { toast } from "react-toastify";
 import { useLogin } from "../../../api/User/hooks";
-import styles from "./LoginForm.module.css";
 
 const LoginForm = () => {
   const loginMutation = useLogin();
