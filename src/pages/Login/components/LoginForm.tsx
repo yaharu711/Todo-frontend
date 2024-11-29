@@ -2,19 +2,13 @@ import { toast } from "react-toastify";
 import { useLogin } from "../../../api/User/hooks";
 import styles from "./LoginForm.module.css";
 import Button from "../../../components/Button";
-import { FadeLoader } from "react-spinners";
+import FadeLoaderOverlapedAll from "../../../components/FadeLoaderOverlapedAll";
 
 const LoginForm = () => {
   const { mutate: loginMutate, isPending } = useLogin();
   return (
     <>
-      {isPending && (
-        <div className={styles.spinnersOverlay}>
-          <div className={styles.spinnersContent}>
-            <FadeLoader color="#646cff" />
-          </div>
-        </div>
-      )}
+      {isPending && <FadeLoaderOverlapedAll />}
       <div className={styles.container}>
         <p>ログインは誰でもできるようになっています</p>
         <Button

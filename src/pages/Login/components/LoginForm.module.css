@@ -4,26 +4,3 @@
   align-items: center;
   justify-content: center;
 }
-
-.spinnersOverlay {
-  /* モーダル外を薄く黒色にしてモーダル外は操作できないということを直感的に教える&モーダルに集中させるために */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.574); /* 半透明の黒背景 */
-  z-index: 100; /* モーダルの下になるが、他の要素より上に配置 */
-}
-
-.spinnersContent {
-  /* モーダルなんて、画面の真ん中に表示するのが固定で良い */
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(
-    -50%,
-    -50%
-  ); /** position: absolute, fixed;を使っている要素の中央寄せに有効  */
-  z-index: 101; /** 一応modalOverlayより前面に配置されるようにする */
-}

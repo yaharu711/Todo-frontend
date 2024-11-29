@@ -12,4 +12,11 @@ const PrivateLayout = () => {
   return data && <Outlet />;
 };
 
+//これをPrivateLayoutでSuspenseで囲えばロード中の挙動をSuspenseで制御できる
+const Content = () => {
+  const { data } = useGetHelloMessage();
+
+  return data ? <Outlet /> : null;
+};
+
 export default PrivateLayout;
