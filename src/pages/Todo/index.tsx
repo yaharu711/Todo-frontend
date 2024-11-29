@@ -16,7 +16,15 @@ export type TodoType = {
 // TODO: components配下にあるコンポーネントはすべてpage/Todo/components配下に移動させよう
 
 const TodoPage = () => {
-  const [imcompletedTodos, setImcompletedTodos] = useState<TodoType[]>([]);
+  const [imcompletedTodos, setImcompletedTodos] = useState<TodoType[]>([
+    { name: "test", isEditMode: false },
+    { name: "test1", isEditMode: false },
+    { name: "test2", isEditMode: false },
+    { name: "test3", isEditMode: false },
+    { name: "test4", isEditMode: false },
+    { name: "test5", isEditMode: false },
+    { name: "test6", isEditMode: false },
+  ]);
   const [completedTodos, setCompletedTodos] = useState<TodoType[]>([]);
   const completeTodo = (target: TodoType) => {
     setCompletedTodos([...completedTodos, target]);

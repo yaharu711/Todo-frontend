@@ -1,32 +1,39 @@
 import { toast } from "react-toastify";
 import { useLogin } from "../../../api/User/hooks";
+import styles from "./LoginForm.module.css";
+import Button from "../../../components/Button";
+import FadeLoaderOverlapedAll from "../../../components/FadeLoaderOverlapedAll";
 
 const LoginForm = () => {
-  const loginMutation = useLogin();
+  const { mutate: loginMutate, isPending } = useLogin();
   return (
-    <div>
-      <button
-        onClick={() => {
-          loginMutation.mutate(
-            {
-              email: "demo1@example.com",
-              password: "password",
-            },
-            {
-              onSuccess: () =>
-                toast("ログインに成功しました！✅", {
-                  progressStyle: {
-                    background:
-                      "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
-                  },
-                }),
-            }
-          );
-        }}
-      >
-        ログイン
-      </button>
-    </div>
+    <>
+      {isPending && <FadeLoaderOverlapedAll />}
+      <div className={styles.container}>
+        <p>ログインは誰でもできるようになっています</p>
+        <Button
+          onClick={() => {
+            loginMutate(
+              {
+                email: "demo1@example.com",
+                password: "password",
+              },
+              {
+                onSuccess: () =>
+                  toast("ログインに成功しました！✅", {
+                    progressStyle: {
+                      background:
+                        "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
+                    },
+                  }),
+              }
+            );
+          }}
+        >
+          ログイン
+        </Button>
+      </div>
+    </>
   );
 };
 
