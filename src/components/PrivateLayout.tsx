@@ -1,26 +1,28 @@
 import { Outlet } from "react-router-dom";
-import { useGetHelloMessage } from "../api/Todo/hooks";
 import { Suspense } from "react";
 import FadeLoaderOverlapedAll from "./FadeLoaderOverlapedAll";
+import { ErrorBoundary } from "react-error-boundary";
+import { APIErrorHandler } from "../api/ErrorBoundary";
 
 const PrivateLayout = () => {
-  // このような処理は上位コンポーネントでSuspenseを使えばOK
-  //   if (status === "error" || status === "pending") {
-  //     return <span>Loading...</span>;
-  //   }
-  // 以下の用にしていないと、useGetHelloMessage()の処理が終わる前にreturn <Outlet />に来てしまうので
-  // 認証されていないときも最初に画面が表示されてしまうので注意
+  // 以下のようにOutletと認証状態かどうか確認するカスタムフックの呼び出しをラップして
+  // それをSuspenseで囲うことでローディング中の処理をシンプルに記述できるようになっている。
   return (
-    <Suspense fallback={<FadeLoaderOverlapedAll />}>
-      <OutletWithAuthenticated />
-    </Suspense>
+    <ErrorBoundary FallbackComponent={APIErrorHandler}>
+      <Suspense fallback={<FadeLoaderOverlapedAll />}>
+        <Outlet />
+      </Suspense>
+    </ErrorBoundary>
   );
 };
 
-const OutletWithAuthenticated = () => {
-  const { data } = useGetHelloMessage();
+// const OutletWithAuthenticated = () => {
+//   // これをやっちゃうと、ずっとafterLoginedがtrueになる。。リロードしても値が保持されたままになる。
+//   // でも、今まではuseQueryだったから暗黙的にエラーになっていたのが、今useSuspenseQueryによってあらわになっただけで
+//   // 今の構成は変える必要があることは確実なんだよね。。
+//   // TODO: とりあえず、ErrorBoundaryとSuspenseの挙動を確認していく。元通りにログインと、セッション切れた時の対応をする
 
-  return data ? <Outlet /> : null;
-};
+//   return <Outlet />;
+// };
 
 export default PrivateLayout;

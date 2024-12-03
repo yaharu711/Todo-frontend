@@ -2,6 +2,7 @@ import { useState } from "react";
 import TodoInputForm from "../../components/TodoInputForm";
 import Todos from "../../components/Todos";
 import styles from "../../App.module.css";
+import { useGetHelloMessage } from "../../api/Todo/hooks";
 
 export type ButtonProps = {
   onClick: (target: TodoType) => void;
@@ -16,6 +17,11 @@ export type TodoType = {
 // TODO: components配下にあるコンポーネントはすべてpage/Todo/components配下に移動させよう
 
 const TodoPage = () => {
+  // これでも、ログイン後に401エラーが出てしまう！！！どういうことだ？
+  // →ログイン成功して、todoページに直接自分で遷移するとhello-messageからは200返ってくる。。
+  // ログイン成功でhello-messageにリクエストする時Cookieが付与されていない。なぜ？？
+  useGetHelloMessage();
+
   const [imcompletedTodos, setImcompletedTodos] = useState<TodoType[]>([
     { name: "test", isEditMode: false },
     { name: "test1", isEditMode: false },
