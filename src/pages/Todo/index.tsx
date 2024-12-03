@@ -2,6 +2,7 @@ import { useState } from "react";
 import TodoInputForm from "../../components/TodoInputForm";
 import Todos from "../../components/Todos";
 import styles from "../../App.module.css";
+import { useGetHelloMessage } from "../../api/Todo/hooks";
 
 export type ButtonProps = {
   onClick: (target: TodoType) => void;
@@ -16,6 +17,9 @@ export type TodoType = {
 // TODO: components配下にあるコンポーネントはすべてpage/Todo/components配下に移動させよう
 
 const TodoPage = () => {
+  // todoを取得するメソッドの代わり
+  useGetHelloMessage();
+
   const [imcompletedTodos, setImcompletedTodos] = useState<TodoType[]>([
     { name: "test", isEditMode: false },
     { name: "test1", isEditMode: false },

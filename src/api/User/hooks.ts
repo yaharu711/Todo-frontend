@@ -9,6 +9,8 @@ export const useLogin = () => {
   return useMutation({
     // 本当はselector使ってレスポンスの型はアプリケーションに揃えたいね
     mutationFn: (credential: LoginRequest) => UserApi.login(credential),
-    onSuccess: () => navigate("/todo"),
+    onSuccess: () => {
+      navigate("/todo");
+    },
   });
 };
