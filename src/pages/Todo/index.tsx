@@ -17,9 +17,7 @@ export type TodoType = {
 // TODO: components配下にあるコンポーネントはすべてpage/Todo/components配下に移動させよう
 
 const TodoPage = () => {
-  // これでも、ログイン後に401エラーが出てしまう！！！どういうことだ？
-  // →ログイン成功して、todoページに直接自分で遷移するとhello-messageからは200返ってくる。。
-  // ログイン成功でhello-messageにリクエストする時Cookieが付与されていない。なぜ？？
+  // todoを取得するメソッドの代わり
   useGetHelloMessage();
 
   const [imcompletedTodos, setImcompletedTodos] = useState<TodoType[]>([

@@ -16,13 +16,4 @@ const PrivateLayout = () => {
   );
 };
 
-// const OutletWithAuthenticated = () => {
-//   // これをやっちゃうと、ずっとafterLoginedがtrueになる。。リロードしても値が保持されたままになる。
-//   // でも、今まではuseQueryだったから暗黙的にエラーになっていたのが、今useSuspenseQueryによってあらわになっただけで
-//   // 今の構成は変える必要があることは確実なんだよね。。
-//   // TODO: とりあえず、ErrorBoundaryとSuspenseの挙動を確認していく。元通りにログインと、セッション切れた時の対応をする
-
-//   return <Outlet />;
-// };
-
 export default PrivateLayout;
