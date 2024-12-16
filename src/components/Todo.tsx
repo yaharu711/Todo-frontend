@@ -73,6 +73,7 @@ const Todo: React.FC<TodoProps> = ({
         {target.isEditMode ? (
           <TextInput
             placeholder={target.name}
+            name="edit_modal"
             value={inputedTodoName}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setInputedTodoName(e.target.value);

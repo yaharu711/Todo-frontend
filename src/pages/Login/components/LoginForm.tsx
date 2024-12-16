@@ -3,11 +3,11 @@ import { useLogin } from "../../../api/User/hooks";
 import styles from "./LoginForm.module.css";
 import Button from "../../../components/Button";
 import FadeLoaderOverlapedAll from "../../../components/FadeLoaderOverlapedAll";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import TextInput from "../../../components/TextInput";
 
 const LoginForm = () => {
-  const { mutate: loginMutate, isPending } = useLogin();
   const [searchParams, setSearchParams] = useSearchParams();
   const isFrom401 = searchParams.get("isFrom401");
   const isReload = searchParams.get("isReload");
@@ -32,32 +32,60 @@ const LoginForm = () => {
     }
   }, []);
 
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const { mutate: loginMutate, isPending } = useLogin(setError);
+
+  // demo1@example.com
+  // passowrd
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    loginMutate(
+      {
+        email: email,
+        password: password,
+      },
+      {
+        onSuccess: () =>
+          toast("ログインに成功しました！✅", {
+            progressStyle: {
+              background:
+                "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
+            },
+          }),
+      }
+    );
+  };
+
   return (
     <>
       {isPending && <FadeLoaderOverlapedAll />}
       <div className={styles.container}>
-        <p>ログインは誰でもできるようになっています</p>
-        <Button
-          onClick={() => {
-            loginMutate(
-              {
-                email: "demo1@example.com",
-                password: "password",
-              },
-              {
-                onSuccess: () =>
-                  toast("ログインに成功しました！✅", {
-                    progressStyle: {
-                      background:
-                        "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
-                    },
-                  }),
-              }
-            );
-          }}
-        >
-          ログイン
-        </Button>
+        {/* 枠で囲うのもありだねー */}
+        {error.length !== 0 && <span className={styles.error}>{error}</span>}
+        <form className={styles.form} onSubmit={onSubmit}>
+          <TextInput
+            label="メールアドレス"
+            placeholder=""
+            name="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={{ width: "400px" }}
+          />
+          <TextInput
+            label="パスワード"
+            placeholder=""
+            name="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={{ width: "400px" }}
+          />
+          <Button type="submit">ログイン</Button>
+        </form>
       </div>
     </>
   );

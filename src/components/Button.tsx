@@ -1,20 +1,29 @@
-import React from 'react'
-import styles from './Button.module.css'
+import React from "react";
+import styles from "./Button.module.css";
 
 export type ButtonProps = {
-    disabled?: boolean,
-    onClick: () => void,
-    children: string
-}
+  disabled?: boolean;
+  type?: "button" | "submit";
+  onClick?: () => void;
+  children: string;
+};
 
-const Button: React.FC<ButtonProps> = ({disabled=false, onClick, children}) => {
+const Button: React.FC<ButtonProps> = ({
+  disabled = false,
+  type = "button",
+  onClick,
+  children,
+}) => {
   return (
     <button
       className={styles.button}
       disabled={disabled}
+      type={type}
       onClick={onClick}
-    >{children}</button>
-  )
-}
+    >
+      {children}
+    </button>
+  );
+};
 
-export default Button
+export default Button;
