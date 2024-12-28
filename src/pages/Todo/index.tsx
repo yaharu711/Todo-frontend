@@ -3,15 +3,10 @@ import TodoInputForm from "../../components/TodoInputForm";
 import Todos from "../../components/Todos";
 import styles from "../../App.module.css";
 import { useGetHelloMessage } from "../../api/Todo/hooks";
-import { IoIosCheckmarkCircle } from "react-icons/io";
 import { isMobile } from "react-device-detect";
 import Button from "../../components/Button";
-import { FaRegTrashCan } from "react-icons/fa6";
 import IconButton from "../../components/IconButton";
-import { FcFullTrash } from "react-icons/fc";
-import { HiTrash } from "react-icons/hi";
 import { CiCircleCheck, CiTrash } from "react-icons/ci";
-import { GiReturnArrow } from "react-icons/gi";
 import { PiKeyReturnLight } from "react-icons/pi";
 
 type renderTodoButtonProps = {
