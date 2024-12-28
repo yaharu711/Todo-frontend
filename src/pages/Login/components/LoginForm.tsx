@@ -63,7 +63,6 @@ const LoginForm = () => {
     <>
       {isPending && <FadeLoaderOverlapedAll />}
       <div className={styles.container}>
-        {/* 枠で囲うのもありだねー */}
         {error.length !== 0 && <span className={styles.error}>{error}</span>}
         <form className={styles.form} onSubmit={onSubmit}>
           <TextInput
@@ -73,7 +72,6 @@ const LoginForm = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            style={{ width: "400px" }}
           />
           <TextInput
             label="パスワード"
@@ -82,7 +80,6 @@ const LoginForm = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            style={{ width: "400px" }}
           />
           <Button type="submit">ログイン</Button>
         </form>
