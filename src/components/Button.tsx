@@ -1,11 +1,12 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import styles from "./Button.module.css";
 
 export type ButtonProps = {
   disabled?: boolean;
   type?: "button" | "submit";
   onClick?: () => void;
-  children: string;
+  children: string | ReactNode;
+  style?: object;
 };
 
 const Button: React.FC<ButtonProps> = ({

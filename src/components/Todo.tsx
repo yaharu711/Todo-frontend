@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import Button from "./Button";
 import { CiEdit } from "react-icons/ci";
 import TextInput from "./TextInput";
-import { ButtonProps, TodoType } from "../App";
+import { TodoType } from "../App";
 import styles from "./Todo.module.css";
+import { isMobile } from "react-device-detect";
+import { ButtonProps } from "../pages/Todo";
+import IconButton from "./IconButton";
 
 type TodoProps = {
   target: TodoType;
@@ -64,12 +66,10 @@ const Todo: React.FC<TodoProps> = ({
   return (
     <li className={styles.li}>
       <div className={styles.todo_name_wrapp}>
-        <button
-          className={styles.todo_name_edit_button}
+        <IconButton
           onClick={() => toggleEditMode(target)}
-        >
-          <CiEdit size={25} color="white" />
-        </button>
+          children={<CiEdit size={25} color="white" />}
+        />
         {target.isEditMode ? (
           <TextInput
             placeholder={target.name}
@@ -82,6 +82,9 @@ const Todo: React.FC<TodoProps> = ({
             onKeyDown={(e) => editTodoOnKeyDown(e, target)}
             onBlur={() => editTodoOnBlur(target)}
             errorMessage={editInputError}
+            style={{
+              width: isMobile ? "200px" : "300px",
+            }}
           />
         ) : (
           <p className={styles.todo_name}>{target.name}</p>
@@ -89,15 +92,17 @@ const Todo: React.FC<TodoProps> = ({
       </div>
       <div className={styles.buttons_wrap}>
         {/* このボタンは動的に削除されたり更新されたりしないので、mapのindexをコンポーネントのkeyに指定しても問題ない */}
-        {buttonPropsList.map((buttonProps) => (
+        {buttonPropsList.map((buttonProps, index) =>
           // 汎用性が高くなったかな。高くなった分、親で色々定義して準備して渡す用になった。
-          <Button
-            key={buttonProps.children}
-            disabled={isDisabledButton}
-            onClick={() => buttonProps.onClick(target)}
-            children={buttonProps.children}
-          />
-        ))}
+          buttonProps.render({
+            key: index,
+            isDisabled: isDisabledButton,
+            onClick: buttonProps.onClick,
+            target: target,
+            children: buttonProps.children,
+            style: buttonProps.style,
+          })
+        )}
       </div>
     </li>
   );

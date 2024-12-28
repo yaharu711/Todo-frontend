@@ -3,6 +3,7 @@ import styles from "./TodoInputForm.module.css";
 import Button from "./Button";
 import TextInput from "./TextInput";
 import type { TodoType } from "../App";
+import { isMobile } from "react-device-detect";
 
 type TodoInputFormProps = {
   imcompletedTodos: TodoType[];
@@ -54,6 +55,9 @@ const TodoInputForm: React.FC<TodoInputFormProps> = ({
         }}
         onKeyDown={(e) => createTodoOnKeyDown(e)}
         errorMessage={inputError}
+        style={{
+          width: isMobile ? "200px" : "300px",
+        }}
       />
       <Button disabled={inputedTodoName === ""} onClick={createTodo}>
         作成
