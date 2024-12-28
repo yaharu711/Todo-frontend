@@ -68,7 +68,7 @@ const Todo: React.FC<TodoProps> = ({
       <div className={styles.todo_name_wrapp}>
         <IconButton
           onClick={() => toggleEditMode(target)}
-          children={<CiEdit size={25} color="white" />}
+          children={<CiEdit size={25} />}
         />
         {target.isEditMode ? (
           <TextInput
@@ -95,7 +95,7 @@ const Todo: React.FC<TodoProps> = ({
         {buttonPropsList.map((buttonProps, index) =>
           // 汎用性が高くなったかな。高くなった分、親で色々定義して準備して渡す用になった。
           buttonProps.render({
-            key: index,
+            key: `${target.name}_${index}`,
             isDisabled: isDisabledButton,
             onClick: buttonProps.onClick,
             target: target,
