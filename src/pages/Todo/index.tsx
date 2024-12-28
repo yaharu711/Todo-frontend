@@ -1,12 +1,39 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import TodoInputForm from "../../components/TodoInputForm";
 import Todos from "../../components/Todos";
 import styles from "../../App.module.css";
 import { useGetHelloMessage } from "../../api/Todo/hooks";
+import { IoIosCheckmarkCircle } from "react-icons/io";
+import { isMobile } from "react-device-detect";
+import Button from "../../components/Button";
+import { FaRegTrashCan } from "react-icons/fa6";
+import IconButton from "../../components/IconButton";
+import { FcFullTrash } from "react-icons/fc";
+import { HiTrash } from "react-icons/hi";
+import { CiCircleCheck, CiTrash } from "react-icons/ci";
+import { GiReturnArrow } from "react-icons/gi";
+import { PiKeyReturnLight } from "react-icons/pi";
+
+type renderTodoButtonProps = {
+  key: number;
+  isDisabled: boolean;
+  onClick: (target: TodoType) => void;
+  target: TodoType;
+  children: string | ReactNode;
+  style?: object;
+};
 
 export type ButtonProps = {
   onClick: (target: TodoType) => void;
-  children: string;
+  children: string | ReactNode;
+  style?: object;
+  render: ({
+    key,
+    isDisabled,
+    onClick,
+    children,
+    style,
+  }: renderTodoButtonProps) => ReactNode;
 };
 
 export type TodoType = {
@@ -54,25 +81,66 @@ const TodoPage = () => {
     );
   };
 
+  const renderTodoButton = ({
+    key,
+    isDisabled,
+    onClick,
+    target,
+    children,
+    style,
+  }: renderTodoButtonProps) =>
+    isMobile ? (
+      <IconButton onClick={() => onClick(target)} children={children} />
+    ) : (
+      <Button
+        key={key}
+        disabled={isDisabled}
+        onClick={() => onClick(target)}
+        children={children}
+        style={style}
+      />
+    );
+
   // 未完了TODOについての処理
-  const imcompletedTodosButtonPropsList: ButtonProps[] = [
-    {
-      onClick: completeTodo,
-      children: "完了",
-    },
-    {
-      onClick: deleteTodo,
-      children: "削除",
-    },
+  const imcompletedTodosButtonList: ButtonProps[] = [
+    isMobile
+      ? {
+          onClick: completeTodo,
+          children: <CiCircleCheck size={30} />,
+          render: (props) => renderTodoButton(props),
+        }
+      : {
+          onClick: completeTodo,
+          children: "完了",
+          render: (props) => renderTodoButton(props),
+        },
+    isMobile
+      ? {
+          onClick: deleteTodo,
+          children: <CiTrash size={30} />,
+          render: (props) => renderTodoButton(props),
+        }
+      : {
+          onClick: deleteTodo,
+          children: "削除",
+          render: (props) => renderTodoButton(props),
+        },
   ];
   // 完了TODOについての処理
   // →未完了と完了それぞれの処理が同じところで管理するのはちょっと微妙
-  // 未完了のTODOと完了のTODOのHTMLやCSSを共通化できたが、その分責務の分離や親で多くのことを管理するはめになった。。
-  const completedTodosButtonPropsList: ButtonProps[] = [
-    {
-      onClick: imcompleteTodo,
-      children: "未完了",
-    },
+  // 未完了のTODOと完了のTODOのHTMLやCSSを共通化できたが、その分親で多くのことを管理するはめになった。。
+  const completedTodosButtonList: ButtonProps[] = [
+    isMobile
+      ? {
+          onClick: imcompleteTodo,
+          children: <PiKeyReturnLight size={30} />,
+          render: (props) => renderTodoButton(props),
+        }
+      : {
+          onClick: imcompleteTodo,
+          children: "戻す",
+          render: (props) => renderTodoButton(props),
+        },
   ];
 
   //TODO: ButtonPropsは子から親に型という情報を渡しちゃっているのがあまりよくないかな。
@@ -88,13 +156,13 @@ const TodoPage = () => {
         section="未完了のTOOD一覧"
         todos={imcompletedTodos}
         setTodos={setImcompletedTodos}
-        buttonPropsList={imcompletedTodosButtonPropsList}
+        buttonPropsList={imcompletedTodosButtonList}
       />
       <Todos
         section="完了のTOOD一覧"
         todos={completedTodos}
         setTodos={setCompletedTodos}
-        buttonPropsList={completedTodosButtonPropsList}
+        buttonPropsList={completedTodosButtonList}
       />
     </div>
   );
