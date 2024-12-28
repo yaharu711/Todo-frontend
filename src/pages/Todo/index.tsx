@@ -10,7 +10,7 @@ import { CiCircleCheck, CiTrash } from "react-icons/ci";
 import { PiKeyReturnLight } from "react-icons/pi";
 
 type renderTodoButtonProps = {
-  key: number;
+  key: string;
   isDisabled: boolean;
   onClick: (target: TodoType) => void;
   target: TodoType;
