@@ -1,39 +1,29 @@
-import React, { SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import styles from "./TodoInputForm.module.css";
 import Button from "./Button";
 import TextInput from "./TextInput";
-import type { TodoType } from "../App";
 import { isMobile } from "react-device-detect";
+import { CreateTodoParams } from "../pages/Todo";
 
 type TodoInputFormProps = {
-  imcompletedTodos: TodoType[];
-  setImcompletedTodos: React.Dispatch<SetStateAction<TodoType[]>>;
+  submit: (params: CreateTodoParams) => void;
 };
 
-const TodoInputForm: React.FC<TodoInputFormProps> = ({
-  imcompletedTodos,
-  setImcompletedTodos,
-}) => {
+const TodoInputForm: React.FC<TodoInputFormProps> = ({ submit }) => {
   const [inputedTodoName, setInputedTodoName] = useState<string>("");
   const [inputError, setInputError] = useState<string>("");
 
   const createTodo = (): void => {
-    const imcompletedTodoNames = imcompletedTodos.map(
-      (imcompletedTodo) => imcompletedTodo.name
-    );
     if (inputedTodoName === "") {
       setInputError("入力は必須です");
       return;
     }
-    if (imcompletedTodoNames.includes(inputedTodoName)) {
-      setInputError("既に同じTODOがあります");
+    // 全角・半角のスペースの両方に対応できている
+    if (inputedTodoName.trim() === "") {
+      setInputError("空白のみは許可されていません");
       return;
     }
-    const newTodo: TodoType = {
-      name: inputedTodoName,
-      isEditMode: false,
-    };
-    setImcompletedTodos([...imcompletedTodos, newTodo]);
+    submit({ name: inputedTodoName, setInputError });
     setInputedTodoName("");
   };
   const createTodoOnKeyDown = (

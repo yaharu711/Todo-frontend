@@ -3,11 +3,12 @@ import styles from "./IconButton.module.css";
 
 export type IconButtonProps = {
   onClick: () => void;
+  disabled?: boolean;
   children: ReactNode;
 };
-const IconButton = ({ onClick, children }: IconButtonProps) => {
+const IconButton = ({ onClick, disabled, children }: IconButtonProps) => {
   return (
-    <button className={styles.button} onClick={onClick}>
+    <button className={styles.button} onClick={onClick} disabled={disabled}>
       {children}
     </button>
   );

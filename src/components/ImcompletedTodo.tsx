@@ -1,39 +1,42 @@
 import React, { useState } from "react";
-import { CiEdit } from "react-icons/ci";
-import TextInput from "./TextInput";
-import { TodoType } from "../App";
-import styles from "./Todo.module.css";
-import { isMobile } from "react-device-detect";
-import { ButtonProps } from "../pages/Todo";
+import { ImcompletedTodoType } from "../pages/Todo";
+import styles from "./ImcompletedTodo.module.css";
 import IconButton from "./IconButton";
+import { CiCircleCheck, CiEdit, CiTrash } from "react-icons/ci";
+import TextInput from "./TextInput";
+import { isMobile } from "react-device-detect";
+import Button from "./Button";
 
-type TodoProps = {
-  target: TodoType;
-  todos: TodoType[];
-  setTodos: React.Dispatch<React.SetStateAction<TodoType[]>>;
-  buttonPropsList: ButtonProps[];
+type Props = {
+  target: ImcompletedTodoType;
+  todos: ImcompletedTodoType[];
+  setTodos: React.Dispatch<React.SetStateAction<ImcompletedTodoType[]>>;
+  completeTodo: (id: number) => void;
+  deleteTodo: (id: number) => void;
 };
 
-const Todo: React.FC<TodoProps> = ({
+const ImcompletedTodo = ({
   target,
   todos,
   setTodos,
-  buttonPropsList,
-}) => {
+  completeTodo,
+  deleteTodo,
+}: Props) => {
+  // 以下全て編集モードについての処理
   const [inputedTodoName, setInputedTodoName] = useState<string>("");
   const [editInputError, setEditInputError] = useState<string>("");
   const [isDisabledButton, setIsDisabledButton] = useState<boolean>(false);
 
-  const toggleEditMode = (target: TodoType) => {
+  const toggleEditMode = (target: ImcompletedTodoType) => {
     setTodos((prev) =>
       prev.map((todo) => {
-        if (todo.name !== target.name) return todo;
+        if (todo.id !== target.id) return todo;
         return { ...todo, isEditMode: !todo.isEditMode };
       })
     );
     setIsDisabledButton((prev) => !prev);
   };
-  const editTodo = (target: TodoType) => {
+  const editTodo = (target: ImcompletedTodoType) => {
     const todoNames = todos.map((todo) => todo.name);
     if (
       target.name !== inputedTodoName &&
@@ -43,7 +46,8 @@ const Todo: React.FC<TodoProps> = ({
       return;
     }
 
-    const updatedTodo: TodoType = {
+    const updatedTodo: ImcompletedTodoType = {
+      ...target,
       name: inputedTodoName === "" ? target.name : inputedTodoName,
       isEditMode: false,
     };
@@ -55,13 +59,14 @@ const Todo: React.FC<TodoProps> = ({
   };
   const editTodoOnKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
-    target: TodoType
+    target: ImcompletedTodoType
   ): void => {
     if (e.key !== "Enter") return;
     editTodo(target);
     e.preventDefault();
   };
-  const editTodoOnBlur = (target: TodoType): void => editTodo(target);
+  const editTodoOnBlur = (target: ImcompletedTodoType): void =>
+    editTodo(target);
 
   return (
     <li className={styles.li}>
@@ -91,21 +96,37 @@ const Todo: React.FC<TodoProps> = ({
         )}
       </div>
       <div className={styles.buttons_wrap}>
-        {/* このボタンは動的に削除されたり更新されたりしないので、mapのindexをコンポーネントのkeyに指定しても問題ない */}
-        {buttonPropsList.map((buttonProps, index) =>
-          // 汎用性が高くなったかな。高くなった分、親で色々定義して準備して渡す用になった。
-          buttonProps.render({
-            key: `${target.name}_${index}`,
-            isDisabled: isDisabledButton,
-            onClick: buttonProps.onClick,
-            target: target,
-            children: buttonProps.children,
-            style: buttonProps.style,
-          })
+        {/* 完了ボタンについて */}
+        {isMobile ? (
+          <IconButton
+            onClick={() => completeTodo(target.id)}
+            disabled={isDisabledButton}
+            children={<CiCircleCheck size={30} />}
+          />
+        ) : (
+          <Button
+            disabled={isDisabledButton}
+            onClick={() => completeTodo(target.id)}
+            children="完了"
+          />
+        )}
+        {/* 削除ボタンについて */}
+        {isMobile ? (
+          <IconButton
+            onClick={() => deleteTodo(target.id)}
+            disabled={isDisabledButton}
+            children={<CiTrash size={30} />}
+          />
+        ) : (
+          <Button
+            disabled={isDisabledButton}
+            onClick={() => deleteTodo(target.id)}
+            children="削除"
+          />
         )}
       </div>
     </li>
   );
 };
 
-export default Todo;
+export default ImcompletedTodo;

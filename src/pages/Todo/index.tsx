@@ -1,25 +1,30 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import TodoInputForm from "../../components/TodoInputForm";
-import Todos from "../../components/Todos";
 import styles from "../../App.module.css";
-import { useGetHelloMessage } from "../../api/Todo/hooks";
-import { isMobile } from "react-device-detect";
-import Button from "../../components/Button";
-import IconButton from "../../components/IconButton";
-import { CiCircleCheck, CiTrash } from "react-icons/ci";
-import { PiKeyReturnLight } from "react-icons/pi";
+import {
+  useCreateTodo,
+  useDeleteTodo,
+  useGetTodos,
+  useUpdateTodos,
+} from "../../api/Todo/hooks";
+import CompletedTodos from "../../components/CompletedTodos";
+import ImcompletedTodos from "../../components/ImcompletedTodos";
+import { FadeLoader } from "react-spinners";
+import { toast } from "react-toastify";
+import { UpdateTodosRequest } from "../../api/Todo/types";
+import { createTodoErrorHandler } from "../../api/Todo/errorHandlers";
 
 type renderTodoButtonProps = {
   key: string;
-  isDisabled: boolean;
-  onClick: (target: TodoType) => void;
-  target: TodoType;
+  isDisabled?: boolean;
+  onClick: (id: number) => void;
+  id: number;
   children: string | ReactNode;
   style?: object;
 };
 
 export type ButtonProps = {
-  onClick: (target: TodoType) => void;
+  onClick: (id: number) => void;
   children: string | ReactNode;
   style?: object;
   render: ({
@@ -32,133 +37,150 @@ export type ButtonProps = {
 };
 
 export type TodoType = {
+  id: number;
   name: string;
   isEditMode: boolean;
+};
+
+export type ImcompletedTodoType = {
+  isEditMode: boolean;
+  id: number;
+  name: string;
+  created_at: string;
+  completed_at?: string;
+  imcompleted_at: string;
+};
+
+export type CompletedTodoType = {
+  id: number;
+  name: string;
+  created_at: string;
+  completed_at: string;
+  imcompleted_at: string;
+};
+
+export type UpdateTodoParams = {
+  params: UpdateTodosRequest;
+  successMessage: string;
+};
+
+export type CreateTodoParams = {
+  name: string;
+  setInputError: React.Dispatch<React.SetStateAction<string>>;
 };
 
 // TODO: components配下にあるコンポーネントはすべてpage/Todo/components配下に移動させよう
 
 const TodoPage = () => {
-  // todoを取得するメソッドの代わり
-  useGetHelloMessage();
+  const { data: todos } = useGetTodos();
+  const [imcompletedTodos, setImcompletedTodos] = useState<
+    ImcompletedTodoType[]
+  >(todos.imcompletedTodos);
+  const [completedTodos, setCompletedTodos] = useState<CompletedTodoType[]>(
+    todos.completedTodos
+  );
 
-  const [imcompletedTodos, setImcompletedTodos] = useState<TodoType[]>([
-    { name: "test", isEditMode: false },
-    { name: "test1", isEditMode: false },
-    { name: "test2", isEditMode: false },
-    { name: "test3", isEditMode: false },
-    { name: "test4", isEditMode: false },
-    { name: "test5", isEditMode: false },
-    { name: "test6", isEditMode: false },
-  ]);
-  const [completedTodos, setCompletedTodos] = useState<TodoType[]>([]);
-  const completeTodo = (target: TodoType) => {
-    setCompletedTodos([...completedTodos, target]);
-    setImcompletedTodos(
-      imcompletedTodos.filter(
-        (imcompletedTodo) => imcompletedTodo.name !== target.name
-      )
+  // 以下がないと、Todoを更新してrefetchしてもその結果を画面に反映できない→再描画されない
+  useEffect(() => {
+    setImcompletedTodos(todos.imcompletedTodos);
+    setCompletedTodos(todos.completedTodos);
+  }, [todos]);
+
+  // TODO:
+  // 名前の更新もできるように
+  // 責務を分けて、影響範囲を絞りどこに何があるか分かるように一貫性を持たせるようにリファクタリングする
+
+  // 作成について
+  const { mutate: createTodoMutate, isPending: isPendingForCreateTodo } =
+    useCreateTodo();
+  const createTodo = ({ name, setInputError }: CreateTodoParams) => {
+    createTodoMutate(
+      { name },
+      {
+        onSuccess: () =>
+          toast("TODOを作成しました", {
+            progressStyle: {
+              background:
+                "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
+            },
+          }),
+        onError: (error: Error) => {
+          createTodoErrorHandler(setInputError, error);
+        },
+      }
     );
   };
-  const deleteTodo = (target: TodoType) => {
-    setImcompletedTodos(
-      imcompletedTodos.filter(
-        (imcompletedTodo) => imcompletedTodo.name !== target.name
-      )
+  // 更新について
+  const { mutate: updateTodoMutate, isPending: isPendingForUpdateTodo } =
+    useUpdateTodos();
+  const updateTodo = ({ params, successMessage }: UpdateTodoParams) => {
+    updateTodoMutate(
+      {
+        params,
+      },
+      {
+        onSuccess: () =>
+          toast(successMessage, {
+            progressStyle: {
+              background:
+                "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
+            },
+          }),
+      }
     );
   };
-  const imcompleteTodo = (target: TodoType) => {
-    setImcompletedTodos([...imcompletedTodos, target]);
-    setCompletedTodos(
-      completedTodos.filter(
-        (completedTodo) => completedTodo.name !== target.name
-      )
-    );
+  const completeTodo = (id: number) =>
+    updateTodo({
+      params: {
+        id,
+        is_completed: true,
+      },
+      successMessage: "TODOを完了しました✅",
+    });
+  const imcompleteTodo = (id: number) =>
+    updateTodo({
+      params: {
+        id,
+        is_completed: false,
+      },
+      successMessage: "TODOを未完了にしました",
+    });
+  // 削除について
+  const { mutate: deleteTodoMutate, isPending: isPendingForDeleteTodo } =
+    useDeleteTodo();
+  const deleteTodo = (id: number) => {
+    deleteTodoMutate(id, {
+      onSuccess: () =>
+        toast("TODOを削除しました", {
+          progressStyle: {
+            background:
+              "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
+          },
+        }),
+    });
   };
-
-  const renderTodoButton = ({
-    key,
-    isDisabled,
-    onClick,
-    target,
-    children,
-    style,
-  }: renderTodoButtonProps) =>
-    isMobile ? (
-      <IconButton onClick={() => onClick(target)} children={children} />
-    ) : (
-      <Button
-        key={key}
-        disabled={isDisabled}
-        onClick={() => onClick(target)}
-        children={children}
-        style={style}
-      />
-    );
-
-  // 未完了TODOについての処理
-  const imcompletedTodosButtonList: ButtonProps[] = [
-    isMobile
-      ? {
-          onClick: completeTodo,
-          children: <CiCircleCheck size={30} />,
-          render: (props) => renderTodoButton(props),
-        }
-      : {
-          onClick: completeTodo,
-          children: "完了",
-          render: (props) => renderTodoButton(props),
-        },
-    isMobile
-      ? {
-          onClick: deleteTodo,
-          children: <CiTrash size={30} />,
-          render: (props) => renderTodoButton(props),
-        }
-      : {
-          onClick: deleteTodo,
-          children: "削除",
-          render: (props) => renderTodoButton(props),
-        },
-  ];
-  // 完了TODOについての処理
-  // →未完了と完了それぞれの処理が同じところで管理するのはちょっと微妙
-  // 未完了のTODOと完了のTODOのHTMLやCSSを共通化できたが、その分親で多くのことを管理するはめになった。。
-  const completedTodosButtonList: ButtonProps[] = [
-    isMobile
-      ? {
-          onClick: imcompleteTodo,
-          children: <PiKeyReturnLight size={30} />,
-          render: (props) => renderTodoButton(props),
-        }
-      : {
-          onClick: imcompleteTodo,
-          children: "戻す",
-          render: (props) => renderTodoButton(props),
-        },
-  ];
-
-  //TODO: ButtonPropsは子から親に型という情報を渡しちゃっているのがあまりよくないかな。
-  // 基本は親から子にデータを渡す一方向にしたい。型定義だけ別の場所に定義して、ButtonやAppからその型を参照するならまだ健全かな
 
   return (
     <div className={styles.container}>
-      <TodoInputForm
-        imcompletedTodos={imcompletedTodos}
-        setImcompletedTodos={setImcompletedTodos}
-      />
-      <Todos
-        section="未完了のTOOD一覧"
-        todos={imcompletedTodos}
-        setTodos={setImcompletedTodos}
-        buttonPropsList={imcompletedTodosButtonList}
-      />
-      <Todos
-        section="完了のTOOD一覧"
-        todos={completedTodos}
-        setTodos={setCompletedTodos}
-        buttonPropsList={completedTodosButtonList}
-      />
+      <TodoInputForm submit={createTodo} />
+      {isPendingForUpdateTodo ||
+      isPendingForCreateTodo ||
+      isPendingForDeleteTodo ? (
+        <FadeLoader color="rgba(100, 108, 255, 1)" />
+      ) : (
+        <>
+          <ImcompletedTodos
+            todos={imcompletedTodos}
+            setTodos={setImcompletedTodos}
+            completeTodo={completeTodo}
+            deleteTodo={deleteTodo}
+          />
+          <CompletedTodos
+            todos={completedTodos}
+            imcompleteTodo={imcompleteTodo}
+          />
+        </>
+      )}
     </div>
   );
 };
