@@ -1,4 +1,4 @@
-import { ImcompletedTodoType } from "../pages/Todo";
+import { ImcompletedTodoType, UpdateTodoParams } from "../pages/Todo";
 import ImcompletedTodo from "./ImcompletedTodo";
 import styles from "./ImcompletedTodos.module.css";
 
@@ -6,6 +6,7 @@ type Props = {
   todos: ImcompletedTodoType[];
   setTodos: React.Dispatch<React.SetStateAction<ImcompletedTodoType[]>>;
   completeTodo: (id: number) => void;
+  updateTodo: (props: UpdateTodoParams) => void;
   deleteTodo: (id: number) => void;
 };
 
@@ -13,6 +14,7 @@ const ImcompletedTodos = ({
   todos,
   setTodos,
   completeTodo,
+  updateTodo,
   deleteTodo,
 }: Props) => {
   return (
@@ -24,9 +26,9 @@ const ImcompletedTodos = ({
             <ImcompletedTodo
               key={todo.name}
               target={todo}
-              todos={todos}
               setTodos={setTodos}
               completeTodo={completeTodo}
+              updateTodo={updateTodo}
               deleteTodo={deleteTodo}
             />
           );

@@ -13,9 +13,7 @@ type Props = {
 const CompletedTodo = ({ target, imcompleteTodo }: Props) => {
   return (
     <li className={styles.li}>
-      <div className={styles.todo_name_wrapp}>
-        <p className={styles.todo_name}>{target.name}</p>
-      </div>
+      <p className={styles.todo_name}>{target.name}</p>
       <div className={styles.buttons_wrap}>
         {isMobile ? (
           <IconButton

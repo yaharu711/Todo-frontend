@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ImcompletedTodoType } from "../pages/Todo";
+import { ImcompletedTodoType, UpdateTodoParams } from "../pages/Todo";
 import styles from "./ImcompletedTodo.module.css";
 import IconButton from "./IconButton";
 import { CiCircleCheck, CiEdit, CiTrash } from "react-icons/ci";
@@ -9,21 +9,21 @@ import Button from "./Button";
 
 type Props = {
   target: ImcompletedTodoType;
-  todos: ImcompletedTodoType[];
   setTodos: React.Dispatch<React.SetStateAction<ImcompletedTodoType[]>>;
   completeTodo: (id: number) => void;
+  updateTodo: (props: UpdateTodoParams) => void;
   deleteTodo: (id: number) => void;
 };
 
 const ImcompletedTodo = ({
   target,
-  todos,
   setTodos,
   completeTodo,
+  updateTodo,
   deleteTodo,
 }: Props) => {
   // 以下全て編集モードについての処理
-  const [inputedTodoName, setInputedTodoName] = useState<string>("");
+  const [inputedTodoName, setInputedTodoName] = useState<string>(target.name);
   const [editInputError, setEditInputError] = useState<string>("");
   const [isDisabledButton, setIsDisabledButton] = useState<boolean>(false);
 
@@ -37,22 +37,33 @@ const ImcompletedTodo = ({
     setIsDisabledButton((prev) => !prev);
   };
   const editTodo = (target: ImcompletedTodoType) => {
-    const todoNames = todos.map((todo) => todo.name);
-    if (
-      target.name !== inputedTodoName &&
-      todoNames.includes(inputedTodoName)
-    ) {
-      setEditInputError("既に同じTODOがあります");
+    // 変化なく何も入力していない場合は編集していなかったことにする
+    if (inputedTodoName === target.name || inputedTodoName === "") {
+      toggleEditMode(target);
+      setInputedTodoName(target.name);
+      return;
+    }
+    if (inputedTodoName.trim() === "") {
+      // 全角・半角のスペースの両方に対応できている
+      setEditInputError("空白のみは許可されていません");
       return;
     }
 
-    const updatedTodo: ImcompletedTodoType = {
-      ...target,
-      name: inputedTodoName === "" ? target.name : inputedTodoName,
+    updateTodo({
+      params: { id: target.id, name: inputedTodoName },
+      successMessage: "TODOの更新が完了しました",
+    });
+    const updatedImcompletedTodo: ImcompletedTodoType = {
+      id: target.id,
+      name: inputedTodoName,
+      created_at: target.created_at,
+      imcompleted_at: target.imcompleted_at,
       isEditMode: false,
     };
     setTodos((prev) =>
-      prev.map((todo) => (todo.name === target.name ? updatedTodo : todo))
+      prev.map((todo) =>
+        todo.name === target.name ? updatedImcompletedTodo : todo
+      )
     );
     setInputedTodoName("");
     setIsDisabledButton(false);
@@ -65,8 +76,9 @@ const ImcompletedTodo = ({
     editTodo(target);
     e.preventDefault();
   };
-  const editTodoOnBlur = (target: ImcompletedTodoType): void =>
+  const editTodoOnBlur = (target: ImcompletedTodoType): void => {
     editTodo(target);
+  };
 
   return (
     <li className={styles.li}>

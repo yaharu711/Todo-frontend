@@ -173,6 +173,7 @@ const TodoPage = () => {
             todos={imcompletedTodos}
             setTodos={setImcompletedTodos}
             completeTodo={completeTodo}
+            updateTodo={updateTodo}
             deleteTodo={deleteTodo}
           />
           <CompletedTodos
