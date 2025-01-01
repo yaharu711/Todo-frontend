@@ -1,38 +1,29 @@
-import React, { SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import styles from "./TodoInputForm.module.css";
-import Button from "./Button";
-import TextInput from "./TextInput";
-import type { TodoType } from "../App";
+import Button from "../../../components/Button";
+import TextInput from "../../../components/TextInput";
+import { isMobile } from "react-device-detect";
+import { CreateTodoParams } from "..";
 
 type TodoInputFormProps = {
-  imcompletedTodos: TodoType[];
-  setImcompletedTodos: React.Dispatch<SetStateAction<TodoType[]>>;
+  submit: (params: CreateTodoParams) => void;
 };
 
-const TodoInputForm: React.FC<TodoInputFormProps> = ({
-  imcompletedTodos,
-  setImcompletedTodos,
-}) => {
+const TodoInputForm: React.FC<TodoInputFormProps> = ({ submit }) => {
   const [inputedTodoName, setInputedTodoName] = useState<string>("");
   const [inputError, setInputError] = useState<string>("");
 
   const createTodo = (): void => {
-    const imcompletedTodoNames = imcompletedTodos.map(
-      (imcompletedTodo) => imcompletedTodo.name
-    );
     if (inputedTodoName === "") {
       setInputError("入力は必須です");
       return;
     }
-    if (imcompletedTodoNames.includes(inputedTodoName)) {
-      setInputError("既に同じTODOがあります");
+    // 全角・半角のスペースの両方に対応できている
+    if (inputedTodoName.trim() === "") {
+      setInputError("空白のみは許可されていません");
       return;
     }
-    const newTodo: TodoType = {
-      name: inputedTodoName,
-      isEditMode: false,
-    };
-    setImcompletedTodos([...imcompletedTodos, newTodo]);
+    submit({ name: inputedTodoName, setInputError });
     setInputedTodoName("");
   };
   const createTodoOnKeyDown = (
@@ -54,6 +45,9 @@ const TodoInputForm: React.FC<TodoInputFormProps> = ({
         }}
         onKeyDown={(e) => createTodoOnKeyDown(e)}
         errorMessage={inputError}
+        style={{
+          width: isMobile ? "200px" : "300px",
+        }}
       />
       <Button disabled={inputedTodoName === ""} onClick={createTodo}>
         作成

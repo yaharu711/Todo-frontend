@@ -1,16 +1,16 @@
 /* wrappは他のコンポーネントでも使う共通のものだが、
 CSSモジュールを使っている場合はどのように共通化する？？？ */
 .wrap {
-    margin-top: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 16px;
-    width: 600px;
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 16px;
+  width: 600px;
 }
 
 @media screen and (max-width: 768px) {
-    .wrap {
-        width: 400px;
-    }
+  .wrap {
+    width: 100%;
+  }
 }

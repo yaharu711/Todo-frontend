@@ -27,7 +27,7 @@ const App = () => {
             <Route path="/500" element={<UnExpectedErrorPage />} />
           </Route>
           <Route element={<PrivateLayout />}>
-            <Route path="/todo" element={<TodoPage />} />
+            <Route path="/todos" element={<TodoPage />} />
           </Route>
         </Routes>
       </ToastProvider>

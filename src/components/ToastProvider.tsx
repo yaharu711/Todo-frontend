@@ -9,7 +9,7 @@ const ToastProvider = ({ children }: { children: React.ReactNode }) => {
       {children}
       <ToastContainer
         position={isMobile ? "bottom-center" : "top-right"}
-        autoClose={5000}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -21,7 +21,7 @@ const ToastProvider = ({ children }: { children: React.ReactNode }) => {
         transition={Slide}
         style={{
           zIndex: 9999, // トーストが他の要素に隠れないようにする
-          marginBottom: isMobile ? "1rem" : undefined, // モバイルで下部に余白を追加
+          marginBottom: isMobile ? "5px" : undefined, // モバイルで下部に余白を追加
         }}
       />
     </div>

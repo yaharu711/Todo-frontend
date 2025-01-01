@@ -1,4 +1,9 @@
 import axios from "axios";
+import {
+  CreateTodoRequest,
+  GetTodosResponse,
+  UpdateTodosRequest,
+} from "./types";
 
 const ENDPOINT: string = import.meta.env.VITE_API_URL;
 
@@ -24,8 +29,44 @@ const getHelloMessage = async (): Promise<string> => {
   // }
 };
 
+const getTodos = async (): Promise<GetTodosResponse> => {
+  const res = await axios.get(ENDPOINT + "/api/todos", {
+    withCredentials: true,
+  });
+  return res.data;
+};
+
+const createTodo = async (parapms: CreateTodoRequest) => {
+  await axios.post(ENDPOINT + "/api/todos", parapms, {
+    withCredentials: true,
+  });
+};
+
+const updateTodos = async ({ id, name, is_completed }: UpdateTodosRequest) => {
+  await axios.patch(
+    ENDPOINT + "/api/todos/" + id,
+    {
+      name,
+      is_completed,
+    },
+    {
+      withCredentials: true,
+    }
+  );
+};
+
+const deleteTodo = async (id: number) => {
+  await axios.delete(ENDPOINT + "/api/todos/" + id, {
+    withCredentials: true,
+  });
+};
+
 const TodoApi = {
   getHelloMessage,
+  getTodos,
+  createTodo,
+  updateTodos,
+  deleteTodo,
 };
 
 export default TodoApi;

@@ -81,7 +81,9 @@ const LoginForm = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button type="submit">ログイン</Button>
+          <Button type="submit" style={{ width: 150 }}>
+            ログイン
+          </Button>
         </form>
       </div>
     </>

@@ -14,7 +14,7 @@ export const useLogin = (
     mutationFn: async (credential: LoginRequest) =>
       await UserApi.login(credential),
     onSuccess: () => {
-      navigate("/todo");
+      navigate("/todos");
     },
     onError: (error: AxiosError) => {
       if (error.status === 401)
