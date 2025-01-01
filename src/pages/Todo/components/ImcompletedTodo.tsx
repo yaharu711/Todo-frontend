@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { ImcompletedTodoType, UpdateTodoParams } from "../pages/Todo";
+import { ImcompletedTodoType, UpdateTodoParams } from "..";
 import styles from "./ImcompletedTodo.module.css";
-import IconButton from "./IconButton";
+import IconButton from "../../../components/IconButton";
 import { CiCircleCheck, CiEdit, CiTrash } from "react-icons/ci";
-import TextInput from "./TextInput";
+import TextInput from "../../../components/TextInput";
 import { isMobile } from "react-device-detect";
-import Button from "./Button";
+import Button from "../../../components/Button";
 
 type Props = {
   target: ImcompletedTodoType;
