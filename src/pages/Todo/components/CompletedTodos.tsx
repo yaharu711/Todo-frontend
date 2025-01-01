@@ -1,4 +1,4 @@
-import { CompletedTodoType } from "../pages/Todo";
+import { CompletedTodoType } from "..";
 import styles from "./CompletedTodos.module.css";
 import CompletedTodo from "./CompletedTodo";
 

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styles from "./TodoInputForm.module.css";
-import Button from "./Button";
-import TextInput from "./TextInput";
+import Button from "../../../components/Button";
+import TextInput from "../../../components/TextInput";
 import { isMobile } from "react-device-detect";
-import { CreateTodoParams } from "../pages/Todo";
+import { CreateTodoParams } from "..";
 
 type TodoInputFormProps = {
   submit: (params: CreateTodoParams) => void;

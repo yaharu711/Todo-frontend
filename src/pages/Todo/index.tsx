@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
-import TodoInputForm from "../../components/TodoInputForm";
+import TodoInputForm from "./components/TodoInputForm";
 import styles from "../../App.module.css";
 import {
   useCreateTodo,
@@ -7,8 +7,8 @@ import {
   useGetTodos,
   useUpdateTodos,
 } from "../../api/Todo/hooks";
-import CompletedTodos from "../../components/CompletedTodos";
-import ImcompletedTodos from "../../components/ImcompletedTodos";
+import CompletedTodos from "./components/CompletedTodos";
+import ImcompletedTodos from "./components/ImcompletedTodos";
 import { FadeLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { UpdateTodosRequest } from "../../api/Todo/types";

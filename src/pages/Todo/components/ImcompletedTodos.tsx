@@ -1,4 +1,4 @@
-import { ImcompletedTodoType, UpdateTodoParams } from "../pages/Todo";
+import { ImcompletedTodoType, UpdateTodoParams } from "..";
 import ImcompletedTodo from "./ImcompletedTodo";
 import styles from "./ImcompletedTodos.module.css";
 

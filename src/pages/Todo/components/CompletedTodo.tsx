@@ -1,9 +1,9 @@
 import { isMobile } from "react-device-detect";
-import { CompletedTodoType } from "../pages/Todo";
+import { CompletedTodoType } from "..";
 import styles from "./CompletedTodo.module.css";
-import IconButton from "./IconButton";
+import IconButton from "../../../components/IconButton";
 import { PiKeyReturnLight } from "react-icons/pi";
-import Button from "./Button";
+import Button from "../../../components/Button";
 
 type Props = {
   target: CompletedTodoType;
