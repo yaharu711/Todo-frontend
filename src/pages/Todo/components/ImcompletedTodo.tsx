@@ -51,7 +51,7 @@ const ImcompletedTodo = ({
 
     updateTodo({
       params: { id: target.id, name: inputedTodoName },
-      successMessage: "TODOの更新が完了しました",
+      successMessage: "TODOの更新が完了しました✅",
     });
     const updatedImcompletedTodo: ImcompletedTodoType = {
       id: target.id,
@@ -102,6 +102,7 @@ const ImcompletedTodo = ({
             style={{
               width: isMobile ? "200px" : "300px",
             }}
+            autoFocus={true}
           />
         ) : (
           <p className={styles.todo_name}>{target.name}</p>

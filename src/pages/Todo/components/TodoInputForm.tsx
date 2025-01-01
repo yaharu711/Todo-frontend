@@ -48,6 +48,7 @@ const TodoInputForm: React.FC<TodoInputFormProps> = ({ submit }) => {
         style={{
           width: isMobile ? "200px" : "300px",
         }}
+        autoFocus={true}
       />
       <Button disabled={inputedTodoName === ""} onClick={createTodo}>
         作成
