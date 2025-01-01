@@ -98,7 +98,7 @@ const TodoPage = () => {
       { name },
       {
         onSuccess: () =>
-          toast("TODOを作成しました", {
+          toast("TODOを作成しました✅", {
             progressStyle: {
               background:
                 "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
@@ -143,7 +143,7 @@ const TodoPage = () => {
         id,
         is_completed: false,
       },
-      successMessage: "TODOを未完了にしました",
+      successMessage: "TODOを未完了にしました✅",
     });
   // 削除について
   const { mutate: deleteTodoMutate, isPending: isPendingForDeleteTodo } =
@@ -151,7 +151,7 @@ const TodoPage = () => {
   const deleteTodo = (id: number) => {
     deleteTodoMutate(id, {
       onSuccess: () =>
-        toast("TODOを削除しました", {
+        toast("TODOを削除しました✅", {
           progressStyle: {
             background:
               "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",

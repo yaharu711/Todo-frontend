@@ -12,6 +12,7 @@ type TextInputProps = {
   onBlur?: () => void;
   errorMessage?: string;
   style?: object;
+  autoFocus?: boolean;
 };
 
 const TextInput: React.FC<TextInputProps> = ({
@@ -24,6 +25,7 @@ const TextInput: React.FC<TextInputProps> = ({
   onBlur,
   errorMessage,
   style,
+  autoFocus,
   type = "text",
 }) => {
   return (
@@ -38,7 +40,7 @@ const TextInput: React.FC<TextInputProps> = ({
         onChange={onChange}
         onKeyDown={onKeyDown}
         onBlur={onBlur}
-        autoFocus
+        autoFocus={autoFocus}
         style={style}
       />
       <span className={styles.input_error}>{errorMessage}</span>
