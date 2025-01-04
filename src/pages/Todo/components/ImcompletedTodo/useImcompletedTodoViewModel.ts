@@ -20,10 +20,12 @@ const UseImcompletedTodoViewModel = ({
     toggleEditMode(target);
     setIsDisabledButton((prev) => !prev);
   };
+
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputedTodoName(e.target.value);
     setEditInputError("");
   };
+
   const editTodo = (target: ImcompletedTodoWithEditMode) => {
     // 変化なく何も入力していない場合は編集していなかったことにする
     if (inputedTodoName === target.name || inputedTodoName === "") {
@@ -45,6 +47,7 @@ const UseImcompletedTodoViewModel = ({
     setInputedTodoName("");
     setIsDisabledButton(false);
   };
+
   const editTodoOnKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
     target: ImcompletedTodoWithEditMode
@@ -53,6 +56,7 @@ const UseImcompletedTodoViewModel = ({
     editTodo(target);
     e.preventDefault();
   };
+
   const editTodoOnBlur = (target: ImcompletedTodoWithEditMode): void => {
     editTodo(target);
   };
