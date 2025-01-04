@@ -6,6 +6,7 @@ import TodoPage from "./pages/Todo";
 import HomePage from "./pages/HomePage";
 import UnExpectedErrorPage from "./pages/UnExpectedErrorPage";
 import ToastProvider from "./components/ToastProvider";
+import NotFoundUrlPage from "./pages/NotFoundUrlPage";
 
 export type ButtonProps = {
   onClick: (target: TodoType) => void;
@@ -29,6 +30,7 @@ const App = () => {
           <Route element={<PrivateLayout />}>
             <Route path="/todos" element={<TodoPage />} />
           </Route>
+          <Route path="*" element={<NotFoundUrlPage />} />
         </Routes>
       </ToastProvider>
     </div>
