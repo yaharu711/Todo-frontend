@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import UserApi from "./functions";
 import { LoginRequest } from "./type";
 import { useNavigate } from "react-router-dom";
@@ -22,5 +22,12 @@ export const useLogin = (
           "メールアドレスかパスワードが間違っています。再度入力してください。"
         );
     },
+  });
+};
+
+export const useCheckLogined = () => {
+  return useQuery({
+    queryKey: ["users", "check-login"],
+    queryFn: UserApi.checkLogined,
   });
 };
