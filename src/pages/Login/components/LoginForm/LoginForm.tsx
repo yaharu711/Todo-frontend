@@ -1,11 +1,11 @@
 import { toast } from "react-toastify";
-import { useLogin } from "../../../api/User/hooks";
 import styles from "./LoginForm.module.css";
-import Button from "../../../components/Button";
-import FadeLoaderOverlapedAll from "../../../components/FadeLoaderOverlapedAll";
-import { useEffect, useState } from "react";
+import Button from "../../../../components/Button";
+import FadeLoaderOverlapedAll from "../../../../components/FadeLoaderOverlapedAll";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import TextInput from "../../../components/TextInput";
+import TextInput from "../../../../components/TextInput";
+import UseLoginFormViewModel from "./useLoginFormViewModel";
 
 const LoginForm = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -32,36 +32,22 @@ const LoginForm = () => {
     }
   }, []);
 
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
-  const { mutate: loginMutate, isPending } = useLogin(setError);
-
-  // demo1@example.com
-  // passowrd
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    loginMutate(
-      {
-        email: email,
-        password: password,
-      },
-      {
-        onSuccess: () =>
-          toast("ログインに成功しました！✅", {
-            progressStyle: {
-              background:
-                "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
-            },
-          }),
-      }
-    );
-  };
+  const {
+    email,
+    password,
+    error,
+    onChangeEmail,
+    onChangePassword,
+    onSubmit,
+    isPendingForLogin,
+    isPendingForCheckLogined,
+  } = UseLoginFormViewModel();
 
   return (
     <>
-      {isPending && <FadeLoaderOverlapedAll />}
+      {(isPendingForLogin || isPendingForCheckLogined) && (
+        <FadeLoaderOverlapedAll />
+      )}
       <div className={styles.container}>
         {error.length !== 0 && <span className={styles.error}>{error}</span>}
         <form className={styles.form} onSubmit={onSubmit}>
@@ -71,7 +57,7 @@ const LoginForm = () => {
             name="email"
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={onChangeEmail}
             autoFocus={true}
           />
           <TextInput
@@ -80,7 +66,7 @@ const LoginForm = () => {
             name="password"
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={onChangePassword}
           />
           <Button type="submit" style={{ width: 150 }}>
             ログイン
