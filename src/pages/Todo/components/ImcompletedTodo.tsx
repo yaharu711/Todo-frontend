@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import { ImcompletedTodoType, UpdateTodoParams } from "..";
+import { ImcompletedTodoType } from "..";
 import styles from "./ImcompletedTodo.module.css";
 import IconButton from "../../../components/IconButton";
 import { CiCircleCheck, CiEdit, CiTrash } from "react-icons/ci";
 import TextInput from "../../../components/TextInput";
 import { isMobile } from "react-device-detect";
 import Button from "../../../components/Button";
+import { UpdateTodosRequest } from "../../../api/Todo/types";
 
 type Props = {
   target: ImcompletedTodoType;
   setTodos: React.Dispatch<React.SetStateAction<ImcompletedTodoType[]>>;
   completeTodo: (id: number) => void;
-  updateTodo: (props: UpdateTodoParams) => void;
+  updateTodoDetail: (props: UpdateTodosRequest) => void;
   deleteTodo: (id: number) => void;
 };
 
@@ -19,7 +20,7 @@ const ImcompletedTodo = ({
   target,
   setTodos,
   completeTodo,
-  updateTodo,
+  updateTodoDetail,
   deleteTodo,
 }: Props) => {
   // 以下全て編集モードについての処理
@@ -49,20 +50,13 @@ const ImcompletedTodo = ({
       return;
     }
 
-    updateTodo({
-      params: { id: target.id, name: inputedTodoName },
-      successMessage: "TODOの更新が完了しました✅",
-    });
-    const updatedImcompletedTodo: ImcompletedTodoType = {
+    updateTodoDetail({
       id: target.id,
       name: inputedTodoName,
-      created_at: target.created_at,
-      imcompleted_at: target.imcompleted_at,
-      isEditMode: false,
-    };
+    });
     setTodos((prev) =>
       prev.map((todo) =>
-        todo.name === target.name ? updatedImcompletedTodo : todo
+        todo.id === target.id ? { ...todo, isEditMode: false } : todo
       )
     );
     setInputedTodoName("");
