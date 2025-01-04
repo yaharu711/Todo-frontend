@@ -3,7 +3,7 @@ import styles from "./TodoInputForm.module.css";
 import Button from "../../../../components/Button";
 import TextInput from "../../../../components/TextInput";
 import { isMobile } from "react-device-detect";
-import { CreateTodoParams } from "../..";
+import { CreateTodoParams } from "../../types";
 
 type TodoInputFormProps = {
   submit: (params: CreateTodoParams) => void;
