@@ -10,7 +10,7 @@ import {
   CreateTodoParams,
   ImcompletedTodoType,
   UpdateTodoParams,
-} from ".";
+} from "./types";
 import { createTodoErrorHandler } from "../../api/Todo/errorHandlers";
 import { toast } from "react-toastify";
 import { UpdateTodosRequest } from "../../api/Todo/types";

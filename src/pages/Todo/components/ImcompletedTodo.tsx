@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ImcompletedTodoType } from "..";
+import { ImcompletedTodoType } from "../types";
 import styles from "./ImcompletedTodo.module.css";
 import IconButton from "../../../components/IconButton";
 import { CiCircleCheck, CiEdit, CiTrash } from "react-icons/ci";

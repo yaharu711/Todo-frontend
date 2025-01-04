@@ -1,4 +1,4 @@
-import { ImcompletedTodoType } from "..";
+import { ImcompletedTodoType } from "../types";
 import { UpdateTodosRequest } from "../../../api/Todo/types";
 import ImcompletedTodo from "./ImcompletedTodo";
 import styles from "./ImcompletedTodos.module.css";

@@ -1,5 +1,5 @@
 import { isMobile } from "react-device-detect";
-import { CompletedTodoType } from "..";
+import { CompletedTodoType } from "../types";
 import styles from "./CompletedTodo.module.css";
 import IconButton from "../../../components/IconButton";
 import { PiKeyReturnLight } from "react-icons/pi";
