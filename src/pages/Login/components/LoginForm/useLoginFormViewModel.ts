@@ -1,16 +1,8 @@
 import { useState } from "react";
-import { useCheckLogined, useLogin } from "../../../../api/User/hooks";
+import { useLogin } from "../../../../api/User/hooks";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
 const UseLoginFormViewModel = () => {
-  const { data, isPending: isPendingForCheckLogined } = useCheckLogined();
-  const navigate = useNavigate();
-  // ログイン状態ならログイン後の画面に遷移する
-  if (!isPendingForCheckLogined && data?.is_logined) {
-    navigate("/todos");
-  }
-
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -51,7 +43,6 @@ const UseLoginFormViewModel = () => {
     onChangePassword,
     onSubmit,
     isPendingForLogin,
-    isPendingForCheckLogined,
   };
 };
 
