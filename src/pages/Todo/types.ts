@@ -1,12 +1,15 @@
 import { UpdateTodosRequest } from "../../api/Todo/types";
 
 export type ImcompletedTodoType = {
-  isEditMode: boolean;
   id: number;
   name: string;
   created_at: string;
   completed_at?: string;
   imcompleted_at: string;
+};
+
+export type ImcompletedTodoWithEditMode = ImcompletedTodoType & {
+  isEditMode: boolean;
 };
 
 export type CompletedTodoType = {

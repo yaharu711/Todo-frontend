@@ -10,17 +10,6 @@ export const useGetTodos = () => {
   return useSuspenseQuery({
     queryKey: ["todos"],
     queryFn: () => TodoApi.getTodos(),
-    select: (data) => {
-      const imcompletedTodosWithEditMode = data.imcompletedTodos.map(
-        (imcompletedTodo) => {
-          return { ...imcompletedTodo, isEditMode: false };
-        }
-      );
-      return {
-        ...data,
-        imcompletedTodos: imcompletedTodosWithEditMode,
-      };
-    },
   });
 };
 

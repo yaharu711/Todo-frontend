@@ -1,16 +1,10 @@
-import { useEffect, useState } from "react";
 import {
   useCreateTodo,
   useDeleteTodo,
   useGetTodos,
   useUpdateTodos,
 } from "../../api/Todo/hooks";
-import {
-  CompletedTodoType,
-  CreateTodoParams,
-  ImcompletedTodoType,
-  UpdateTodoParams,
-} from "./types";
+import { CreateTodoParams, UpdateTodoParams } from "./types";
 import { createTodoErrorHandler } from "../../api/Todo/errorHandlers";
 import { toast } from "react-toastify";
 import { UpdateTodosRequest } from "../../api/Todo/types";
@@ -18,18 +12,8 @@ import { UpdateTodosRequest } from "../../api/Todo/types";
 const UseTodoViewModel = () => {
   // TODOの取得と定義
   const { data: todos } = useGetTodos();
-  const [imcompletedTodos, setImcompletedTodos] = useState<
-    ImcompletedTodoType[]
-  >(todos.imcompletedTodos);
-  const [completedTodos, setCompletedTodos] = useState<CompletedTodoType[]>(
-    todos.completedTodos
-  );
-  // 以下がないと、Todoを更新してrefetchしてもその結果を画面に反映できない→再描画されない
-  // ローカルの状態として、「TODOが編集モードか」を管理する必要がありuseGetTodosの戻り値をそのまま使えない
-  useEffect(() => {
-    setImcompletedTodos(todos.imcompletedTodos);
-    setCompletedTodos(todos.completedTodos);
-  }, [todos]);
+  const imcompletedTodos = todos.imcompletedTodos;
+  const completedTodos = todos.completedTodos;
 
   // 作成について
   const { mutate: createTodoMutate, isPending: isPendingForCreateTodo } =
@@ -109,7 +93,6 @@ const UseTodoViewModel = () => {
 
   return {
     imcompletedTodos,
-    setImcompletedTodos,
     completedTodos,
     createTodo,
     updateTodoDetail,

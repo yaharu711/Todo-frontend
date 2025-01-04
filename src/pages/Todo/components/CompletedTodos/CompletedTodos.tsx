@@ -1,6 +1,6 @@
-import { CompletedTodoType } from "..";
+import { CompletedTodoType } from "../../types";
 import styles from "./CompletedTodos.module.css";
-import CompletedTodo from "./CompletedTodo";
+import CompletedTodo from "../CompletedTodo/CompletedTodo";
 
 type Props = {
   todos: CompletedTodoType[];

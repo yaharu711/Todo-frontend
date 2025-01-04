@@ -1,14 +1,13 @@
-import TodoInputForm from "./components/TodoInputForm";
+import TodoInputForm from "./components/TodoInputForm/TodoInputForm";
 import styles from "../../App.module.css";
-import CompletedTodos from "./components/CompletedTodos";
-import ImcompletedTodos from "./components/ImcompletedTodos";
+import CompletedTodos from "./components/CompletedTodos/CompletedTodos";
+import ImcompletedTodos from "./components/ImcompletedTodos/ImcompletedTodos";
 import { FadeLoader } from "react-spinners";
 import UseTodoViewModel from "./useTodoViewModel";
 
 const TodoPage = () => {
   const {
     imcompletedTodos,
-    setImcompletedTodos,
     completedTodos,
     createTodo,
     updateTodoDetail,
@@ -31,7 +30,6 @@ const TodoPage = () => {
         <>
           <ImcompletedTodos
             todos={imcompletedTodos}
-            setTodos={setImcompletedTodos}
             completeTodo={completeTodo}
             updateTodoDetail={updateTodoDetail}
             deleteTodo={deleteTodo}
