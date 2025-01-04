@@ -14,7 +14,11 @@ const CompletedTodos = ({ todos, imcompleteTodo }: Props) => {
       <ul className={styles.ul}>
         {todos.map((todo: CompletedTodoType) => {
           return (
-            <CompletedTodo target={todo} imcompleteTodo={imcompleteTodo} />
+            <CompletedTodo
+              key={todo.id}
+              target={todo}
+              imcompleteTodo={imcompleteTodo}
+            />
           );
         })}
       </ul>
