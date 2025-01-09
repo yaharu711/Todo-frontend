@@ -1,23 +1,21 @@
 import { useState } from "react";
-import { ImcompletedTodoWithEditMode } from "../../types";
+import { ImcompletedTodoType } from "../../types";
 import { UpdateTodosRequest } from "../../../../api/Todo/types";
 
 export type Props = {
-  target: ImcompletedTodoWithEditMode;
+  target: ImcompletedTodoType;
   updateTodoDetail: (props: UpdateTodosRequest) => void;
-  toggleEditMode: (target: ImcompletedTodoWithEditMode) => void;
 };
-const UseImcompletedTodoViewModel = ({
-  target,
-  updateTodoDetail,
-  toggleEditMode,
-}: Props) => {
+const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
   const [inputedTodoName, setInputedTodoName] = useState<string>(target.name);
   const [editInputError, setEditInputError] = useState<string>("");
   const [isDisabledButton, setIsDisabledButton] = useState<boolean>(false);
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
-  const onChangeEditMode = (target: ImcompletedTodoWithEditMode) => {
-    toggleEditMode(target);
+  const toggleEditMode = () => setIsEditMode((prev) => !prev);
+
+  const onChangeEditMode = () => {
+    toggleEditMode();
     setIsDisabledButton((prev) => !prev);
   };
 
@@ -26,10 +24,10 @@ const UseImcompletedTodoViewModel = ({
     setEditInputError("");
   };
 
-  const editTodo = (target: ImcompletedTodoWithEditMode) => {
+  const editTodo = (target: ImcompletedTodoType) => {
     // 変化なく何も入力していない場合は編集していなかったことにする
     if (inputedTodoName === target.name || inputedTodoName === "") {
-      onChangeEditMode(target);
+      onChangeEditMode();
       setInputedTodoName(target.name);
       return;
     }
@@ -43,21 +41,21 @@ const UseImcompletedTodoViewModel = ({
       id: target.id,
       name: inputedTodoName,
     });
-    onChangeEditMode(target);
+    onChangeEditMode();
     setInputedTodoName("");
     setIsDisabledButton(false);
   };
 
   const editTodoOnKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
-    target: ImcompletedTodoWithEditMode
+    target: ImcompletedTodoType
   ): void => {
     if (e.key !== "Enter") return;
     editTodo(target);
     e.preventDefault();
   };
 
-  const editTodoOnBlur = (target: ImcompletedTodoWithEditMode): void => {
+  const editTodoOnBlur = (target: ImcompletedTodoType): void => {
     editTodo(target);
   };
 
@@ -65,6 +63,7 @@ const UseImcompletedTodoViewModel = ({
     inputedTodoName,
     editInputError,
     isDisabledButton,
+    isEditMode,
     onChangeEditMode,
     onChangeInput,
     editTodoOnKeyDown,
