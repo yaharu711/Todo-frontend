@@ -10,6 +10,7 @@ const TodoPage = () => {
     imcompletedTodos,
     completedTodos,
     createTodo,
+    creatingTodoForPending,
     updateTodoDetail,
     imcompleteTodo,
     completeTodo,
@@ -23,13 +24,15 @@ const TodoPage = () => {
     <div className={styles.container}>
       <TodoInputForm submit={createTodo} />
       {isPendingForUpdateTodo ||
-      isPendingForCreateTodo ||
+      // isPendingForCreateTodo ||
       isPendingForDeleteTodo ? (
         <FadeLoader color="rgba(100, 108, 255, 1)" />
       ) : (
         <>
           <ImcompletedTodos
             todos={imcompletedTodos}
+            creatingTodoForPending={creatingTodoForPending}
+            isPendingForCreateTodo={isPendingForCreateTodo}
             completeTodo={completeTodo}
             updateTodoDetail={updateTodoDetail}
             deleteTodo={deleteTodo}

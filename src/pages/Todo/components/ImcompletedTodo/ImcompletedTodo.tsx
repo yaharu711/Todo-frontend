@@ -1,4 +1,4 @@
-import { ImcompletedTodoWithEditMode } from "../../types";
+import { ImcompletedTodoType } from "../../types";
 import styles from "./ImcompletedTodo.module.css";
 import IconButton from "../../../../components/IconButton";
 import { CiCircleCheck, CiEdit, CiTrash } from "react-icons/ci";
@@ -9,8 +9,7 @@ import { UpdateTodosRequest } from "../../../../api/Todo/types";
 import UseImcompletedTodoViewModel from "./useImcompletedTodoViewModel";
 
 type Props = {
-  target: ImcompletedTodoWithEditMode;
-  toggleEditMode: (target: ImcompletedTodoWithEditMode) => void;
+  target: ImcompletedTodoType;
   completeTodo: (id: number) => void;
   updateTodoDetail: (props: UpdateTodosRequest) => void;
   deleteTodo: (id: number) => void;
@@ -18,7 +17,6 @@ type Props = {
 
 const ImcompletedTodo = ({
   target,
-  toggleEditMode,
   completeTodo,
   updateTodoDetail,
   deleteTodo,
@@ -27,20 +25,21 @@ const ImcompletedTodo = ({
     inputedTodoName,
     editInputError,
     isDisabledButton,
+    isEditMode,
     onChangeInput,
     editTodoOnKeyDown,
     editTodoOnBlur,
     onChangeEditMode,
-  } = UseImcompletedTodoViewModel({ target, updateTodoDetail, toggleEditMode });
+  } = UseImcompletedTodoViewModel({ target, updateTodoDetail });
 
   return (
     <li className={styles.li}>
       <div className={styles.todo_name_wrapp}>
         <IconButton
-          onClick={() => onChangeEditMode(target)}
+          onClick={() => onChangeEditMode()}
           children={<CiEdit size={25} />}
         />
-        {target.isEditMode ? (
+        {isEditMode ? (
           <TextInput
             placeholder={target.name}
             name="edit_modal"

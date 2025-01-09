@@ -16,8 +16,14 @@ const UseTodoViewModel = () => {
   const completedTodos = todos.completedTodos;
 
   // 作成について
-  const { mutate: createTodoMutate, isPending: isPendingForCreateTodo } =
-    useCreateTodo();
+  const {
+    mutate: createTodoMutate,
+    isPending: isPendingForCreateTodo,
+    variables,
+  } = useCreateTodo();
+
+  const creatingTodoForPending = variables === undefined ? "" : variables.name;
+
   const createTodo = ({ name, setInputError }: CreateTodoParams) => {
     createTodoMutate(
       { name },
@@ -95,6 +101,7 @@ const UseTodoViewModel = () => {
     imcompletedTodos,
     completedTodos,
     createTodo,
+    creatingTodoForPending,
     updateTodoDetail,
     imcompleteTodo,
     completeTodo,
