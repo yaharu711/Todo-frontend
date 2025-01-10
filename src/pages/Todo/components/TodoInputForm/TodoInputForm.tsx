@@ -7,10 +7,14 @@ import { CreateTodoParams } from "../../types";
 import UseTodoInputFormViewModel from "./useTodoInputFormViewModel";
 
 type TodoInputFormProps = {
+  isPendingForCreateTodo: boolean;
   submit: (params: CreateTodoParams) => void;
 };
 
-const TodoInputForm: React.FC<TodoInputFormProps> = ({ submit }) => {
+const TodoInputForm: React.FC<TodoInputFormProps> = ({
+  isPendingForCreateTodo,
+  submit,
+}) => {
   const {
     inputedTodoName,
     inputError,
@@ -18,6 +22,7 @@ const TodoInputForm: React.FC<TodoInputFormProps> = ({ submit }) => {
     createTodoOnKeyDown,
     createTodo,
   } = UseTodoInputFormViewModel({ submit });
+
   return (
     <div className={styles.wrap}>
       <TextInput
@@ -32,7 +37,10 @@ const TodoInputForm: React.FC<TodoInputFormProps> = ({ submit }) => {
         }}
         autoFocus={true}
       />
-      <Button disabled={inputedTodoName === ""} onClick={createTodo}>
+      <Button
+        disabled={inputedTodoName === "" || isPendingForCreateTodo}
+        onClick={createTodo}
+      >
         作成
       </Button>
     </div>

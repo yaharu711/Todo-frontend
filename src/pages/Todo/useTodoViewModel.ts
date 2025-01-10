@@ -37,6 +37,12 @@ const UseTodoViewModel = () => {
           }),
         onError: (error: Error) => {
           createTodoErrorHandler(setInputError, error);
+          toast.error("TODOを作成に失敗しました", {
+            progressStyle: {
+              background:
+                "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
+            },
+          });
         },
       }
     );

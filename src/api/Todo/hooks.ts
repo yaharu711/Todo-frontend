@@ -17,7 +17,7 @@ export const useCreateTodo = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (params: CreateTodoRequest) => TodoApi.createTodo(params),
-    onSuccess: async () => {
+    onSettled: async () => {
       await queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
   });

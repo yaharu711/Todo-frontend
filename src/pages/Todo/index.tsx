@@ -22,10 +22,11 @@ const TodoPage = () => {
 
   return (
     <div className={styles.container}>
-      <TodoInputForm submit={createTodo} />
-      {isPendingForUpdateTodo ||
-      // isPendingForCreateTodo ||
-      isPendingForDeleteTodo ? (
+      <TodoInputForm
+        isPendingForCreateTodo={isPendingForCreateTodo}
+        submit={createTodo}
+      />
+      {isPendingForUpdateTodo || isPendingForDeleteTodo ? (
         <FadeLoader color="rgba(100, 108, 255, 1)" />
       ) : (
         <>
