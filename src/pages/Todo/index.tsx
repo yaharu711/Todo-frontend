@@ -17,6 +17,7 @@ const TodoPage = () => {
     deleteTodo,
     isPendingForCreateTodo,
     isPendingForUpdateTodo,
+    isPendingForUpdateDetailTodo,
     isPendingForDeleteTodo,
   } = UseTodoViewModel();
 

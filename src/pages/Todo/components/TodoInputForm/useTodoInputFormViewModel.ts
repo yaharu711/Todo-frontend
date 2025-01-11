@@ -23,7 +23,7 @@ const UseTodoInputFormViewModel = ({ submit }: Props) => {
       setInputError("空白のみは許可されていません");
       return;
     }
-    submit({ name: inputedTodoName, setInputError });
+    submit({ request: { name: inputedTodoName }, setInputError });
     setInputedTodoName("");
   };
 

@@ -4,7 +4,15 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import TodoApi from "./functions";
-import { CreateTodoRequest, UpdateTodosRequest } from "./types";
+import { UpdateTodosRequest } from "./types";
+import {
+  createTodoErrorHandler,
+  updateTodoDetailErrorHandler,
+} from "./errorHandlers";
+import {
+  CreateTodoParams,
+  UpdateTodoDetailParams,
+} from "../../pages/Todo/types";
 
 export const useGetTodos = () => {
   return useSuspenseQuery({
@@ -16,9 +24,35 @@ export const useGetTodos = () => {
 export const useCreateTodo = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (params: CreateTodoRequest) => TodoApi.createTodo(params),
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    mutationFn: ({ request, setInputError }: CreateTodoParams) =>
+      TodoApi.createTodo(request),
+    onError: (error: Error, { setInputError }) => {
+      createTodoErrorHandler(setInputError, error);
+    },
     onSettled: async () => {
+      // 楽観的更新はisPendingの時にvariablesを表示しているのでinvalidateするまで待つ必要ある
+      // 待たないと、isPendingはfalseとなり楽観的更新したものも消えて何も更新されていないuIが表示されてしまう
       await queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
+};
+
+export const useUpdateDetailTodos = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      request,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      setInputError: setInputError,
+    }: UpdateTodoDetailParams) => TodoApi.updateTodos(request),
+    onError: (error: Error, { setInputError }) => {
+      updateTodoDetailErrorHandler(setInputError, error);
+    },
+    onSettled: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["todos"],
+      });
     },
   });
 };
@@ -26,15 +60,14 @@ export const useCreateTodo = () => {
 export const useUpdateTodos = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ params }: { params: UpdateTodosRequest }) =>
-      TodoApi.updateTodos(params),
-    onSuccess: async () => {
+    mutationFn: (request: UpdateTodosRequest) => TodoApi.updateTodos(request),
+    onError: (error: Error) => {
+      throw error;
+    },
+    onSettled: async () => {
       await queryClient.invalidateQueries({
         queryKey: ["todos"],
       });
-    },
-    onError: (error) => {
-      console.log(error);
     },
   });
 };
