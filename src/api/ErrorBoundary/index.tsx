@@ -12,7 +12,7 @@ export const APIErrorHandler = ({ error }: { error: AxiosError }) => {
   useEffect(() => {
     if (error.response?.status === 401) {
       navigate("/login?isFrom401=true", { replace: true });
-    } else if (error.response?.status === 500) {
+    } else {
       navigate("/500", { replace: true });
       toast.error(
         "予期しないバグが発生しました。時間をおいて再度アクセスしてください"
