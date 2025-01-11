@@ -24,9 +24,8 @@ export const useGetTodos = () => {
 export const useCreateTodo = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    mutationFn: ({ request, setInputError }: CreateTodoParams) =>
-      TodoApi.createTodo(request),
+    mutationFn: (params: CreateTodoParams) =>
+      TodoApi.createTodo(params.request),
     onError: (error: Error, { setInputError }) => {
       createTodoErrorHandler(setInputError, error);
     },
@@ -41,11 +40,8 @@ export const useCreateTodo = () => {
 export const useUpdateDetailTodos = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({
-      request,
-      /* eslint-disable @typescript-eslint/no-unused-vars */
-      setInputError: setInputError,
-    }: UpdateTodoDetailParams) => TodoApi.updateTodos(request),
+    mutationFn: (params: UpdateTodoDetailParams) =>
+      TodoApi.updateTodos(params.request),
     onError: (error: Error, { setInputError }) => {
       updateTodoDetailErrorHandler(setInputError, error);
     },
