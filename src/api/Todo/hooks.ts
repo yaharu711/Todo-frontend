@@ -13,6 +13,7 @@ import {
   CreateTodoParams,
   UpdateTodoDetailParams,
 } from "../../pages/Todo/types";
+import { useNavigate } from "react-router-dom";
 
 export const useGetTodos = () => {
   return useSuspenseQuery({
@@ -23,11 +24,12 @@ export const useGetTodos = () => {
 
 export const useCreateTodo = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   return useMutation({
     mutationFn: (params: CreateTodoParams) =>
       TodoApi.createTodo(params.request),
     onError: (error: Error, { setInputError }) => {
-      createTodoErrorHandler(setInputError, error);
+      createTodoErrorHandler(setInputError, error, navigate);
     },
     onSettled: async () => {
       // 楽観的更新はisPendingの時にvariablesを表示しているのでinvalidateするまで待つ必要ある
@@ -39,11 +41,12 @@ export const useCreateTodo = () => {
 
 export const useUpdateDetailTodos = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   return useMutation({
     mutationFn: (params: UpdateTodoDetailParams) =>
       TodoApi.updateTodos(params.request),
     onError: (error: Error, { setInputError }) => {
-      updateTodoDetailErrorHandler(setInputError, error);
+      updateTodoDetailErrorHandler(setInputError, error, navigate);
     },
     onSettled: async () => {
       await queryClient.invalidateQueries({

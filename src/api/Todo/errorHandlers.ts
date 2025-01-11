@@ -1,4 +1,5 @@
 import { AxiosError } from "axios";
+import { NavigateFunction } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // 本当はメッセージよりエラーcodeにした方がよい。
@@ -7,7 +8,8 @@ const NAME_MAX_LENGTH_OVER =
 
 export const createTodoErrorHandler = (
   setInputError: React.Dispatch<React.SetStateAction<string>>,
-  error: Error
+  error: Error,
+  navigate: NavigateFunction
 ) => {
   const axiosError = error as AxiosError;
   if (axiosError.status === 422) {
@@ -21,6 +23,8 @@ export const createTodoErrorHandler = (
     if (NAME_MAX_LENGTH_OVER === axiosError.response?.data?.message) {
       setInputError("TODO名は100文字までです");
     }
+  } else if (axiosError.status === 401) {
+    navigate("/login?isFrom401=true", { replace: true });
     // 500エラーの時はstatusがundefinedになる
   } else if (axiosError.status === undefined) {
     toast.error(
@@ -39,7 +43,8 @@ export const createTodoErrorHandler = (
 
 export const updateTodoDetailErrorHandler = (
   setInputError: React.Dispatch<React.SetStateAction<string>>,
-  error: Error
+  error: Error,
+  navigate: NavigateFunction
 ) => {
   const axiosError = error as AxiosError;
   if (axiosError.status === 422) {
@@ -53,6 +58,8 @@ export const updateTodoDetailErrorHandler = (
     if (NAME_MAX_LENGTH_OVER === axiosError.response?.data?.message) {
       setInputError("TODO名は100文字までです");
     }
+  } else if (axiosError.status === 401) {
+    navigate("/login?isFrom401=true", { replace: true });
     // 500エラーの時はstatusがundefinedになる
   } else if (axiosError.status === undefined) {
     toast.error(
