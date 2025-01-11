@@ -1,5 +1,4 @@
-import { ImcompletedTodoType } from "../../types";
-import { UpdateTodosRequest } from "../../../../api/Todo/types";
+import { ImcompletedTodoType, UpdateTodoDetailParams } from "../../types";
 import ImcompletedTodo from "../ImcompletedTodo/ImcompletedTodo";
 import styles from "./ImcompletedTodos.module.css";
 import ImcompletedTodoForPending from "../ImcompletedTodoForPending/ImcompletedTodoForPending";
@@ -9,7 +8,7 @@ type Props = {
   creatingTodoForPending: string;
   isPendingForCreateTodo: boolean;
   completeTodo: (id: number) => void;
-  updateTodoDetail: (props: UpdateTodosRequest) => void;
+  updateTodoDetail: (props: UpdateTodoDetailParams) => void;
   deleteTodo: (id: number) => void;
 };
 

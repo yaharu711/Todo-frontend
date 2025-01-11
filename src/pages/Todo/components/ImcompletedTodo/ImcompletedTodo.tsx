@@ -1,17 +1,16 @@
-import { ImcompletedTodoType } from "../../types";
+import { ImcompletedTodoType, UpdateTodoDetailParams } from "../../types";
 import styles from "./ImcompletedTodo.module.css";
 import IconButton from "../../../../components/IconButton";
 import { CiCircleCheck, CiEdit, CiTrash } from "react-icons/ci";
 import TextInput from "../../../../components/TextInput";
 import { isMobile } from "react-device-detect";
 import Button from "../../../../components/Button";
-import { UpdateTodosRequest } from "../../../../api/Todo/types";
 import UseImcompletedTodoViewModel from "./useImcompletedTodoViewModel";
 
 type Props = {
   target: ImcompletedTodoType;
   completeTodo: (id: number) => void;
-  updateTodoDetail: (props: UpdateTodosRequest) => void;
+  updateTodoDetail: (props: UpdateTodoDetailParams) => void;
   deleteTodo: (id: number) => void;
 };
 

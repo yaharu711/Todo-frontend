@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { ImcompletedTodoType } from "../../types";
-import { UpdateTodosRequest } from "../../../../api/Todo/types";
+import { ImcompletedTodoType, UpdateTodoDetailParams } from "../../types";
 
 export type Props = {
   target: ImcompletedTodoType;
-  updateTodoDetail: (props: UpdateTodosRequest) => void;
+  updateTodoDetail: (props: UpdateTodoDetailParams) => void;
 };
 const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
   const [inputedTodoName, setInputedTodoName] = useState<string>(target.name);
@@ -38,8 +37,11 @@ const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
     }
 
     updateTodoDetail({
-      id: target.id,
-      name: inputedTodoName,
+      request: {
+        id: target.id,
+        name: inputedTodoName,
+      },
+      setInputError: setEditInputError,
     });
     onChangeEditMode();
     setInputedTodoName("");

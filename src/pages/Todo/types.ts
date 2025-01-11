@@ -1,4 +1,4 @@
-import { UpdateTodosRequest } from "../../api/Todo/types";
+import { CreateTodoRequest, UpdateTodosRequest } from "../../api/Todo/types";
 
 export type ImcompletedTodoType = {
   id: number;
@@ -26,6 +26,11 @@ export type UpdateTodoParams = {
 };
 
 export type CreateTodoParams = {
-  name: string;
+  request: CreateTodoRequest;
+  setInputError: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export type UpdateTodoDetailParams = {
+  request: UpdateTodosRequest;
   setInputError: React.Dispatch<React.SetStateAction<string>>;
 };

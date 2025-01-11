@@ -2,12 +2,15 @@ import {
   useCreateTodo,
   useDeleteTodo,
   useGetTodos,
+  useUpdateDetailTodos,
   useUpdateTodos,
 } from "../../api/Todo/hooks";
-import { CreateTodoParams, UpdateTodoParams } from "./types";
-import { createTodoErrorHandler } from "../../api/Todo/errorHandlers";
+import {
+  CreateTodoParams,
+  UpdateTodoDetailParams,
+  UpdateTodoParams,
+} from "./types";
 import { toast } from "react-toastify";
-import { UpdateTodosRequest } from "../../api/Todo/types";
 
 const UseTodoViewModel = () => {
   // TODOの取得と定義
@@ -21,12 +24,13 @@ const UseTodoViewModel = () => {
     isPending: isPendingForCreateTodo,
     variables,
   } = useCreateTodo();
+  // 楽観的更新に使うもの
+  const creatingTodoForPending =
+    variables === undefined ? "" : variables.request.name;
 
-  const creatingTodoForPending = variables === undefined ? "" : variables.name;
-
-  const createTodo = ({ name, setInputError }: CreateTodoParams) => {
+  const createTodo = ({ request, setInputError }: CreateTodoParams) => {
     createTodoMutate(
-      { name },
+      { request, setInputError },
       {
         onSuccess: () =>
           toast("TODOを作成しました✅", {
@@ -35,29 +39,29 @@ const UseTodoViewModel = () => {
                 "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
             },
           }),
-        onError: (error: Error) => {
-          createTodoErrorHandler(setInputError, error);
-          toast.error("TODOを作成に失敗しました", {
-            progressStyle: {
-              background:
-                "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
-            },
-          });
-        },
       }
     );
   };
-  // 更新について
-  const { mutate: updateTodoMutate, isPending: isPendingForUpdateTodo } =
-    useUpdateTodos();
-  const updateTodo = ({ params, successMessage }: UpdateTodoParams) => {
-    updateTodoMutate(
+  // TODOの詳細の更新について
+  const {
+    mutate: updateTodoDetailMutate,
+    isPending: isPendingForUpdateDetailTodo,
+  } = useUpdateDetailTodos();
+  // またErrorBoundaryでキャッチされなくなった？？
+  // しかも、422の時もエラーとしてthrowされてしまう
+  //   if (errorForUpdateDetailTodo !== null) throw errorForUpdateDetailTodo;
+  const updateTodoDetail = ({
+    request,
+    setInputError,
+  }: UpdateTodoDetailParams) => {
+    updateTodoDetailMutate(
       {
-        params,
+        request,
+        setInputError,
       },
       {
         onSuccess: () =>
-          toast(successMessage, {
+          toast("TODOの更新が完了しました✅", {
             progressStyle: {
               background:
                 "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
@@ -66,10 +70,18 @@ const UseTodoViewModel = () => {
       }
     );
   };
-  const updateTodoDetail = (params: UpdateTodosRequest) => {
-    updateTodo({
-      params: params,
-      successMessage: "TODOの更新が完了しました✅",
+  // TODOの完了と未完了について
+  const { mutate: updateTodoMutate, isPending: isPendingForUpdateTodo } =
+    useUpdateTodos();
+  const updateTodo = ({ params, successMessage }: UpdateTodoParams) => {
+    updateTodoMutate(params, {
+      onSuccess: () =>
+        toast(successMessage, {
+          progressStyle: {
+            background:
+              "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
+          },
+        }),
     });
   };
   const completeTodo = (id: number) =>
@@ -113,6 +125,7 @@ const UseTodoViewModel = () => {
     completeTodo,
     deleteTodo,
     isPendingForCreateTodo,
+    isPendingForUpdateDetailTodo,
     isPendingForUpdateTodo,
     isPendingForDeleteTodo,
   };
