@@ -6,6 +6,7 @@ export type ImcompletedTodoType = {
   created_at: string;
   completed_at?: string;
   imcompleted_at: string;
+  updateDetailStatus: string;
 };
 
 export type ImcompletedTodoWithEditMode = ImcompletedTodoType & {
@@ -18,6 +19,7 @@ export type CompletedTodoType = {
   created_at: string;
   completed_at: string;
   imcompleted_at: string;
+  updateDetailStatus: string;
 };
 
 export type UpdateTodoParams = {

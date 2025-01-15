@@ -10,15 +10,37 @@ import {
   updateTodoDetailErrorHandler,
 } from "./errorHandlers";
 import {
+  CompletedTodoType,
   CreateTodoParams,
+  ImcompletedTodoType,
   UpdateTodoDetailParams,
 } from "../../pages/Todo/types";
 import { useNavigate } from "react-router-dom";
 
+type useGetTodosResponse = {
+  imcompletedTodosWithStatus: ImcompletedTodoType[];
+  completedTodosWithStatus: CompletedTodoType[];
+};
+
 export const useGetTodos = () => {
+  // 結局、updateをキャッシュ更新して、cancelQueriesを実行しても、invalidateは上書きされて、処理は完了している？？？だから、statusがdoneに書き換わっている？
   return useSuspenseQuery({
     queryKey: ["todos"],
-    queryFn: () => TodoApi.getTodos(),
+    queryFn: async () => {
+      const data = await TodoApi.getTodos();
+      const imcompletedTodosWithStatus = data.imcompletedTodos.map(function (
+        imcompletedTodo
+      ) {
+        return { ...imcompletedTodo, updateDetailStatus: "done" };
+      });
+      const completedTodosWithStatus = data.completedTodos.map(function (
+        completedTodo
+      ) {
+        return { ...completedTodo, updateDetailStatus: "done" };
+      });
+
+      return { imcompletedTodosWithStatus, completedTodosWithStatus };
+    },
   });
 };
 
@@ -45,13 +67,64 @@ export const useUpdateDetailTodos = () => {
   return useMutation({
     mutationFn: (params: UpdateTodoDetailParams) =>
       TodoApi.updateTodos(params.request),
-    onError: (error: Error, { setInputError }) => {
+    onMutate: async ({ request }) => {
+      // Cancel any outgoing refetches
+      // (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries({ queryKey: ["todos"] });
+
+      // Snapshot the previous value
+      const previousTodos = queryClient.getQueryData(["todos"]);
+
+      // Optimistically update to the new value
+      queryClient.setQueryData(["todos"], (old: useGetTodosResponse) => {
+        const newImcompletedTodos = old.imcompletedTodosWithStatus.map(
+          function (imcompletedTodoWithStatus) {
+            return imcompletedTodoWithStatus.id === request.id
+              ? {
+                  ...imcompletedTodoWithStatus,
+                  name: request.name,
+                  updateDetailStatus: "pending",
+                }
+              : imcompletedTodoWithStatus;
+          }
+        );
+        return {
+          imcompletedTodosWithStatus: newImcompletedTodos,
+          completedTodosWithStatus: old.completedTodosWithStatus,
+        };
+      });
+
+      // Return a context object with the snapshotted value
+      return { previousTodos };
+    },
+    onError: (error: Error, { request, setInputError }) => {
+      // エラーであることをstatus: errorにして伝えて、キャッシュは残すか？→この場合は、onSettledのinvalidateはしちゃだめだ
+      // もう一度更新した時に成功すれば、invalidateで消えるしそれでよいかな？
+      queryClient.setQueryData(["todos"], (old: useGetTodosResponse) => {
+        const newImcompletedTodos = old.imcompletedTodosWithStatus.map(
+          function (imcompletedTodoWithStatus) {
+            return imcompletedTodoWithStatus.id === request.id
+              ? {
+                  ...imcompletedTodoWithStatus,
+                  name: request.name,
+                  updateDetailStatus: "error",
+                }
+              : imcompletedTodoWithStatus;
+          }
+        );
+        return {
+          imcompletedTodosWithStatus: newImcompletedTodos,
+          completedTodosWithStatus: old.completedTodosWithStatus,
+        };
+      });
       updateTodoDetailErrorHandler(setInputError, error, navigate);
     },
-    onSettled: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ["todos"],
-      });
+    onSettled: async (_data, error) => {
+      // 成功時のみrefetchする→エラーの時はキャッシュをそのままにしたいため→楽観的更新の部分が消えてしまってエラー状態が分かりにくい
+      if (error === null)
+        await queryClient.invalidateQueries({
+          queryKey: ["todos"],
+        });
     },
   });
 };

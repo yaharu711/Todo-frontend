@@ -15,8 +15,8 @@ import { toast } from "react-toastify";
 const UseTodoViewModel = () => {
   // TODOの取得と定義
   const { data: todos } = useGetTodos();
-  const imcompletedTodos = todos.imcompletedTodos;
-  const completedTodos = todos.completedTodos;
+  const imcompletedTodos = todos.imcompletedTodosWithStatus;
+  const completedTodos = todos.completedTodosWithStatus;
 
   // 作成について
   const {
