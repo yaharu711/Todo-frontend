@@ -12,6 +12,7 @@ type Props = {
   completeTodo: (id: number) => void;
   updateTodoDetail: (props: UpdateTodoDetailParams) => void;
   deleteTodo: (id: number) => void;
+  isError?: boolean;
 };
 
 const ImcompletedTodo = ({
@@ -19,6 +20,7 @@ const ImcompletedTodo = ({
   completeTodo,
   updateTodoDetail,
   deleteTodo,
+  isError = false,
 }: Props) => {
   const {
     inputedTodoName,
@@ -45,7 +47,7 @@ const ImcompletedTodo = ({
             value={inputedTodoName}
             onChange={onChangeInput}
             onKeyDown={(e) => editTodoOnKeyDown(e, target)}
-            onBlur={() => editTodoOnBlur(target)}
+            onBlur={(e) => editTodoOnBlur(e, target)}
             errorMessage={editInputError}
             style={{
               width: isMobile ? "200px" : "300px",
@@ -53,7 +55,9 @@ const ImcompletedTodo = ({
             autoFocus={true}
           />
         ) : (
-          <p className={styles.todo_name}>{target.name}</p>
+          <p className={styles.todo_name} data-is-error={isError}>
+            {target.name}
+          </p>
         )}
       </div>
       <div className={styles.buttons_wrap}>
@@ -61,12 +65,12 @@ const ImcompletedTodo = ({
         {isMobile ? (
           <IconButton
             onClick={() => completeTodo(target.id)}
-            disabled={isDisabledButton}
+            disabled={isDisabledButton || isError}
             children={<CiCircleCheck size={30} />}
           />
         ) : (
           <Button
-            disabled={isDisabledButton}
+            disabled={isDisabledButton || isError}
             onClick={() => completeTodo(target.id)}
             children="完了"
           />
@@ -75,12 +79,12 @@ const ImcompletedTodo = ({
         {isMobile ? (
           <IconButton
             onClick={() => deleteTodo(target.id)}
-            disabled={isDisabledButton}
+            disabled={isDisabledButton || isError}
             children={<CiTrash size={30} />}
           />
         ) : (
           <Button
-            disabled={isDisabledButton}
+            disabled={isDisabledButton || isError}
             onClick={() => deleteTodo(target.id)}
             children="削除"
           />

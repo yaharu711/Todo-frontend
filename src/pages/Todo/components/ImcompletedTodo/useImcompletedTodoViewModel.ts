@@ -11,10 +11,10 @@ const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
   const [isDisabledButton, setIsDisabledButton] = useState<boolean>(false);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
-  const toggleEditMode = () => setIsEditMode((prev) => !prev);
-
   const onChangeEditMode = () => {
-    toggleEditMode();
+    // 編集モードでエラーがあるのにボタンを押されても編集モードを終わらないようにする
+    if (isEditMode && editInputError !== "") return;
+    setIsEditMode((prev) => !prev);
     setIsDisabledButton((prev) => !prev);
   };
 
@@ -31,7 +31,7 @@ const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
       return;
     }
     if (inputedTodoName.trim() === "") {
-      // 全角・半角のスペースの両方に対応できている
+      // 編集モードは終わらないまま編集してもらう
       setEditInputError("空白のみは許可されていません");
       return;
     }
@@ -45,7 +45,6 @@ const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
     });
     onChangeEditMode();
     setInputedTodoName("");
-    setIsDisabledButton(false);
   };
 
   const editTodoOnKeyDown = (
@@ -57,7 +56,14 @@ const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
     e.preventDefault();
   };
 
-  const editTodoOnBlur = (target: ImcompletedTodoType): void => {
+  const editTodoOnBlur = (
+    e: React.FocusEvent,
+    target: ImcompletedTodoType
+  ): void => {
+    // アイコンボタンを再度クリックした時にonChangeEditModeと競合しないようにする
+    if (e.relatedTarget && e.relatedTarget.tagName === "BUTTON") {
+      return;
+    }
     editTodo(target);
   };
 

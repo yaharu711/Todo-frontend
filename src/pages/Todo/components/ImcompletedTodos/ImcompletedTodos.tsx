@@ -28,10 +28,29 @@ const ImcompletedTodos = ({
           <ImcompletedTodoForPending todoName={creatingTodoForPending} />
         )}
         {todos.map((todo) => {
-          //TODO: 更新の楽観的更新については、ここでisPending中のものならImcompletedTodoForPendingコンポーネントを表示する処理する
+          if (todo.updateDetailStatus === "pending")
+            return (
+              <ImcompletedTodoForPending
+                key={todo.id + "pending"}
+                todoName={todo.name}
+              />
+            );
+          if (todo.updateDetailStatus === "error") {
+            return (
+              <ImcompletedTodo
+                key={todo.id + "error"}
+                target={todo}
+                completeTodo={completeTodo}
+                updateTodoDetail={updateTodoDetail}
+                deleteTodo={deleteTodo}
+                isError={true}
+              />
+            );
+          }
+
           return (
             <ImcompletedTodo
-              key={todo.name}
+              key={todo.id}
               target={todo}
               completeTodo={completeTodo}
               updateTodoDetail={updateTodoDetail}
