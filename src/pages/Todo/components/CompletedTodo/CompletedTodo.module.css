@@ -20,6 +20,18 @@
   margin: 0;
 }
 
+.li[data-is-pending-for-imcomplete-todo="true"] {
+  transition: all 0.4s ease;
+  text-decoration: line-through;
+  color: gray; /* 削除中は文字色を薄くする */
+  opacity: 0.6; /* 少し透明に */
+}
+
+.li[data-is-pending-for-complete-todo="true"] {
+  transition: all 0.4s ease;
+  opacity: 0.6; /* 少し透明に */
+}
+
 .buttons_wrap {
   display: flex;
   column-gap: 16px;

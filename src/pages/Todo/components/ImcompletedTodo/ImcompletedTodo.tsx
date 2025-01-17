@@ -1,4 +1,8 @@
-import { ImcompletedTodoType, UpdateTodoDetailParams } from "../../types";
+import {
+  ImcompletedTodoType,
+  UpdateTodoDetailParams,
+  UpdateTodoParams,
+} from "../../types";
 import styles from "./ImcompletedTodo.module.css";
 import IconButton from "../../../../components/IconButton";
 import { CiCircleCheck, CiEdit, CiTrash } from "react-icons/ci";
@@ -9,7 +13,7 @@ import UseImcompletedTodoViewModel from "./useImcompletedTodoViewModel";
 
 type Props = {
   target: ImcompletedTodoType;
-  completeTodo: (id: number) => void;
+  updateTodo: ({ params, successMessage }: UpdateTodoParams) => void;
   updateTodoDetail: (props: UpdateTodoDetailParams) => void;
   deleteTodo: (id: number) => void;
   isError?: boolean;
@@ -17,7 +21,7 @@ type Props = {
 
 const ImcompletedTodo = ({
   target,
-  completeTodo,
+  updateTodo,
   updateTodoDetail,
   deleteTodo,
   isError = false,
@@ -64,14 +68,32 @@ const ImcompletedTodo = ({
         {/* 完了ボタンについて */}
         {isMobile ? (
           <IconButton
-            onClick={() => completeTodo(target.id)}
+            onClick={() =>
+              updateTodo({
+                params: {
+                  id: target.id,
+                  name: target.name,
+                  is_completed: true,
+                },
+                successMessage: "TODOを完了しました✅",
+              })
+            }
             disabled={isDisabledButton || isError}
             children={<CiCircleCheck size={30} />}
           />
         ) : (
           <Button
             disabled={isDisabledButton || isError}
-            onClick={() => completeTodo(target.id)}
+            onClick={() =>
+              updateTodo({
+                params: {
+                  id: target.id,
+                  name: target.name,
+                  is_completed: true,
+                },
+                successMessage: "TODOを完了しました✅",
+              })
+            }
             children="完了"
           />
         )}

@@ -1,13 +1,13 @@
-import { CompletedTodoType } from "../../types";
+import { CompletedTodoType, UpdateTodoParams } from "../../types";
 import styles from "./CompletedTodos.module.css";
 import CompletedTodo from "../CompletedTodo/CompletedTodo";
 
 type Props = {
   todos: CompletedTodoType[];
-  imcompleteTodo: (id: number) => void;
+  updateTodo: ({ params, successMessage }: UpdateTodoParams) => void;
 };
 
-const CompletedTodos = ({ todos, imcompleteTodo }: Props) => {
+const CompletedTodos = ({ todos, updateTodo }: Props) => {
   return (
     <section className={styles.wrap}>
       <h2>完了済みのTODO一覧</h2>
@@ -17,7 +17,11 @@ const CompletedTodos = ({ todos, imcompleteTodo }: Props) => {
             <CompletedTodo
               key={todo.id}
               target={todo}
-              imcompleteTodo={imcompleteTodo}
+              updateTodo={updateTodo}
+              isPendingForImcompleteTodo={
+                todo.updateTodoStatus === "delete_pending"
+              }
+              isPendingForCompleteTodo={todo.updateTodoStatus === "add_pending"}
             />
           );
         })}

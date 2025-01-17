@@ -4,9 +4,21 @@ import { isMobile } from "react-device-detect";
 import { CiCircleCheck, CiEdit, CiTrash } from "react-icons/ci";
 import styles from "./ImcompletedTodoForPending.module.css";
 
-const ImcompletedTodoForPending = ({ todoName }: { todoName: string }) => {
+const ImcompletedTodoForPending = ({
+  todoName,
+  isPendingForCompleteTodo = false,
+  isPendingForImcompleteTodo = false,
+}: {
+  todoName: string;
+  isPendingForCompleteTodo?: boolean;
+  isPendingForImcompleteTodo?: boolean;
+}) => {
   return (
-    <li className={styles.li}>
+    <li
+      className={styles.li}
+      data-is-pending-for-complete-todo={isPendingForCompleteTodo}
+      data-is-pending-for-imcomplete-todo={isPendingForImcompleteTodo}
+    >
       <div className={styles.todo_name_wrapp}>
         <IconButton
           disabled={true}

@@ -1,4 +1,5 @@
 import {
+  QueryClient,
   useMutation,
   useQueryClient,
   useSuspenseQuery,
@@ -8,6 +9,7 @@ import { UpdateTodosRequest } from "./types";
 import {
   createTodoErrorHandler,
   updateTodoDetailErrorHandler,
+  updateTodoErrorHandler,
 } from "./errorHandlers";
 import {
   CompletedTodoType,
@@ -26,17 +28,24 @@ export const useGetTodos = () => {
   // 結局、updateをキャッシュ更新して、cancelQueriesを実行しても、invalidateは上書きされて、処理は完了している？？？だから、statusがdoneに書き換わっている？
   return useSuspenseQuery({
     queryKey: ["todos"],
-    queryFn: async () => {
+    queryFn: async (): Promise<useGetTodosResponse> => {
       const data = await TodoApi.getTodos();
       const imcompletedTodosWithStatus = data.imcompletedTodos.map(function (
         imcompletedTodo
       ) {
-        return { ...imcompletedTodo, updateDetailStatus: "done" };
+        return {
+          ...imcompletedTodo,
+          updateDetailStatus: "done",
+          updateTodoStatus: "done",
+        };
       });
       const completedTodosWithStatus = data.completedTodos.map(function (
         completedTodo
       ) {
-        return { ...completedTodo, updateDetailStatus: "done" };
+        return {
+          ...completedTodo,
+          updateTodoStatus: "done",
+        };
       });
 
       return { imcompletedTodosWithStatus, completedTodosWithStatus };
@@ -68,56 +77,36 @@ export const useUpdateDetailTodos = () => {
     mutationFn: (params: UpdateTodoDetailParams) =>
       TodoApi.updateTodos(params.request),
     onMutate: async ({ request }) => {
-      // Cancel any outgoing refetches
-      // (so they don't overwrite our optimistic update)
       await queryClient.cancelQueries({ queryKey: ["todos"] });
 
-      // Snapshot the previous value
       const previousTodos = queryClient.getQueryData(["todos"]);
 
-      // Optimistically update to the new value
-      queryClient.setQueryData(["todos"], (old: useGetTodosResponse) => {
-        const newImcompletedTodos = old.imcompletedTodosWithStatus.map(
-          function (imcompletedTodoWithStatus) {
-            return imcompletedTodoWithStatus.id === request.id
-              ? {
-                  ...imcompletedTodoWithStatus,
-                  name: request.name,
-                  updateDetailStatus: "pending",
-                }
-              : imcompletedTodoWithStatus;
-          }
-        );
-        return {
-          imcompletedTodosWithStatus: newImcompletedTodos,
-          completedTodosWithStatus: old.completedTodosWithStatus,
-        };
+      updateCacheForUpdateTodoDetail({
+        queryClient,
+        request,
+        updateDetailStatus: "pending",
       });
 
-      // Return a context object with the snapshotted value
       return { previousTodos };
     },
-    onError: (error: Error, { request, setInputError }) => {
-      // エラーであることをstatus: errorにして伝えて、キャッシュは残すか？→この場合は、onSettledのinvalidateはしちゃだめだ
-      // もう一度更新した時に成功すれば、invalidateで消えるしそれでよいかな？
-      queryClient.setQueryData(["todos"], (old: useGetTodosResponse) => {
-        const newImcompletedTodos = old.imcompletedTodosWithStatus.map(
-          function (imcompletedTodoWithStatus) {
-            return imcompletedTodoWithStatus.id === request.id
-              ? {
-                  ...imcompletedTodoWithStatus,
-                  name: request.name,
-                  updateDetailStatus: "error",
-                }
-              : imcompletedTodoWithStatus;
-          }
-        );
-        return {
-          imcompletedTodosWithStatus: newImcompletedTodos,
-          completedTodosWithStatus: old.completedTodosWithStatus,
-        };
-      });
-      updateTodoDetailErrorHandler(setInputError, error, navigate);
+    onError: (error: Error, { request, setInputError }, context) => {
+      const updateCache = () =>
+        updateCacheForUpdateTodoDetail({
+          queryClient,
+          request,
+          updateDetailStatus: "error",
+        });
+      const updateCacheToPrevious = () => {
+        if (context === undefined) return;
+        queryClient.setQueryData(["todos"], context.previousTodos);
+      };
+      updateTodoDetailErrorHandler(
+        setInputError,
+        error,
+        navigate,
+        updateCache,
+        updateCacheToPrevious
+      );
     },
     onSettled: async (_data, error) => {
       // 成功時のみrefetchする→エラーの時はキャッシュをそのままにしたいため→楽観的更新の部分が消えてしまってエラー状態が分かりにくい
@@ -131,10 +120,27 @@ export const useUpdateDetailTodos = () => {
 
 export const useUpdateTodos = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   return useMutation({
     mutationFn: (request: UpdateTodosRequest) => TodoApi.updateTodos(request),
-    onError: (error: Error) => {
-      throw error;
+    onMutate: async (request) => {
+      await queryClient.cancelQueries({ queryKey: ["todos"] });
+
+      const previousTodos = queryClient.getQueryData(["todos"]);
+
+      if (request.is_completed) {
+        // 完了にする時
+        updateCacheForCompleteTodo({ queryClient, request });
+      } else {
+        // 未完了にする時
+        updateCacheForImcompleteTodo({ queryClient, request });
+      }
+      return { previousTodos };
+    },
+    onError: (error: Error, _variables, context) => {
+      updateTodoErrorHandler(error, navigate);
+      if (context === undefined) return;
+      queryClient.setQueryData(["todos"], context.previousTodos);
     },
     onSettled: async () => {
       await queryClient.invalidateQueries({
@@ -153,5 +159,106 @@ export const useDeleteTodo = () => {
         queryKey: ["todos"],
       });
     },
+  });
+};
+
+const updateCacheForUpdateTodoDetail = ({
+  queryClient,
+  request,
+  updateDetailStatus,
+}: {
+  queryClient: QueryClient;
+  request: UpdateTodosRequest;
+  updateDetailStatus: string;
+}) => {
+  queryClient.setQueryData(["todos"], (old: useGetTodosResponse) => {
+    const newImcompletedTodos = old.imcompletedTodosWithStatus.map(function (
+      imcompletedTodoWithStatus
+    ) {
+      return imcompletedTodoWithStatus.id === request.id
+        ? {
+            ...imcompletedTodoWithStatus,
+            name: request.name,
+            updateDetailStatus,
+          }
+        : imcompletedTodoWithStatus;
+    });
+    return {
+      imcompletedTodosWithStatus: newImcompletedTodos,
+      completedTodosWithStatus: old.completedTodosWithStatus,
+    };
+  });
+};
+
+const updateCacheForCompleteTodo = ({
+  queryClient,
+  request,
+}: {
+  queryClient: QueryClient;
+  request: UpdateTodosRequest;
+}) => {
+  queryClient.setQueryData(["todos"], (old: useGetTodosResponse) => {
+    const newImcompletedTodos: ImcompletedTodoType[] =
+      old.imcompletedTodosWithStatus.map(function (imcompletedTodoWithStatus) {
+        return imcompletedTodoWithStatus.id === request.id
+          ? {
+              ...imcompletedTodoWithStatus,
+              name: request.name || "",
+              updateTodoStatus: "delete_pending",
+            }
+          : imcompletedTodoWithStatus;
+      });
+    const newCompletedTodos: CompletedTodoType[] = [
+      {
+        id: request.id,
+        name: request.name || "",
+        created_at: "",
+        completed_at: "",
+        imcompleted_at: "",
+        updateTodoStatus: "add_pending",
+      },
+      ...old.completedTodosWithStatus,
+    ];
+    return {
+      imcompletedTodosWithStatus: newImcompletedTodos,
+      completedTodosWithStatus: newCompletedTodos,
+    };
+  });
+};
+
+const updateCacheForImcompleteTodo = ({
+  queryClient,
+  request,
+}: {
+  queryClient: QueryClient;
+  request: UpdateTodosRequest;
+}) => {
+  queryClient.setQueryData(["todos"], (old: useGetTodosResponse) => {
+    const newCompletedTodos: CompletedTodoType[] =
+      old.completedTodosWithStatus.map(function (completedTodoWithStatus) {
+        return completedTodoWithStatus.id === request.id
+          ? {
+              ...completedTodoWithStatus,
+              name: request.name || "",
+              updateTodoStatus: "delete_pending",
+            }
+          : completedTodoWithStatus;
+      });
+    const newImcompletedTodos: ImcompletedTodoType[] = [
+      {
+        id: request.id,
+        name: request.name || "",
+        created_at: "",
+        completed_at: "",
+        imcompleted_at: "",
+        updateDetailStatus: "done",
+        updateTodoStatus: "add_pending",
+      },
+      ...old.imcompletedTodosWithStatus,
+    ];
+    return {
+      imcompletedTodosWithStatus: newImcompletedTodos,
+      completedTodosWithStatus: newCompletedTodos,
+    };
   });
 };
