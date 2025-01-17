@@ -152,9 +152,40 @@ export const useUpdateTodos = () => {
 
 export const useDeleteTodo = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   return useMutation({
     mutationFn: (id: number) => TodoApi.deleteTodo(id),
-    onSuccess: async () => {
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ["todos"] });
+
+      const previousTodos = queryClient.getQueryData(["todos"]);
+
+      queryClient.setQueryData(["todos"], (old: useGetTodosResponse) => {
+        const newImcompletedTodos: ImcompletedTodoType[] =
+          old.imcompletedTodosWithStatus.map(function (
+            imcompletedTodoWithStatus
+          ) {
+            return imcompletedTodoWithStatus.id === id
+              ? {
+                  ...imcompletedTodoWithStatus,
+                  updateTodoStatus: "delete_pending",
+                }
+              : imcompletedTodoWithStatus;
+          });
+        return {
+          imcompletedTodosWithStatus: newImcompletedTodos,
+          completedTodosWithStatus: old.completedTodosWithStatus,
+        };
+      });
+
+      return { previousTodos };
+    },
+    onError: (error: Error, _variables, context) => {
+      updateTodoErrorHandler(error, navigate);
+      if (context === undefined) return;
+      queryClient.setQueryData(["todos"], context.previousTodos);
+    },
+    onSettled: async () => {
       await queryClient.invalidateQueries({
         queryKey: ["todos"],
       });
