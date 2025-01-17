@@ -84,22 +84,6 @@ const UseTodoViewModel = () => {
         }),
     });
   };
-  const completeTodo = (id: number) =>
-    updateTodo({
-      params: {
-        id,
-        is_completed: true,
-      },
-      successMessage: "TODOを完了しました✅",
-    });
-  const imcompleteTodo = (id: number) =>
-    updateTodo({
-      params: {
-        id,
-        is_completed: false,
-      },
-      successMessage: "TODOを未完了にしました✅",
-    });
   // 削除について
   const { mutate: deleteTodoMutate, isPending: isPendingForDeleteTodo } =
     useDeleteTodo();
@@ -121,8 +105,7 @@ const UseTodoViewModel = () => {
     createTodo,
     creatingTodoForPending,
     updateTodoDetail,
-    imcompleteTodo,
-    completeTodo,
+    updateTodo,
     deleteTodo,
     isPendingForCreateTodo,
     isPendingForUpdateDetailTodo,

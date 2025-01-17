@@ -12,12 +12,9 @@ const TodoPage = () => {
     createTodo,
     creatingTodoForPending,
     updateTodoDetail,
-    imcompleteTodo,
-    completeTodo,
+    updateTodo,
     deleteTodo,
     isPendingForCreateTodo,
-    isPendingForUpdateTodo,
-    // isPendingForUpdateDetailTodo,
     isPendingForDeleteTodo,
   } = UseTodoViewModel();
 
@@ -27,7 +24,7 @@ const TodoPage = () => {
         isPendingForCreateTodo={isPendingForCreateTodo}
         submit={createTodo}
       />
-      {isPendingForUpdateTodo || isPendingForDeleteTodo ? (
+      {isPendingForDeleteTodo ? (
         <FadeLoader color="rgba(100, 108, 255, 1)" />
       ) : (
         <>
@@ -35,14 +32,11 @@ const TodoPage = () => {
             todos={imcompletedTodos}
             creatingTodoForPending={creatingTodoForPending}
             isPendingForCreateTodo={isPendingForCreateTodo}
-            completeTodo={completeTodo}
+            updateTodo={updateTodo}
             updateTodoDetail={updateTodoDetail}
             deleteTodo={deleteTodo}
           />
-          <CompletedTodos
-            todos={completedTodos}
-            imcompleteTodo={imcompleteTodo}
-          />
+          <CompletedTodos todos={completedTodos} updateTodo={updateTodo} />
         </>
       )}
     </div>
