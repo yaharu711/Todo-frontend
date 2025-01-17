@@ -43,9 +43,7 @@ const ImcompletedTodos = ({
               <ImcompletedTodoForPending
                 key={todo.id + "add_pending"}
                 todoName={todo.name}
-                isPendingForImcompleteTodo={
-                  todo.updateTodoStatus === "add_pending"
-                }
+                isPendingForImcompleteTodo={true}
               />
             );
           if (todo.updateTodoStatus === "delete_pending")
