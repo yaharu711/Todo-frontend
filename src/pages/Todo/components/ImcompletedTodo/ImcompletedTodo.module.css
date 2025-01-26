@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  column-gap: 16px;
+  column-gap: 10px;
 }
 
 .todo_name_edit_button {
@@ -14,8 +14,8 @@
 }
 
 .todo_name {
-  font-size: 1.3rem;
-  width: 150px;
+  font-size: 1.1rem;
+  width: 170px;
   overflow-wrap: break-word;
 }
 
@@ -27,13 +27,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  column-gap: 64px;
   margin: 0;
+  touch-action: none;
+  border: 1px solid rgba(255, 255, 255, 0.214);
+  border-radius: 6px;
+  padding: 0 8px;
 }
 
 .buttons_wrap {
   display: flex;
-  column-gap: 16px;
+  column-gap: 10px;
 }
 
 @media screen and (max-width: 768px) {

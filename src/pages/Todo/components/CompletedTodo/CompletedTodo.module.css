@@ -1,14 +1,6 @@
-.todo_name_edit_button {
-  cursor: pointer;
-  background-color: #242424;
-  border: none;
-  padding: 4px;
-  border-radius: 5px;
-}
-
 .todo_name {
-  font-size: 1.3rem;
-  width: 230px;
+  font-size: 1.1rem;
+  width: 250px;
   overflow-wrap: break-word;
 }
 
@@ -16,8 +8,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  column-gap: 64px;
   margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.214);
+  border-radius: 6px;
+  padding: 0 8px;
 }
 
 .li[data-is-pending-for-imcomplete-todo="true"] {
