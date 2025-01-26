@@ -16,7 +16,7 @@
 .todo_name {
   font-size: 1.1rem;
   width: 170px;
-  overflow-wrap: break-word;
+  line-break: anywhere;
 }
 
 .todo_name[data-is-error="true"] {

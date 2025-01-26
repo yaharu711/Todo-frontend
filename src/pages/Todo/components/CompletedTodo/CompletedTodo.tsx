@@ -38,7 +38,9 @@ const CompletedTodo = ({
                 successMessage: "TODOを未完了にしました✅",
               })
             }
-            children={<PiKeyReturnLight size={30} />}
+            children={
+              <PiKeyReturnLight size={30} color="rgba(255, 255, 255, 0.9)" />
+            }
             disabled={isPendingForImcompleteTodo || isPendingForCompleteTodo}
           />
         ) : (
