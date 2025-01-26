@@ -1,7 +1,14 @@
 import {
+  DragEndEvent,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
   useCreateTodo,
   useDeleteTodo,
   useGetTodos,
+  useSortTodosMutation,
   useUpdateDetailTodos,
   useUpdateTodos,
 } from "../../api/Todo/hooks";
@@ -99,6 +106,24 @@ const UseTodoViewModel = () => {
     });
   };
 
+  const sensors = useSensors(
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 100,
+        tolerance: 0, // 遅延時間中に指が 5 ピクセル以上動かされた場合にのみ、操作は中断されます
+      },
+    })
+  );
+
+  const { mutate: sortTodosMutate } = useSortTodosMutation();
+  const handleDragEnd = (event: DragEndEvent) => {
+    // APIにリクエストする→非同期で良いかなあ、トーストも表示しないくても良いかも？
+    const sorted_todo_ids = imcompletedTodos.map(
+      (imcompletedTodo) => imcompletedTodo.id
+    );
+    sortTodosMutate({ event, sorted_todo_ids });
+  };
+
   return {
     imcompletedTodos,
     completedTodos,
@@ -111,6 +136,8 @@ const UseTodoViewModel = () => {
     isPendingForUpdateDetailTodo,
     isPendingForUpdateTodo,
     isPendingForDeleteTodo,
+    sensors,
+    handleDragEnd,
   };
 };
 

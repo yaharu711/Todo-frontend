@@ -15,9 +15,12 @@ import {
   CompletedTodoType,
   CreateTodoParams,
   ImcompletedTodoType,
+  SortTodosParams,
   UpdateTodoDetailParams,
 } from "../../pages/Todo/types";
 import { useNavigate } from "react-router-dom";
+import { DragEndEvent } from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
 
 type useGetTodosResponse = {
   imcompletedTodosWithStatus: ImcompletedTodoType[];
@@ -189,6 +192,51 @@ export const useDeleteTodo = () => {
       await queryClient.invalidateQueries({
         queryKey: ["todos"],
       });
+    },
+  });
+};
+
+export const useSortTodosMutation = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: async (params: SortTodosParams) => {
+      const { active, over } = params.event;
+
+      // APIリクエストする前に並び替えられた値でキャッシュを更新する
+      if (active.id !== over?.id) {
+        queryClient.setQueryData(
+          ["todos"],
+          (previousTodos: useGetTodosResponse): useGetTodosResponse => {
+            const previousTodoIds =
+              previousTodos.imcompletedTodosWithStatus.map(
+                (previousTodo) => previousTodo.id
+              );
+            // number型が適切なので型変換をする
+            const oldIndex = previousTodoIds.indexOf(Number(active.id));
+            const newIndex = previousTodoIds.indexOf(Number(over?.id));
+
+            const newImcompletedTodo = arrayMove(
+              previousTodos.imcompletedTodosWithStatus,
+              oldIndex,
+              newIndex
+            );
+            return {
+              imcompletedTodosWithStatus: newImcompletedTodo,
+              completedTodosWithStatus: previousTodos.completedTodosWithStatus,
+            };
+          }
+        );
+      }
+      // キャッシュを取得
+      const sortedTodos: useGetTodosResponse | undefined =
+        queryClient.getQueryData(["todos"]);
+      console.log(sortedTodos);
+      if (!sortedTodos) return;
+      const sortedTodoIds = sortedTodos?.imcompletedTodosWithStatus.map(
+        (imcompletedTodoWithStatus) => imcompletedTodoWithStatus.id
+      );
+      TodoApi.sortTodos(sortedTodoIds);
     },
   });
 };

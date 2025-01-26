@@ -61,12 +61,25 @@ const deleteTodo = async (id: number) => {
   });
 };
 
+const sortTodos = async (sorted_todo_ids: number[]) => {
+  await axios.put(
+    ENDPOINT + "/api/todos/sort",
+    {
+      sorted_todo_ids,
+    },
+    {
+      withCredentials: true,
+    }
+  );
+};
+
 const TodoApi = {
   getHelloMessage,
   getTodos,
   createTodo,
   updateTodos,
   deleteTodo,
+  sortTodos,
 };
 
 export default TodoApi;

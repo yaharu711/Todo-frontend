@@ -35,10 +35,19 @@ const ImcompletedTodo = ({
     editTodoOnKeyDown,
     editTodoOnBlur,
     onChangeEditMode,
+    sortableProps,
+    sortableTodoStyle,
   } = UseImcompletedTodoViewModel({ target, updateTodoDetail });
 
   return (
-    <li className={styles.li}>
+    <li
+      ref={sortableProps.setNodeRef}
+      className={styles.li}
+      // 以下は並び替え時に必要な情報
+      style={sortableTodoStyle}
+      {...sortableProps.attributes}
+      {...sortableProps.listeners}
+    >
       <div className={styles.todo_name_wrapp}>
         <IconButton
           onClick={() => onChangeEditMode()}

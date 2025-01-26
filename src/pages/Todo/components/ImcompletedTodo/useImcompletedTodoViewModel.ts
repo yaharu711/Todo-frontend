@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { ImcompletedTodoType, UpdateTodoDetailParams } from "../../types";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 export type Props = {
   target: ImcompletedTodoType;
@@ -67,6 +69,16 @@ const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
     editTodo(target);
   };
 
+  const sortableProps = useSortable({ id: target.id });
+
+  const sortableTodoStyle = {
+    transform: CSS.Transform.toString(sortableProps.transform),
+    transition: sortableProps.transition,
+    // position: "relative",
+    // // ドラッグ中はz-indexプロパティでコンポーネントを浮かせる
+    // zIndex: sortableProps.isDragging ? 10 : 0,
+  };
+
   return {
     inputedTodoName,
     editInputError,
@@ -76,6 +88,8 @@ const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
     onChangeInput,
     editTodoOnKeyDown,
     editTodoOnBlur,
+    sortableProps,
+    sortableTodoStyle,
   };
 };
 

@@ -11,7 +11,7 @@ const login = async (request: LoginRequest): Promise<AxiosResponse> => {
 };
 
 const checkLogined = async (): Promise<CheckLoginedResponse> => {
-  const res = await axios.post(ENDPOINT + "/api/check-login", undefined, {
+  const res = await axios.post(ENDPOINT + "/check-login", undefined, {
     withCredentials: true,
   });
   return res.data;
