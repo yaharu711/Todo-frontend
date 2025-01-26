@@ -197,7 +197,7 @@ export const useDeleteTodo = () => {
 
 export const useSortTodosMutation = () => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return useMutation({
     mutationFn: async (params: SortTodosParams) => {
       const { active, over } = params.event;
@@ -230,13 +230,17 @@ export const useSortTodosMutation = () => {
       // キャッシュを取得
       const sortedTodos: useGetTodosResponse | undefined =
         queryClient.getQueryData(["todos"]);
-      console.log(sortedTodos);
       if (!sortedTodos) return;
       const sortedTodoIds = sortedTodos?.imcompletedTodosWithStatus.map(
         (imcompletedTodoWithStatus) => imcompletedTodoWithStatus.id
       );
-      TodoApi.sortTodos(sortedTodoIds);
+      // TodoApi.sortTodos(sortedTodoIds);
     },
+    // onSettled: async () => {
+    //   queryClient.invalidateQueries({
+    //     queryKey: ["todos"],
+    //   });
+    // },
   });
 };
 
