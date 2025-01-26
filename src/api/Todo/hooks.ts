@@ -19,7 +19,6 @@ import {
   UpdateTodoDetailParams,
 } from "../../pages/Todo/types";
 import { useNavigate } from "react-router-dom";
-import { DragEndEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 
 type useGetTodosResponse = {

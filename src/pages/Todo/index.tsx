@@ -8,6 +8,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 
 const TodoPage = () => {
   const {
@@ -32,6 +33,7 @@ const TodoPage = () => {
       <>
         <DndContext
           sensors={sensors}
+          modifiers={[restrictToVerticalAxis]}
           collisionDetection={closestCenter} // ソート可能なリストはデフォルトのRectangle intersectionより判定が甘いアルゴリズムにする
           onDragEnd={handleDragEnd}
         >

@@ -74,9 +74,6 @@ const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
   const sortableTodoStyle = {
     transform: CSS.Transform.toString(sortableProps.transform),
     transition: sortableProps.transition,
-    // position: "relative",
-    // // ドラッグ中はz-indexプロパティでコンポーネントを浮かせる
-    // zIndex: sortableProps.isDragging ? 10 : 0,
   };
 
   return {
