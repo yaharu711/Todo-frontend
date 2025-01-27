@@ -69,8 +69,8 @@ const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
     editTodo(target);
   };
 
+  // 並び替えについてのロジック
   const sortableProps = useSortable({ id: target.id });
-
   const sortableTodoStyle = {
     transform: CSS.Transform.toString(sortableProps.transform),
     transition: sortableProps.transition,

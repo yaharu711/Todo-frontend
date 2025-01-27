@@ -228,12 +228,12 @@ export const useSortTodosMutation = () => {
         );
       }
       // キャッシュを取得
-      const sortedTodos: useGetTodosResponse | undefined =
-        queryClient.getQueryData(["todos"]);
-      if (!sortedTodos) return;
-      const sortedTodoIds = sortedTodos?.imcompletedTodosWithStatus.map(
-        (imcompletedTodoWithStatus) => imcompletedTodoWithStatus.id
-      );
+      // const sortedTodos: useGetTodosResponse | undefined =
+      //   queryClient.getQueryData(["todos"]);
+      // if (!sortedTodos) return;
+      // const sortedTodoIds = sortedTodos?.imcompletedTodosWithStatus.map(
+      //   (imcompletedTodoWithStatus) => imcompletedTodoWithStatus.id
+      // );
       // TodoApi.sortTodos(sortedTodoIds);
     },
     // onSettled: async () => {

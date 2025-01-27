@@ -6,6 +6,10 @@ import {
 import ImcompletedTodo from "../ImcompletedTodo/ImcompletedTodo";
 import styles from "./ImcompletedTodos.module.css";
 import ImcompletedTodoForPending from "../ImcompletedTodoForPending/ImcompletedTodoForPending";
+import IconButton from "../../../../components/IconButton";
+import { GrSort } from "react-icons/gr";
+import UseImcompletedTodosViewModel from "./useImcompletedTodosViewModel";
+import Button from "../../../../components/Button";
 
 type Props = {
   todos: ImcompletedTodoType[];
@@ -24,9 +28,26 @@ const ImcompletedTodos = ({
   updateTodoDetail,
   deleteTodo,
 }: Props) => {
+  const { isSortMode, toggleSortMode, saveSorted } =
+    UseImcompletedTodosViewModel();
   return (
     <section className={styles.wrap}>
-      <h2>未完了のTODO一覧</h2>
+      <h2>未完了のTODO</h2>
+      <div className={styles.sortIcon}>
+        {isSortMode ? (
+          <Button
+            onClick={saveSorted}
+            style={{ width: "70px", height: "50px" }}
+          >
+            完了
+          </Button>
+        ) : (
+          <IconButton
+            onClick={toggleSortMode}
+            children={<GrSort size={25} color="rgba(255, 255, 255, 0.9)" />}
+          />
+        )}
+      </div>
       <ul className={styles.ul}>
         {isPendingForCreateTodo && (
           <ImcompletedTodoForPending
