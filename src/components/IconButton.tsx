@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import styles from "./IconButton.module.css";
 
 export type IconButtonProps = {
-  onClick: () => void;
+  onClick?: () => void;
   disabled?: boolean;
   children: ReactNode;
 };

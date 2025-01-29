@@ -109,7 +109,7 @@ const UseTodoViewModel = () => {
   const sensors = useSensors(
     useSensor(TouchSensor, {
       activationConstraint: {
-        delay: 100,
+        delay: 0,
         tolerance: 0, // 遅延時間中に指が 5 ピクセル以上動かされた場合にのみ、操作は中断されます
       },
     })

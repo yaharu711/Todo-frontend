@@ -10,6 +10,7 @@ import IconButton from "../../../../components/IconButton";
 import { GrSort } from "react-icons/gr";
 import UseImcompletedTodosViewModel from "./useImcompletedTodosViewModel";
 import Button from "../../../../components/Button";
+import SortableImcompletedTodo from "../SortableImcompletedTodo/SortableImcompletedTodo";
 
 type Props = {
   todos: ImcompletedTodoType[];
@@ -37,7 +38,7 @@ const ImcompletedTodos = ({
         {isSortMode ? (
           <Button
             onClick={saveSorted}
-            style={{ width: "70px", height: "50px" }}
+            style={{ width: "65px", height: "45px" }}
           >
             完了
           </Button>
@@ -56,6 +57,9 @@ const ImcompletedTodos = ({
           />
         )}
         {todos.map((todo) => {
+          if (isSortMode) {
+            return <SortableImcompletedTodo key={todo.id} target={todo} />;
+          }
           if (
             todo.updateDetailStatus === "pending" ||
             todo.updateTodoStatus === "add_pending"
