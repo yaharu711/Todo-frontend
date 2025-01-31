@@ -35,24 +35,16 @@ const ImcompletedTodo = ({
     editTodoOnKeyDown,
     editTodoOnBlur,
     onChangeEditMode,
-    sortableProps,
-    sortableTodoStyle,
   } = UseImcompletedTodoViewModel({ target, updateTodoDetail });
 
   return (
-    <li
-      ref={sortableProps.setNodeRef}
-      className={styles.li}
-      // 以下は並び替え時に必要な情報
-      style={sortableTodoStyle}
-      {...sortableProps.attributes}
-      {...sortableProps.listeners}
-    >
+    <li className={styles.li}>
       <div className={styles.todo_name_wrapp}>
         <IconButton
           onClick={() => onChangeEditMode()}
           children={<CiEdit size={25} color="rgba(255, 255, 255, 0.9)" />}
         />
+        {/* 編集モードの時スタイルが崩れるから、どうにかする */}
         {isEditMode ? (
           <TextInput
             placeholder={target.name}
