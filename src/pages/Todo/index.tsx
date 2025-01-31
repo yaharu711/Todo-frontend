@@ -3,6 +3,12 @@ import styles from "../../App.module.css";
 import CompletedTodos from "./components/CompletedTodos/CompletedTodos";
 import ImcompletedTodos from "./components/ImcompletedTodos/ImcompletedTodos";
 import UseTodoViewModel from "./useTodoViewModel";
+import { closestCenter, DndContext } from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 
 const TodoPage = () => {
   const {
@@ -14,6 +20,8 @@ const TodoPage = () => {
     updateTodo,
     deleteTodo,
     isPendingForCreateTodo,
+    sensors,
+    handleDragEnd,
   } = UseTodoViewModel();
 
   return (
@@ -23,14 +31,26 @@ const TodoPage = () => {
         submit={createTodo}
       />
       <>
-        <ImcompletedTodos
-          todos={imcompletedTodos}
-          creatingTodoForPending={creatingTodoForPending}
-          isPendingForCreateTodo={isPendingForCreateTodo}
-          updateTodo={updateTodo}
-          updateTodoDetail={updateTodoDetail}
-          deleteTodo={deleteTodo}
-        />
+        <DndContext
+          sensors={sensors}
+          modifiers={[restrictToVerticalAxis]}
+          collisionDetection={closestCenter} // ソート可能なリストはデフォルトのRectangle intersectionより判定が甘いアルゴリズムにする
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={imcompletedTodos}
+            strategy={verticalListSortingStrategy}
+          >
+            <ImcompletedTodos
+              todos={imcompletedTodos}
+              creatingTodoForPending={creatingTodoForPending}
+              isPendingForCreateTodo={isPendingForCreateTodo}
+              updateTodo={updateTodo}
+              updateTodoDetail={updateTodoDetail}
+              deleteTodo={deleteTodo}
+            />
+          </SortableContext>
+        </DndContext>
         <CompletedTodos todos={completedTodos} updateTodo={updateTodo} />
       </>
     </div>

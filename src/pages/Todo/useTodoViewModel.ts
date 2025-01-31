@@ -1,7 +1,14 @@
 import {
+  DragEndEvent,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
   useCreateTodo,
   useDeleteTodo,
   useGetTodos,
+  useSortImcompletedTodoQueryCache,
   useUpdateDetailTodos,
   useUpdateTodos,
 } from "../../api/Todo/hooks";
@@ -99,6 +106,21 @@ const UseTodoViewModel = () => {
     });
   };
 
+  // Todoの並び替えロジックについて
+  const sensors = useSensors(
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 0,
+        tolerance: 0, // 遅延時間中に指が 5 ピクセル以上動かされた場合にのみ、操作は中断されます
+      },
+    })
+  );
+
+  const sortTodoQueryCahce = useSortImcompletedTodoQueryCache();
+  const handleDragEnd = (event: DragEndEvent) => {
+    sortTodoQueryCahce(event);
+  };
+
   return {
     imcompletedTodos,
     completedTodos,
@@ -111,6 +133,8 @@ const UseTodoViewModel = () => {
     isPendingForUpdateDetailTodo,
     isPendingForUpdateTodo,
     isPendingForDeleteTodo,
+    sensors,
+    handleDragEnd,
   };
 };
 

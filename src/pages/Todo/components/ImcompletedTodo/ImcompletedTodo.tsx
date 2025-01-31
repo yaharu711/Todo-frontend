@@ -44,6 +44,7 @@ const ImcompletedTodo = ({
           onClick={() => onChangeEditMode()}
           children={<CiEdit size={25} color="rgba(255, 255, 255, 0.9)" />}
         />
+        {/* TODO: 編集モードの時スタイルが崩れるから、どうにかする */}
         {isEditMode ? (
           <TextInput
             placeholder={target.name}
@@ -54,7 +55,8 @@ const ImcompletedTodo = ({
             onBlur={(e) => editTodoOnBlur(e, target)}
             errorMessage={editInputError}
             style={{
-              width: isMobile ? "200px" : "300px",
+              width: isMobile ? "170px" : "300px",
+              height: isMobile ? "35px" : "auto",
             }}
             autoFocus={true}
           />
@@ -64,7 +66,7 @@ const ImcompletedTodo = ({
           </p>
         )}
       </div>
-      <div className={styles.buttons_wrap}>
+      <div className={styles.buttons_wrap} data-is-edit-mode={isEditMode}>
         {/* 完了ボタンについて */}
         {isMobile ? (
           <IconButton

@@ -10,7 +10,7 @@ type Props = {
 const CompletedTodos = ({ todos, updateTodo }: Props) => {
   return (
     <section className={styles.wrap}>
-      <h2>完了済みのTODO一覧</h2>
+      <h2>完了済みのTODO</h2>
       <ul className={styles.ul}>
         {todos.map((todo: CompletedTodoType) => {
           return (

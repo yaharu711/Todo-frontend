@@ -6,6 +6,11 @@ import {
 import ImcompletedTodo from "../ImcompletedTodo/ImcompletedTodo";
 import styles from "./ImcompletedTodos.module.css";
 import ImcompletedTodoForPending from "../ImcompletedTodoForPending/ImcompletedTodoForPending";
+import IconButton from "../../../../components/IconButton";
+import { GrSort } from "react-icons/gr";
+import UseImcompletedTodosViewModel from "./useImcompletedTodosViewModel";
+import Button from "../../../../components/Button";
+import SortableImcompletedTodo from "../SortableImcompletedTodo/SortableImcompletedTodo";
 
 type Props = {
   todos: ImcompletedTodoType[];
@@ -24,9 +29,36 @@ const ImcompletedTodos = ({
   updateTodoDetail,
   deleteTodo,
 }: Props) => {
+  const {
+    isSortMode,
+    toggleSortMode,
+    onClickSaveSorted,
+    isPendingForSortedTodo,
+  } = UseImcompletedTodosViewModel(todos);
   return (
     <section className={styles.wrap}>
-      <h2>未完了のTODO一覧</h2>
+      <h2>未完了のTODO</h2>
+      <div
+        className={styles.sortIcon}
+        data-is-pending-for-sort-todo={isPendingForSortedTodo}
+      >
+        {/* ソートモードにできるボタンは他の更新がPending中はdisabledにしようかな */}
+        {isSortMode ? (
+          <Button
+            onClick={onClickSaveSorted}
+            style={{ width: "65px", height: "45px" }}
+            disabled={isPendingForSortedTodo}
+          >
+            完了
+          </Button>
+        ) : (
+          <IconButton
+            onClick={toggleSortMode}
+            children={<GrSort size={25} color="rgba(255, 255, 255, 0.9)" />}
+            disabled={isPendingForSortedTodo}
+          />
+        )}
+      </div>
       <ul className={styles.ul}>
         {isPendingForCreateTodo && (
           <ImcompletedTodoForPending
@@ -35,6 +67,9 @@ const ImcompletedTodos = ({
           />
         )}
         {todos.map((todo) => {
+          if (isSortMode) {
+            return <SortableImcompletedTodo key={todo.id} target={todo} />;
+          }
           if (
             todo.updateDetailStatus === "pending" ||
             todo.updateTodoStatus === "add_pending"

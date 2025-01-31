@@ -18,8 +18,10 @@ import {
   UpdateTodoDetailParams,
 } from "../../pages/Todo/types";
 import { useNavigate } from "react-router-dom";
+import { DragEndEvent } from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
 
-type useGetTodosResponse = {
+export type useGetTodosResponse = {
   imcompletedTodosWithStatus: ImcompletedTodoType[];
   completedTodosWithStatus: CompletedTodoType[];
 };
@@ -191,6 +193,52 @@ export const useDeleteTodo = () => {
       });
     },
   });
+};
+
+export const useSortTodosMutation = () => {
+  const queryClient = useQueryClient();
+  // const navigate = useNavigate();
+  return useMutation({
+    mutationFn: (sorted_imcompleted_todo_ids: number[]) =>
+      TodoApi.sortTodos(sorted_imcompleted_todo_ids),
+    onSettled: async () => {
+      queryClient.invalidateQueries({
+        queryKey: ["todos"],
+      });
+    },
+  });
+};
+
+export const useSortImcompletedTodoQueryCache = () => {
+  const queryClient = useQueryClient();
+
+  return (event: DragEndEvent) => {
+    const { active, over } = event;
+    // APIリクエストする前に並び替えられた値でキャッシュを更新する
+    if (active.id !== over?.id) {
+      queryClient.setQueryData(
+        ["todos"],
+        (previousTodos: useGetTodosResponse): useGetTodosResponse => {
+          const previousTodoIds = previousTodos.imcompletedTodosWithStatus.map(
+            (previousTodo) => previousTodo.id
+          );
+          // number型が適切なので型変換をする
+          const oldIndex = previousTodoIds.indexOf(Number(active.id));
+          const newIndex = previousTodoIds.indexOf(Number(over?.id));
+
+          const newImcompletedTodo = arrayMove(
+            previousTodos.imcompletedTodosWithStatus,
+            oldIndex,
+            newIndex
+          );
+          return {
+            imcompletedTodosWithStatus: newImcompletedTodo,
+            completedTodosWithStatus: previousTodos.completedTodosWithStatus,
+          };
+        }
+      );
+    }
+  };
 };
 
 const updateCacheForUpdateTodoDetail = ({
