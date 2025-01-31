@@ -29,8 +29,12 @@ const ImcompletedTodos = ({
   updateTodoDetail,
   deleteTodo,
 }: Props) => {
-  const { isSortMode, toggleSortMode, saveSorted } =
-    UseImcompletedTodosViewModel();
+  const {
+    isSortMode,
+    toggleSortMode,
+    onClickSaveSorted,
+    isPendingForSortedTodo,
+  } = UseImcompletedTodosViewModel(todos);
   return (
     <section className={styles.wrap}>
       <h2>未完了のTODO</h2>
@@ -38,8 +42,9 @@ const ImcompletedTodos = ({
         {/* ソートモードにできるボタンは他の更新がPending中はdisabledにしようかな */}
         {isSortMode ? (
           <Button
-            onClick={saveSorted}
+            onClick={onClickSaveSorted}
             style={{ width: "65px", height: "45px" }}
+            disabled={isPendingForSortedTodo}
           >
             完了
           </Button>
@@ -47,6 +52,7 @@ const ImcompletedTodos = ({
           <IconButton
             onClick={toggleSortMode}
             children={<GrSort size={25} color="rgba(255, 255, 255, 0.9)" />}
+            disabled={isPendingForSortedTodo}
           />
         )}
       </div>

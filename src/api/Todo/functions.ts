@@ -63,9 +63,10 @@ const deleteTodo = async (id: number) => {
 
 const sortTodos = async (sorted_todo_ids: number[]) => {
   await axios.put(
+    // 完了のTODOでも並び替えたいケースができたら、クエリパラメータで切り替えようかな
     ENDPOINT + "/api/todos/sort",
     {
-      sorted_todo_ids,
+      todos_order: sorted_todo_ids,
     },
     {
       withCredentials: true,

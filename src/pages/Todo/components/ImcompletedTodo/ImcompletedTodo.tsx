@@ -44,7 +44,7 @@ const ImcompletedTodo = ({
           onClick={() => onChangeEditMode()}
           children={<CiEdit size={25} color="rgba(255, 255, 255, 0.9)" />}
         />
-        {/* 編集モードの時スタイルが崩れるから、どうにかする */}
+        {/* TODO: 編集モードの時スタイルが崩れるから、どうにかする */}
         {isEditMode ? (
           <TextInput
             placeholder={target.name}
