@@ -42,7 +42,7 @@ const ImcompletedTodo = ({
       <div className={styles.todo_name_wrapp}>
         <IconButton
           onClick={() => onChangeEditMode()}
-          children={<CiEdit size={25} />}
+          children={<CiEdit size={25} color="rgba(255, 255, 255, 0.9)" />}
         />
         {isEditMode ? (
           <TextInput
@@ -79,7 +79,9 @@ const ImcompletedTodo = ({
               })
             }
             disabled={isDisabledButton || isError}
-            children={<CiCircleCheck size={30} />}
+            children={
+              <CiCircleCheck size={30} color="rgba(255, 255, 255, 0.9)" />
+            }
           />
         ) : (
           <Button
@@ -102,7 +104,7 @@ const ImcompletedTodo = ({
           <IconButton
             onClick={() => deleteTodo(target.id)}
             disabled={isDisabledButton || isError}
-            children={<CiTrash size={30} />}
+            children={<CiTrash size={30} color="rgba(255, 255, 255, 0.9)" />}
           />
         ) : (
           <Button

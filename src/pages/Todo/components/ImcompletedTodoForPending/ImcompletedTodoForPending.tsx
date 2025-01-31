@@ -23,7 +23,7 @@ const ImcompletedTodoForPending = ({
         <IconButton
           disabled={true}
           onClick={() => null}
-          children={<CiEdit size={25} />}
+          children={<CiEdit size={25} color="rgba(255, 255, 255, 0.9)" />}
         />
         <p className={styles.todo_name}>{todoName}</p>
       </div>
@@ -33,7 +33,9 @@ const ImcompletedTodoForPending = ({
           <IconButton
             disabled={true}
             onClick={() => null}
-            children={<CiCircleCheck size={30} />}
+            children={
+              <CiCircleCheck size={30} color="rgba(255, 255, 255, 0.9)" />
+            }
           />
         ) : (
           <Button disabled={true} onClick={() => null} children="完了" />
@@ -43,7 +45,7 @@ const ImcompletedTodoForPending = ({
           <IconButton
             onClick={() => null}
             disabled={true}
-            children={<CiTrash size={30} />}
+            children={<CiTrash size={30} color="rgba(255, 255, 255, 0.9)" />}
           />
         ) : (
           <Button disabled={true} onClick={() => null} children="削除" />
