@@ -1,3 +1,4 @@
+import { DragEndEvent } from "@dnd-kit/core";
 import { CreateTodoRequest, UpdateTodosRequest } from "../../api/Todo/types";
 
 export type ImcompletedTodoType = {
@@ -36,4 +37,9 @@ export type CreateTodoParams = {
 export type UpdateTodoDetailParams = {
   request: UpdateTodosRequest;
   setInputError: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export type SortTodosParams = {
+  event: DragEndEvent;
+  sorted_todo_ids: number[];
 };

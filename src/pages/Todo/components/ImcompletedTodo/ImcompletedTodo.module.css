@@ -31,11 +31,19 @@
   border: 1px solid rgba(255, 255, 255, 0.214);
   border-radius: 6px;
   padding: 0 8px;
+  min-height: 65px;
 }
 
 .buttons_wrap {
   display: flex;
   column-gap: 10px;
+}
+
+.buttons_wrap[data-is-edit-mode="true"] {
+  transition: all 0.4s ease;
+  text-decoration: line-through;
+  color: gray; /* 文字色を薄くする */
+  opacity: 0.6; /* 少し透明に */
 }
 
 @media screen and (max-width: 768px) {

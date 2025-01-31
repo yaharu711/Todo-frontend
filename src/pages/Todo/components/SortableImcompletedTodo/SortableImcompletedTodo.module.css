@@ -1,0 +1,33 @@
+.todo_name {
+  font-size: 1.1rem;
+  width: 170px;
+  line-break: anywhere;
+}
+
+.todo_name[data-is-error="true"] {
+  color: red;
+}
+
+.li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.214);
+  border-radius: 6px;
+  padding: 0 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .wrap {
+    width: 100%;
+  }
+
+  .li {
+    display: flex;
+    align-items: center;
+    column-gap: 16px;
+    width: 93%;
+    margin: 0 auto;
+  }
+}
