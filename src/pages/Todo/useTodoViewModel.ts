@@ -8,6 +8,7 @@ import {
   useCreateTodo,
   useDeleteTodo,
   useGetTodos,
+  useGetTodosResponse,
   useSortTodosMutation,
   useUpdateDetailTodos,
   useUpdateTodos,
@@ -18,6 +19,8 @@ import {
   UpdateTodoParams,
 } from "./types";
 import { toast } from "react-toastify";
+import { arrayMove } from "@dnd-kit/sortable";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
 
 const UseTodoViewModel = () => {
   // TODOの取得と定義
@@ -116,8 +119,11 @@ const UseTodoViewModel = () => {
   );
 
   const { mutate: sortTodosMutate } = useSortTodosMutation();
+  const queryClient = useQueryClient();
   const handleDragEnd = (event: DragEndEvent) => {
     // APIにリクエストする→非同期で良いかなあ、トーストも表示しないくても良いかも？
+
+    sortImcompletedTodo(queryClient, event);
     const sorted_todo_ids = imcompletedTodos.map(
       (imcompletedTodo) => imcompletedTodo.id
     );
@@ -139,6 +145,35 @@ const UseTodoViewModel = () => {
     sensors,
     handleDragEnd,
   };
+};
+
+const sortImcompletedTodo = (queryClient: QueryClient, event: DragEndEvent) => {
+  const { active, over } = event;
+
+  // APIリクエストする前に並び替えられた値でキャッシュを更新する
+  if (active.id !== over?.id) {
+    queryClient.setQueryData(
+      ["todos"],
+      (previousTodos: useGetTodosResponse): useGetTodosResponse => {
+        const previousTodoIds = previousTodos.imcompletedTodosWithStatus.map(
+          (previousTodo) => previousTodo.id
+        );
+        // number型が適切なので型変換をする
+        const oldIndex = previousTodoIds.indexOf(Number(active.id));
+        const newIndex = previousTodoIds.indexOf(Number(over?.id));
+
+        const newImcompletedTodo = arrayMove(
+          previousTodos.imcompletedTodosWithStatus,
+          oldIndex,
+          newIndex
+        );
+        return {
+          imcompletedTodosWithStatus: newImcompletedTodo,
+          completedTodosWithStatus: previousTodos.completedTodosWithStatus,
+        };
+      }
+    );
+  }
 };
 
 export default UseTodoViewModel;
