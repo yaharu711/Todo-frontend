@@ -38,7 +38,10 @@ const ImcompletedTodos = ({
   return (
     <section className={styles.wrap}>
       <h2>未完了のTODO</h2>
-      <div className={styles.sortIcon}>
+      <div
+        className={styles.sortIcon}
+        data-is-pending-for-sort-todo={isPendingForSortedTodo}
+      >
         {/* ソートモードにできるボタンは他の更新がPending中はdisabledにしようかな */}
         {isSortMode ? (
           <Button

@@ -25,6 +25,13 @@ h2 {
   width: 100%;
 }
 
+.sortIcon[data-is-pending-for-sort-todo="true"] {
+  transition: all 0.4s ease;
+  text-decoration: line-through;
+  color: gray; /* 文字色を薄くする */
+  opacity: 0.6; /* 少し透明に */
+}
+
 @media screen and (max-width: 768px) {
   .wrap {
     width: 100%;
