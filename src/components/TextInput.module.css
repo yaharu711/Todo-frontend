@@ -5,13 +5,15 @@
 }
 
 .input {
-  border-radius: 5px;
+  border-radius: 8px;
   border: none;
   outline: none;
   width: 300px;
   height: 35px;
   padding: 4px;
   font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  background-color: #1a1a1a;
 }
 
 .input:focus {
@@ -23,10 +25,4 @@
   bottom: -30px; /* inputのすぐ下に表示 */
   left: 5px;
   color: red;
-}
-
-@media screen and (max-width: 768px) {
-  .input {
-    width: 300px;
-  }
 }

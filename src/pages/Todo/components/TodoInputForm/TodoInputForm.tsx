@@ -33,7 +33,8 @@ const TodoInputForm: React.FC<TodoInputFormProps> = ({
         onKeyDown={(e) => createTodoOnKeyDown(e)}
         errorMessage={inputError}
         style={{
-          width: isMobile ? "200px" : "300px",
+          width: isMobile ? "240px" : "300px",
+          height: isMobile ? "47px" : "auto",
         }}
         autoFocus={true}
       />
