@@ -11,7 +11,6 @@ import { GrSort } from "react-icons/gr";
 import UseImcompletedTodosViewModel from "./useImcompletedTodosViewModel";
 import Button from "../../../../components/Button";
 import SortableImcompletedTodo from "../SortableImcompletedTodo/SortableImcompletedTodo";
-import { IconColor } from "../../../../util/Color";
 
 type Props = {
   todos: ImcompletedTodoType[];

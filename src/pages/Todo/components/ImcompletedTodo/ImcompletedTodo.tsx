@@ -10,7 +10,6 @@ import TextInput from "../../../../components/TextInput";
 import { isMobile } from "react-device-detect";
 import Button from "../../../../components/Button";
 import UseImcompletedTodoViewModel from "./useImcompletedTodoViewModel";
-import { IconColor } from "../../../../util/Color";
 
 type Props = {
   target: ImcompletedTodoType;
