@@ -10,6 +10,7 @@ import TextInput from "../../../../components/TextInput";
 import { isMobile } from "react-device-detect";
 import Button from "../../../../components/Button";
 import UseImcompletedTodoViewModel from "./useImcompletedTodoViewModel";
+import { IconColor } from "../../../../util/Color";
 
 type Props = {
   target: ImcompletedTodoType;
@@ -42,7 +43,7 @@ const ImcompletedTodo = ({
       <div className={styles.todo_name_wrapp}>
         <IconButton
           onClick={() => onChangeEditMode()}
-          children={<CiEdit size={25} color="rgba(255, 255, 255, 0.9)" />}
+          children={<CiEdit size={25} color={IconColor} />}
         />
         {/* TODO: 編集モードの時スタイルが崩れるから、どうにかする */}
         {isEditMode ? (
@@ -82,7 +83,7 @@ const ImcompletedTodo = ({
             }
             disabled={isDisabledButton || isError}
             children={
-              <CiCircleCheck size={30} color="rgba(255, 255, 255, 0.9)" />
+              <CiCircleCheck size={30} color={IconColor} />
             }
           />
         ) : (
@@ -106,7 +107,7 @@ const ImcompletedTodo = ({
           <IconButton
             onClick={() => deleteTodo(target.id)}
             disabled={isDisabledButton || isError}
-            children={<CiTrash size={30} color="rgba(255, 255, 255, 0.9)" />}
+            children={<CiTrash size={30} color={IconColor} />}
           />
         ) : (
           <Button
