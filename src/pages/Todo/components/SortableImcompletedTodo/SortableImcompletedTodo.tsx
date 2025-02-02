@@ -23,7 +23,7 @@ const SortableImcompletedTodo = ({
       {/* Draggubleなボタンについて */}
       <RxHamburgerMenu
         size={35}
-        color="rgba(255, 255, 255, 0.9)"
+        style={{color: "var(--color-icon)"}}
         {...sortableProps.listeners}
       />
     </li>

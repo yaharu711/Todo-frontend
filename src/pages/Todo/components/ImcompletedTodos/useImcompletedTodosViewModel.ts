@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ImcompletedTodoType } from "../../types";
 import { useSortTodosMutation } from "../../../../api/Todo/hooks";
-import { toast } from "react-toastify";
+import { showSuccessToast } from "../../../../util/CustomToast";
 
 const UseImcompletedTodosViewModel = (
   imcompletedTodos: ImcompletedTodoType[]
@@ -16,13 +16,7 @@ const UseImcompletedTodosViewModel = (
       (imcompletedTodo) => imcompletedTodo.id
     );
     sortTodosMutate(sorted_todo_ids, {
-      onSuccess: () =>
-        toast("並び替えに成功しました✅", {
-          progressStyle: {
-            background:
-              "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
-          },
-        }),
+      onSuccess: () => showSuccessToast("並び替えに成功しました✅")
     });
     toggleSortMode();
   };

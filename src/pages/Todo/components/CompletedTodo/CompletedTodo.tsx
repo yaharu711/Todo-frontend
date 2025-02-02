@@ -4,7 +4,6 @@ import styles from "./CompletedTodo.module.css";
 import IconButton from "../../../../components/IconButton";
 import { PiKeyReturnLight } from "react-icons/pi";
 import Button from "../../../../components/Button";
-import { IconColor } from "../../../../util/Color";
 
 type Props = {
   target: CompletedTodoType;
@@ -36,11 +35,11 @@ const CompletedTodo = ({
                   name: target.name,
                   is_completed: false,
                 },
-                successMessage: "TODOを未完了にしました✅",
+                successMessage: "未完了にしました✅",
               })
             }
             children={
-              <PiKeyReturnLight size={30} color={IconColor} />
+              <PiKeyReturnLight size={30} style={{color: "var(--color-icon)"}} />
             }
             disabled={isPendingForImcompleteTodo || isPendingForCompleteTodo}
           />
@@ -53,7 +52,7 @@ const CompletedTodo = ({
                   name: target.name,
                   is_completed: false,
                 },
-                successMessage: "TODOを未完了ににしました✅",
+                successMessage: "未完了ににしました✅",
               })
             }
             children="完了"

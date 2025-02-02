@@ -2,18 +2,14 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCheckLogined } from "../../api/User/hooks";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { showInfoToast } from "../../util/CustomToast";
 
 const useLoginPageViewModel = () => {
   const { data, isPending: isPendingForCheckLogined } = useCheckLogined();
   const navigate = useNavigate();
   // ログイン状態ならログイン後の画面に遷移する
   if (!isPendingForCheckLogined && data?.is_logined) {
-    toast.info("ログイン済みのためTODOページに遷移します", {
-      progressStyle: {
-        background:
-          "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
-      },
-    });
+    showInfoToast("ログイン済みのためTODOページに遷移します");
     navigate("/todos");
   }
 
