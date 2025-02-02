@@ -55,7 +55,7 @@ const ImcompletedTodos = ({
         ) : (
           <IconButton
             onClick={toggleSortMode}
-            children={<GrSort size={25} color={IconColor} />}
+            children={<GrSort size={25} style={{color: "var(--color-icon)"}} />}
             disabled={isPendingForSortedTodo}
           />
         )}

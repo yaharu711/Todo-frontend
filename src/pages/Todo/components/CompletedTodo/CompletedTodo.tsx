@@ -40,7 +40,7 @@ const CompletedTodo = ({
               })
             }
             children={
-              <PiKeyReturnLight size={30} color={IconColor} />
+              <PiKeyReturnLight size={30} style={{color: "var(--color-icon)"}} />
             }
             disabled={isPendingForImcompleteTodo || isPendingForCompleteTodo}
           />
