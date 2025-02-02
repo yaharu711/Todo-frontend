@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLogin } from "../../../../api/User/hooks";
-import { toast } from "react-toastify";
+import { showSuccessToast } from "../../../../util/CustomToast";
 
 const UseLoginFormViewModel = () => {
   const [email, setEmail] = useState<string>("");
@@ -24,13 +24,7 @@ const UseLoginFormViewModel = () => {
         password: password,
       },
       {
-        onSuccess: () =>
-          toast("ログインに成功しました！✅", {
-            progressStyle: {
-              background:
-                "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
-            },
-          }),
+        onSuccess: () => showSuccessToast("ログインに成功しました✅"),
       }
     );
   };

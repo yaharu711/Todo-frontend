@@ -77,7 +77,7 @@ const ImcompletedTodo = ({
                   name: target.name,
                   is_completed: true,
                 },
-                successMessage: "TODOを完了しました✅",
+                successMessage: "完了にしました✅",
               })
             }
             disabled={isDisabledButton || isError}
@@ -95,7 +95,7 @@ const ImcompletedTodo = ({
                   name: target.name,
                   is_completed: true,
                 },
-                successMessage: "TODOを完了しました✅",
+                successMessage: "完了にしました✅",
               })
             }
             children="完了"

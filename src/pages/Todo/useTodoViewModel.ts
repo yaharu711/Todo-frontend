@@ -17,7 +17,7 @@ import {
   UpdateTodoDetailParams,
   UpdateTodoParams,
 } from "./types";
-import { toast } from "react-toastify";
+import { showSuccessToast } from "../../util/CustomToast";
 
 const UseTodoViewModel = () => {
   // TODOの取得と定義
@@ -39,13 +39,7 @@ const UseTodoViewModel = () => {
     createTodoMutate(
       { request, setInputError },
       {
-        onSuccess: () =>
-          toast("TODOを作成しました✅", {
-            progressStyle: {
-              background:
-                "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
-            },
-          }),
+        onSuccess: () => showSuccessToast("作成に成功しました✅"),
       }
     );
   };
@@ -67,13 +61,7 @@ const UseTodoViewModel = () => {
         setInputError,
       },
       {
-        onSuccess: () =>
-          toast("TODOの更新が完了しました✅", {
-            progressStyle: {
-              background:
-                "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
-            },
-          }),
+        onSuccess: () => showSuccessToast("更新に成功しました✅"),
       }
     );
   };
@@ -82,13 +70,7 @@ const UseTodoViewModel = () => {
     useUpdateTodos();
   const updateTodo = ({ params, successMessage }: UpdateTodoParams) => {
     updateTodoMutate(params, {
-      onSuccess: () =>
-        toast(successMessage, {
-          progressStyle: {
-            background:
-              "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
-          },
-        }),
+      onSuccess: () => showSuccessToast(successMessage),
     });
   };
   // 削除について
@@ -96,13 +78,7 @@ const UseTodoViewModel = () => {
     useDeleteTodo();
   const deleteTodo = (id: number) => {
     deleteTodoMutate(id, {
-      onSuccess: () =>
-        toast("TODOを削除しました✅", {
-          progressStyle: {
-            background:
-              "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
-          },
-        }),
+      onSuccess: () => showSuccessToast("削除に成功しました✅"),
     });
   };
 

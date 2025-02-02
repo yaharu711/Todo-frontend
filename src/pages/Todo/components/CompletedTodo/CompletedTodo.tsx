@@ -35,7 +35,7 @@ const CompletedTodo = ({
                   name: target.name,
                   is_completed: false,
                 },
-                successMessage: "TODOを未完了にしました✅",
+                successMessage: "未完了にしました✅",
               })
             }
             children={
@@ -52,7 +52,7 @@ const CompletedTodo = ({
                   name: target.name,
                   is_completed: false,
                 },
-                successMessage: "TODOを未完了ににしました✅",
+                successMessage: "未完了ににしました✅",
               })
             }
             children="完了"
