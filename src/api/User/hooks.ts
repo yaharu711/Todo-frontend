@@ -14,7 +14,6 @@ export const useRegist = (setInputError: React.Dispatch<React.SetStateAction<{
   const navigate = useNavigate();
   return useMutation({
     mutationFn: (params: RegistRequest) => UserApi.regist(params),
-    // TODO: エラー時の処理も追加する
     onError: (error) => {
         registErrorHandler(setInputError, error)
     },

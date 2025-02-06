@@ -32,7 +32,7 @@ const useRegisterFormViewModel = () => {
         setInputError(prev => ({...prev, passwordConfirmation: ''}));
     };
 
-    const {mutate: registMutate} = useRegist(setInputError);
+    const {mutate: registMutate, isPending: isPendingForRegist} = useRegist(setInputError);
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (name === '') {
@@ -73,6 +73,7 @@ const useRegisterFormViewModel = () => {
         onChangePasswordConfirmation,
         inputError,
         onSubmit,
+        isPendingForRegist,
     }
 }
 
