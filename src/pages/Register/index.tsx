@@ -1,0 +1,13 @@
+import RegisterForm from "./components/RegisterForm/RegisterForm";
+import styles from "./index.module.css";
+
+const RegisterPage = () => {
+    return (
+        <div className={styles.container}>
+            <h1>新規登録ページ</h1>
+            <RegisterForm />
+        </div>
+    );
+}
+
+export default RegisterPage;
