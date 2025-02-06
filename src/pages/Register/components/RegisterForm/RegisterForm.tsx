@@ -1,4 +1,5 @@
 import Button from "../../../../components/Button";
+import FadeLoaderOverlapedAll from "../../../../components/FadeLoaderOverlapedAll";
 import TextInput from "../../../../components/TextInput";
 import styles from "./RegisterForm.module.css";
 import useRegisterFormViewModel from "./RegisterFormViewModel";
@@ -15,12 +16,12 @@ const RegisterForm = () => {
         onChangePasswordConfirmation,
         onSubmit,
         inputError,
+        isPendingForRegist
     } = useRegisterFormViewModel();
     return (
         <>
-        {/* {isPendingForLogin && <FadeLoaderOverlapedAll />} */}
+        {isPendingForRegist && <FadeLoaderOverlapedAll />}
         <div>
-          {/* {error.length !== 0 && <span className={styles.error}>{error}</span>} */}
           <form className={styles.form} onSubmit={onSubmit}>
             <TextInput
               label="名前"
