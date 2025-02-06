@@ -1,8 +1,28 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import UserApi from "./functions";
-import { LoginRequest } from "./type";
+import { LoginRequest, RegistRequest } from "./type";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
+import { registErrorHandler } from "./errorHandlers";
+
+export const useRegist = (setInputError: React.Dispatch<React.SetStateAction<{
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+}>>) => {
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: (params: RegistRequest) => UserApi.regist(params),
+    // TODO: エラー時の処理も追加する
+    onError: (error) => {
+        registErrorHandler(setInputError, error)
+    },
+    onSuccess: () => {
+        navigate("/login")
+    }
+  })
+}
 
 export const useLogin = (
   setError: React.Dispatch<React.SetStateAction<string>>

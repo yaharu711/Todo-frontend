@@ -13,8 +13,7 @@ const UseLoginFormViewModel = () => {
 
   const { mutate: loginMutate, isPending: isPendingForLogin } =
     useLogin(setError);
-  // demo1@example.com
-  // passowrd
+  
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
