@@ -17,6 +17,7 @@ type Props = {
   updateTodoDetail: (props: UpdateTodoDetailParams) => void;
   deleteTodo: (id: number) => void;
   isError?: boolean;
+  toggleModal: (target: ImcompletedTodoType) => void;
 };
 
 const ImcompletedTodo = ({
@@ -25,6 +26,7 @@ const ImcompletedTodo = ({
   updateTodoDetail,
   deleteTodo,
   isError = false,
+  toggleModal,
 }: Props) => {
   const {
     inputedTodoName,
@@ -42,7 +44,7 @@ const ImcompletedTodo = ({
       <div className={styles.todo_name_wrapp}>
         <IconButton
           onClick={() => onChangeEditMode()}
-          children={<CiEdit size={25} style={{color: "var(--color-icon)"}} />}
+          children={<CiEdit size={25} style={{ color: "var(--color-icon)" }} />}
         />
         {/* TODO: 編集モードの時スタイルが崩れるから、どうにかする */}
         {isEditMode ? (
@@ -61,7 +63,11 @@ const ImcompletedTodo = ({
             autoFocus={true}
           />
         ) : (
-          <p className={styles.todo_name} data-is-error={isError}>
+          <p
+            className={styles.todo_name}
+            data-is-error={isError}
+            onClick={() => toggleModal(target)}
+          >
             {target.name}
           </p>
         )}
@@ -82,7 +88,7 @@ const ImcompletedTodo = ({
             }
             disabled={isDisabledButton || isError}
             children={
-              <CiCircleCheck size={30} style={{color: "var(--color-icon)"}} />
+              <CiCircleCheck size={30} style={{ color: "var(--color-icon)" }} />
             }
           />
         ) : (
@@ -106,7 +112,9 @@ const ImcompletedTodo = ({
           <IconButton
             onClick={() => deleteTodo(target.id)}
             disabled={isDisabledButton || isError}
-            children={<CiTrash size={30} style={{color: "var(--color-icon)"}} />}
+            children={
+              <CiTrash size={30} style={{ color: "var(--color-icon)" }} />
+            }
           />
         ) : (
           <Button

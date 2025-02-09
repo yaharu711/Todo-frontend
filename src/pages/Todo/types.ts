@@ -4,6 +4,7 @@ import { CreateTodoRequest, UpdateTodosRequest } from "../../api/Todo/types";
 export type ImcompletedTodoType = {
   id: number;
   name: string;
+  memo: string;
   created_at: string;
   completed_at?: string;
   imcompleted_at: string;
@@ -36,7 +37,9 @@ export type CreateTodoParams = {
 
 export type UpdateTodoDetailParams = {
   request: UpdateTodosRequest;
-  setInputError: React.Dispatch<React.SetStateAction<string>>;
+  setInputError: React.Dispatch<
+    React.SetStateAction<{ name: string; memo: string }>
+  >;
 };
 
 export type SortTodosParams = {

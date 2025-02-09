@@ -1,0 +1,26 @@
+.wrapp_input {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  min-height: 100px;
+  height: auto;
+  outline: 0;
+  /* border: 0.5px solid var(--color-icon); */
+  background-color: var(--background-color);
+  font-size: 1.1rem;
+  resize: none;
+  padding: 10px;
+}
+
+.input:focus {
+  border: 1px solid #646cff;
+}
+
+.input_error {
+  position: absolute;
+  bottom: -30px; /* inputのすぐ下に表示 */
+  left: 5px;
+  color: red;
+}

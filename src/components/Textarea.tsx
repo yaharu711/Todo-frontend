@@ -1,21 +1,17 @@
-import React from "react";
-import styles from "./TextInput.module.css";
-
-type TextInputProps = {
+import styles from "./Textarea.module.css";
+type Props = {
   label?: string;
   placeholder?: string;
-  name: string;
-  type?: "text" | "password" | "email";
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  name?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent) => void;
   onBlur?: (e: React.FocusEvent) => void;
   errorMessage?: string;
   style?: object;
-  autoFocus?: boolean;
 };
 
-const TextInput: React.FC<TextInputProps> = ({
+const Textarea = ({
   label,
   placeholder,
   name,
@@ -25,22 +21,18 @@ const TextInput: React.FC<TextInputProps> = ({
   onBlur,
   errorMessage,
   style,
-  autoFocus,
-  type = "text",
-}) => {
+}: Props) => {
   return (
     <label className={styles.wrapp_input}>
       {label}
-      <input
+      <textarea
         className={styles.input}
-        type={type}
         placeholder={placeholder}
         name={name}
         value={value}
         onChange={onChange}
         onKeyDown={onKeyDown}
         onBlur={onBlur}
-        autoFocus={autoFocus}
         style={style}
       />
       <span className={styles.input_error}>{errorMessage}</span>
@@ -48,4 +40,4 @@ const TextInput: React.FC<TextInputProps> = ({
   );
 };
 
-export default TextInput;
+export default Textarea;
