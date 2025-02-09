@@ -2,6 +2,7 @@ export type GetTodosResponse = {
   imcompletedTodos: {
     id: number;
     name: string;
+    memo: string;
     created_at: string;
     completed_at?: string;
     imcompleted_at: string;
@@ -9,6 +10,7 @@ export type GetTodosResponse = {
   completedTodos: {
     id: number;
     name: string;
+    memo: string;
     created_at: string;
     completed_at: string;
     imcompleted_at: string;
@@ -22,5 +24,6 @@ export type CreateTodoRequest = {
 export type UpdateTodosRequest = {
   id: number;
   name?: string;
+  memo?: string;
   is_completed?: boolean;
 };

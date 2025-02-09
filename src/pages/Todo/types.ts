@@ -37,9 +37,7 @@ export type CreateTodoParams = {
 
 export type UpdateTodoDetailParams = {
   request: UpdateTodosRequest;
-  setInputError: React.Dispatch<
-    React.SetStateAction<{ name: string; memo: string }>
-  >;
+  setInputError: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export type SortTodosParams = {

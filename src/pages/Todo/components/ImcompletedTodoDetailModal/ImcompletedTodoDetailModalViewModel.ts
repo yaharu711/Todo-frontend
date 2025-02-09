@@ -11,15 +11,12 @@ const useImcompletedTodoDetailModalViewModdel = ({
   updateTodoDetail,
   setOpen,
 }: Props) => {
-  const [inputedMemo, setInputedMemo] = useState<string>(target.name);
-  const [editInputError, setEditInputError] = useState({
-    name: "",
-    memo: "",
-  });
+  const [inputedMemo, setInputedMemo] = useState<string>(target.memo);
+  const [editInputError, setEditInputError] = useState("");
 
-  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeInputedMemo = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputedMemo(e.target.value);
-    setEditInputError((prev) => ({ ...prev, name: "" }));
+    setEditInputError("");
   };
 
   // これをonCloseの時と、完了ボタンを押した時に実行する
@@ -27,23 +24,19 @@ const useImcompletedTodoDetailModalViewModdel = ({
     // 変化なく何も入力していない場合は編集していなかったことにする
     if (inputedMemo === target.memo || inputedMemo === "") {
       setInputedMemo(target.memo);
-      console.log("ok");
       return;
     }
     if (inputedMemo.trim() === "") {
       // 編集モードは終わらないまま編集してもらう
-      setEditInputError((prev) => ({
-        ...prev,
-        name: "空白・改行のみは許可されていません",
-      }));
+      setEditInputError("空白・改行のみは許可されていません");
       return;
     }
 
-    return;
     updateTodoDetail({
       request: {
         id: target.id,
-        name: inputedTodoName,
+        name: target.name,
+        memo: inputedMemo,
       },
       setInputError: setEditInputError,
     });
@@ -58,7 +51,7 @@ const useImcompletedTodoDetailModalViewModdel = ({
   return {
     inputedMemo,
     editInputError,
-    onChangeInput,
+    onChangeInputedMemo,
     onClose,
     onComplete,
   };

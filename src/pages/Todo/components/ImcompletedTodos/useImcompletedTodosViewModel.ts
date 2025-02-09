@@ -25,6 +25,7 @@ const UseImcompletedTodosViewModel = (
   const defaultImcompletedTodoType: ImcompletedTodoType = {
     id: 1,
     name: "default",
+    memo: "",
     created_at: "",
     imcompleted_at: "",
     updateDetailStatus: "",
