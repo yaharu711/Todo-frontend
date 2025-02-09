@@ -16,9 +16,27 @@ const UseImcompletedTodosViewModel = (
       (imcompletedTodo) => imcompletedTodo.id
     );
     sortTodosMutate(sorted_todo_ids, {
-      onSuccess: () => showSuccessToast("並び替えに成功しました✅")
+      onSuccess: () => showSuccessToast("並び替えに成功しました✅"),
     });
     toggleSortMode();
+  };
+
+  const [isOpen, setOpen] = useState(false);
+  const defaultImcompletedTodoType: ImcompletedTodoType = {
+    id: 1,
+    name: "default",
+    memo: "",
+    created_at: "",
+    imcompleted_at: "",
+    updateDetailStatus: "",
+    updateTodoStatus: "",
+  };
+  const [selectedTodo, setSelectedTodo] = useState<ImcompletedTodoType>(
+    defaultImcompletedTodoType
+  );
+  const toggleModal = (target: ImcompletedTodoType) => {
+    setSelectedTodo(target);
+    setOpen((prev) => !prev);
   };
 
   return {
@@ -26,6 +44,10 @@ const UseImcompletedTodosViewModel = (
     toggleSortMode,
     onClickSaveSorted,
     isPendingForSortedTodo,
+    isOpen,
+    setOpen,
+    selectedTodo,
+    toggleModal,
   };
 };
 

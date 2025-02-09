@@ -11,6 +11,7 @@ import { GrSort } from "react-icons/gr";
 import UseImcompletedTodosViewModel from "./useImcompletedTodosViewModel";
 import Button from "../../../../components/Button";
 import SortableImcompletedTodo from "../SortableImcompletedTodo/SortableImcompletedTodo";
+import ImcompletedTodoDetailModal from "../ImcompletedTodoDetailModal/ImcompletedTodoDetailModal";
 
 type Props = {
   todos: ImcompletedTodoType[];
@@ -34,7 +35,12 @@ const ImcompletedTodos = ({
     toggleSortMode,
     onClickSaveSorted,
     isPendingForSortedTodo,
+    isOpen,
+    setOpen,
+    selectedTodo,
+    toggleModal,
   } = UseImcompletedTodosViewModel(todos);
+
   return (
     <section className={styles.wrap}>
       <h2>未完了のTODO</h2>
@@ -54,7 +60,9 @@ const ImcompletedTodos = ({
         ) : (
           <IconButton
             onClick={toggleSortMode}
-            children={<GrSort size={25} style={{color: "var(--color-icon)"}} />}
+            children={
+              <GrSort size={25} style={{ color: "var(--color-icon)" }} />
+            }
             disabled={isPendingForSortedTodo}
           />
         )}
@@ -100,6 +108,7 @@ const ImcompletedTodos = ({
                 updateTodoDetail={updateTodoDetail}
                 deleteTodo={deleteTodo}
                 isError={true}
+                toggleModal={toggleModal}
               />
             );
           }
@@ -111,10 +120,19 @@ const ImcompletedTodos = ({
               updateTodo={updateTodo}
               updateTodoDetail={updateTodoDetail}
               deleteTodo={deleteTodo}
+              toggleModal={toggleModal}
             />
           );
         })}
       </ul>
+      {/* モーダルはPortalによりBody直下に配置されるためこの位置でも良い */}
+      <ImcompletedTodoDetailModal
+        key={selectedTodo.id}
+        isOpen={isOpen}
+        target={selectedTodo}
+        setOpen={setOpen}
+        updateTodoDetail={updateTodoDetail}
+      />
     </section>
   );
 };

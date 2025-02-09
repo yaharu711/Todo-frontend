@@ -42,11 +42,17 @@ const createTodo = async (parapms: CreateTodoRequest) => {
   });
 };
 
-const updateTodos = async ({ id, name, is_completed }: UpdateTodosRequest) => {
+const updateTodos = async ({
+  id,
+  name,
+  memo,
+  is_completed,
+}: UpdateTodosRequest) => {
   await axios.patch(
     ENDPOINT + "/api/todos/" + id,
     {
       name,
+      memo,
       is_completed,
     },
     {

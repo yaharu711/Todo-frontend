@@ -4,6 +4,7 @@ import { CreateTodoRequest, UpdateTodosRequest } from "../../api/Todo/types";
 export type ImcompletedTodoType = {
   id: number;
   name: string;
+  memo: string;
   created_at: string;
   completed_at?: string;
   imcompleted_at: string;

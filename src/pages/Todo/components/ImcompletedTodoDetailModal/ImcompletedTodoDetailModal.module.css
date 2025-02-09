@@ -1,0 +1,42 @@
+.overlay {
+  position: fixed; /* relativeだと他の要素の影響を受ける可能性がある */
+  bottom: 0;
+  left: 0;
+  background-color: rgba(2, 1, 1, 0.75);
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+
+.content_wraper {
+  position: fixed; /* relativeだと他の要素の影響を受ける可能性がある */
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 80%;
+  width: 100%;
+  background-color: var(--background-color);
+  border-radius: 10px;
+  z-index: 1000;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  padding: 48px 16px;
+  width: 90%;
+  /* ドロワー内で縦スクロールができるように */
+  overflow-y: auto;
+}
+
+.todo_name {
+  font-size: 1.1rem;
+  font-weight: 100;
+  width: auto;
+  min-width: 200px;
+  line-break: anywhere;
+  margin: 0;
+}

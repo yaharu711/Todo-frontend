@@ -327,6 +327,7 @@ const updateCacheForImcompleteTodo = ({
       {
         id: request.id,
         name: request.name || "",
+        memo: "",
         created_at: "",
         completed_at: "",
         imcompleted_at: "",
