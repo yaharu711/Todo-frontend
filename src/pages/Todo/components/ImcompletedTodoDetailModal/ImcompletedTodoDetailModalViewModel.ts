@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ImcompletedTodoType, UpdateTodoDetailParams } from "../../types";
 
 export type Props = {
@@ -48,12 +48,23 @@ const useImcompletedTodoDetailModalViewModdel = ({
     setOpen((prev) => !prev);
   };
 
+  const [modalHeight, setModalHeight] = useState(window.innerHeight * 0.9);
+  useEffect(() => {
+    const updateHeight = () => {
+      setModalHeight(window.innerHeight * 0.9);
+    };
+
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
+  }, []);
+
   return {
     inputedMemo,
     editInputError,
     onChangeInputedMemo,
     onClose,
     onComplete,
+    modalHeight,
   };
 };
 
