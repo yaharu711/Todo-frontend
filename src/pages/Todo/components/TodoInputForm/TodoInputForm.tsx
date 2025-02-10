@@ -34,7 +34,7 @@ const TodoInputForm: React.FC<TodoInputFormProps> = ({
         errorMessage={inputError}
         style={{
           width: isMobile ? "240px" : "300px",
-          height: isMobile ? "47px" : "auto",
+          height: isMobile ? "40px" : "auto",
         }}
         autoFocus={true}
       />

@@ -22,6 +22,7 @@ const ImcompletedTodoDetailModal = ({
     onChangeInputedMemo,
     onClose,
     onComplete,
+    modalHeight,
   } = useImcompletedTodoDetailModalViewModdel({
     target,
     updateTodoDetail,
@@ -38,7 +39,12 @@ const ImcompletedTodoDetailModal = ({
       {/* Portalのせいで変なところに表示されていた。コメントアウトすると表示される！ */}
       <Drawer.Portal>
         <Drawer.Overlay className={styles.overlay} />
-        <Drawer.Content className={styles.content_wraper}>
+        <Drawer.Content
+          className={styles.content_wraper}
+          style={{
+            height: modalHeight, // キーボード表示時に高さを自動調整
+          }}
+        >
           <div className={styles.content}>
             <p className={styles.todo_name}>{target.name}</p>
             <Textarea

@@ -10,7 +10,7 @@
   cursor: pointer;
   transition: border-color 0.25s;
   width: 90px;
-  height: 55px;
+  height: 50px;
 }
 .button:hover {
   border-color: #646cff;
