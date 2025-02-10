@@ -48,10 +48,10 @@ const useImcompletedTodoDetailModalViewModdel = ({
     setOpen((prev) => !prev);
   };
 
-  const [modalHeight, setModalHeight] = useState(window.innerHeight * 0.9);
+  const [modalHeight, setModalHeight] = useState(window.innerHeight * 0.8);
   useEffect(() => {
     const updateHeight = () => {
-      setModalHeight(window.innerHeight * 0.9);
+      setModalHeight(window.innerHeight * 0.8);
     };
 
     window.addEventListener("resize", updateHeight);
