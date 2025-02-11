@@ -9,9 +9,13 @@
   outline: 0;
   background-color: var(--background-color);
   font-size: 1rem;
+  /* デフォルトでは親のfont-familyを引き継がないので明示的に指定する */
+  font-family: inherit;
   border-radius: 6px;
+  /* PCだとtextareaの大きさを調整できてしまうのでできないように */
   resize: none;
   padding: 10px;
+  white-space: pre-wrap; /* 改行を表示 */
 }
 
 .input:focus {
