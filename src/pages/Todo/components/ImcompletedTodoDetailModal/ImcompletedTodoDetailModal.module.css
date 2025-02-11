@@ -39,3 +39,22 @@
   line-break: anywhere;
   margin: 0;
 }
+
+.memo_wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Textarea.tsxとスタイルは合わせている */
+.memo {
+  min-height: 100px;
+  height: auto;
+  outline: 0;
+  background-color: var(--background-color);
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.768);
+  padding: 10px;
+  white-space: pre-wrap; /* 改行を表示 */
+}

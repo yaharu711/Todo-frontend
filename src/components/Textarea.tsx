@@ -10,6 +10,7 @@ type Props = {
   onBlur?: (e: React.FocusEvent) => void;
   errorMessage?: string;
   style?: object;
+  autoFocus?: boolean;
 };
 
 const Textarea = ({
@@ -22,6 +23,7 @@ const Textarea = ({
   onBlur,
   errorMessage,
   style,
+  autoFocus,
 }: Props) => {
   return (
     <label className={styles.wrapp_input}>
@@ -35,6 +37,7 @@ const Textarea = ({
         onKeyDown={onKeyDown}
         onBlur={onBlur}
         style={style}
+        autoFocus={autoFocus}
       />
       <span className={styles.input_error}>{errorMessage}</span>
     </label>

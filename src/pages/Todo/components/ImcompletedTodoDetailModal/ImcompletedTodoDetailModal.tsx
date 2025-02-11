@@ -4,6 +4,8 @@ import useImcompletedTodoDetailModalViewModdel from "./ImcompletedTodoDetailModa
 import Textarea from "../../../../components/Textarea";
 import Button from "../../../../components/Button";
 import styles from "./ImcompletedTodoDetailModal.module.css";
+import { replaceUrlToLink } from "../../../../util/ReplaceUrlToLink";
+import DOMPurify from "dompurify";
 
 const ImcompletedTodoDetailModal = ({
   isOpen,
@@ -19,6 +21,8 @@ const ImcompletedTodoDetailModal = ({
   const {
     inputedMemo,
     editInputError,
+    isEditMode,
+    toggleEditMode,
     onChangeInputedMemo,
     onClose,
     onComplete,
@@ -27,6 +31,11 @@ const ImcompletedTodoDetailModal = ({
     target,
     updateTodoDetail,
     setOpen,
+  });
+
+  const text = DOMPurify.sanitize(replaceUrlToLink(inputedMemo), {
+    ALLOWED_TAGS: ["a"], // 許可するタグリスト
+    ALLOWED_ATTR: ["href", "rel", "target"], // 許可する属性リスト
   });
 
   return (
@@ -47,12 +56,28 @@ const ImcompletedTodoDetailModal = ({
         >
           <div className={styles.content}>
             <p className={styles.todo_name}>{target.name}</p>
-            <Textarea
-              label="メモ"
-              value={inputedMemo}
-              onChange={(e) => onChangeInputedMemo(e)}
-              errorMessage={editInputError}
-            />
+            {isEditMode ? (
+              <Textarea
+                label="メモ"
+                value={inputedMemo}
+                onChange={(e) => onChangeInputedMemo(e)}
+                onBlur={toggleEditMode}
+                errorMessage={editInputError}
+                autoFocus={true}
+              />
+            ) : (
+              <div className="memo_wrapper">
+                メモ
+                <div
+                  className={styles.memo}
+                  dangerouslySetInnerHTML={{
+                    __html: text,
+                  }}
+                  onClick={toggleEditMode}
+                />
+              </div>
+            )}
+
             {/* TODO: リンクにする。これは、編集中はTextareaで編集後は以下のdivタグで表示するようにすれば、良いのでは？ */}
             {/* <div dangerouslySetInnerHTML={{ __html: replaceUrlToLink(inputedMemo) }} /> */}
             <Button onClick={() => onComplete(target)}>完了</Button>

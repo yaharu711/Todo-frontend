@@ -13,11 +13,13 @@ const useImcompletedTodoDetailModalViewModdel = ({
 }: Props) => {
   const [inputedMemo, setInputedMemo] = useState<string>(target.memo);
   const [editInputError, setEditInputError] = useState("");
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const onChangeInputedMemo = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputedMemo(e.target.value);
     setEditInputError("");
   };
+  const toggleEditMode = () => setIsEditMode((prev) => !prev);
 
   // これをonCloseの時と、完了ボタンを押した時に実行する
   const editTodo = (target: ImcompletedTodoType) => {
@@ -42,8 +44,12 @@ const useImcompletedTodoDetailModalViewModdel = ({
     });
   };
 
-  const onClose = (target: ImcompletedTodoType) => editTodo(target);
+  const onClose = (target: ImcompletedTodoType) => {
+    setIsEditMode(false);
+    editTodo(target);
+  };
   const onComplete = (target: ImcompletedTodoType) => {
+    setIsEditMode(false);
     editTodo(target);
     setOpen((prev) => !prev);
   };
@@ -61,6 +67,8 @@ const useImcompletedTodoDetailModalViewModdel = ({
   return {
     inputedMemo,
     editInputError,
+    isEditMode,
+    toggleEditMode,
     onChangeInputedMemo,
     onClose,
     onComplete,
