@@ -4,8 +4,6 @@ import useImcompletedTodoDetailModalViewModdel from "./ImcompletedTodoDetailModa
 import Textarea from "../../../../components/Textarea";
 import Button from "../../../../components/Button";
 import styles from "./ImcompletedTodoDetailModal.module.css";
-import { replaceUrlToLink } from "../../../../util/ReplaceUrlToLink";
-import DOMPurify from "dompurify";
 
 const ImcompletedTodoDetailModal = ({
   isOpen,
@@ -27,15 +25,11 @@ const ImcompletedTodoDetailModal = ({
     onClose,
     onComplete,
     modalHeight,
+    inputedMemoReplacedUrlToLink,
   } = useImcompletedTodoDetailModalViewModdel({
     target,
     updateTodoDetail,
     setOpen,
-  });
-
-  const text = DOMPurify.sanitize(replaceUrlToLink(inputedMemo), {
-    ALLOWED_TAGS: ["a"], // 許可するタグリスト
-    ALLOWED_ATTR: ["href", "rel", "target"], // 許可する属性リスト
   });
 
   return (
@@ -71,7 +65,7 @@ const ImcompletedTodoDetailModal = ({
                 <div
                   className={styles.memo}
                   dangerouslySetInnerHTML={{
-                    __html: text,
+                    __html: inputedMemoReplacedUrlToLink,
                   }}
                   onClick={toggleEditMode}
                 />

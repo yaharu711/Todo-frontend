@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { ImcompletedTodoType, UpdateTodoDetailParams } from "../../types";
+import { replaceUrlToLink } from "../../../../util/ReplaceUrlToLink";
+import DOMPurify from "dompurify";
 
 export type Props = {
   target: ImcompletedTodoType;
@@ -64,6 +66,14 @@ const useImcompletedTodoDetailModalViewModdel = ({
     return () => window.removeEventListener("resize", updateHeight);
   }, []);
 
+  const inputedMemoReplacedUrlToLink = DOMPurify.sanitize(
+    replaceUrlToLink(inputedMemo),
+    {
+      ALLOWED_TAGS: ["a"], // 許可するタグリスト
+      ALLOWED_ATTR: ["href", "rel", "target"], // 許可する属性リスト
+    }
+  );
+
   return {
     inputedMemo,
     editInputError,
@@ -73,6 +83,7 @@ const useImcompletedTodoDetailModalViewModdel = ({
     onClose,
     onComplete,
     modalHeight,
+    inputedMemoReplacedUrlToLink,
   };
 };
 
