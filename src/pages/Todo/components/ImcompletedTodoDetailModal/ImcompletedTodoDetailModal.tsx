@@ -66,10 +66,10 @@ const ImcompletedTodoDetailModal = ({
                 autoFocus={true}
               />
             ) : (
-              <div className="textarea_div_wrapper">
+              <div className="memo_wrapper">
                 メモ
                 <div
-                  className={styles.textarea_div}
+                  className={styles.memo}
                   dangerouslySetInnerHTML={{
                     __html: text,
                   }}

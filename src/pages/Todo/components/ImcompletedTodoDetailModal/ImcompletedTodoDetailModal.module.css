@@ -40,14 +40,14 @@
   margin: 0;
 }
 
-.textarea_div_wrapper {
+.memo_wrapper {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
 /* Textarea.tsxとスタイルは合わせている */
-.textarea_div {
+.memo {
   min-height: 100px;
   height: auto;
   outline: 0;
