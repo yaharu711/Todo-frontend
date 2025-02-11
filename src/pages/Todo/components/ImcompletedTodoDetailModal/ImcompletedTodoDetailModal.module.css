@@ -40,6 +40,10 @@
   margin: 0;
 }
 
+.created_at {
+  font-size: 0.9rem;
+}
+
 .memo_wrapper {
   display: flex;
   flex-direction: column;
