@@ -1,12 +1,12 @@
 .button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.214);
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 700;
   font-family: inherit;
   color: rgba(255, 255, 255, 0.9);
-  background-color: #1a1a1a;
+  background-color: var(--background-color);
   cursor: pointer;
   transition: border-color 0.25s;
   width: 90px;
