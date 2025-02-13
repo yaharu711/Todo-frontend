@@ -39,6 +39,7 @@ const ImcompletedTodoDetailModal = ({
       onOpenChange={setOpen}
       direction="bottom"
       onClose={() => onClose(target)}
+      repositionInputs={false}
     >
       {/* Portalのせいで変なところに表示されていた。コメントアウトすると表示される！ */}
       <Drawer.Portal>
