@@ -8,6 +8,7 @@
   height: auto;
   outline: 0;
   background-color: var(--background-color);
+  color: var(--font-color);
   font-size: 1rem;
   /* デフォルトでは親のfont-familyを引き継がないので明示的に指定する */
   font-family: inherit;
