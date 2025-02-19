@@ -1,8 +1,15 @@
 .todo_name_wrapp {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  column-gap: 10px;
+  row-gap: 2px;
+  padding-top: 16px;
+  padding-bottom: 8px;
+  min-width: 200px;
+}
+
+.todo_name_wrapp[data-has-additional-info="false"] {
+  padding-bottom: 16px;
 }
 
 .todo_name_edit_button {
@@ -16,8 +23,19 @@
 .todo_name {
   font-size: 1.1rem;
   width: auto;
-  min-width: 200px;
   line-break: anywhere;
+  margin: 0;
+}
+
+.additional_info_wrapper {
+  display: flex;
+  align-items: center;
+  height: 25px;
+}
+
+.memo {
+  font-size: 0.9rem;
+  margin-left: 4px;
 }
 
 .todo_name[data-is-error="true"] {
