@@ -2,9 +2,21 @@ services:
   react:
     build:
       context: ./
+    environment:
+      - VIRTUAL_HOST=dev.practice-react-laravel.site
+      - VIRTUAL_PORT=5173 # React を 80 にして `nginx-proxy` に公開
+      - LETSENCRYPT_HOST=dev.practice-react-laravel.site
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ./:/src
+    networks:
+      - web
     # フォアグランドで実行するものがないが継続的にコンテナを起動させたい（サーバーを実行したいなど）時はtty: trueとする
     tty: true
-    ports:
-      - 5173:5173
+    # 以下のportsは解放しちゃダメで、あくまでVIRTUAL_PORT=80はDocker内部で公開するポート番号
+    # 以下はMacに公開するポート番号のため、nginx-proxyと競合するのでコメントアウトしている
+    # ports:
+    #   - 80:80
+networks:
+  web:
+    external: true
