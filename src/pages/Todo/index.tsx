@@ -2,7 +2,7 @@ import TodoInputForm from "./components/TodoInputForm/TodoInputForm";
 import styles from "../../App.module.css";
 import CompletedTodos from "./components/CompletedTodos/CompletedTodos";
 import ImcompletedTodos from "./components/ImcompletedTodos/ImcompletedTodos";
-import UseTodoViewModel from "./useTodoViewModel";
+import useTodoViewModel from "./useTodoViewModel";
 import { closestCenter, DndContext } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -22,10 +22,13 @@ const TodoPage = () => {
     isPendingForCreateTodo,
     sensors,
     handleDragEnd,
-  } = UseTodoViewModel();
+  } = useTodoViewModel();
+  // const { registFCMToken, notificationPermission } = useNotification();
 
   return (
     <div className={styles.container}>
+      {/* 更新用の仕組みも作らないとね */}
+      {/* <button onClick={updateFCMToken}>更新</button> */}
       <TodoInputForm
         isPendingForCreateTodo={isPendingForCreateTodo}
         submit={createTodo}

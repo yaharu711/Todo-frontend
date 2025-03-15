@@ -19,7 +19,7 @@ import {
 } from "./types";
 import { showSuccessToast } from "../../util/CustomToast";
 
-const UseTodoViewModel = () => {
+const useTodoViewModel = () => {
   // TODOの取得と定義
   const { data: todos } = useGetTodos();
   const imcompletedTodos = todos.imcompletedTodosWithStatus;
@@ -114,4 +114,4 @@ const UseTodoViewModel = () => {
   };
 };
 
-export default UseTodoViewModel;
+export default useTodoViewModel;
