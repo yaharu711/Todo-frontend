@@ -5,7 +5,6 @@ import {
   getToken,
   isSupported,
   Messaging,
-  onMessage,
 } from "firebase/messaging";
 // import { getMessaging as getMessagingForSW } from "firebase/messaging/sw";
 // import { getMessaging } from "firebase/messaging/sw";
@@ -55,11 +54,6 @@ const getFCMToken = async (): Promise<string | null> => {
     throw error;
   }
 };
-
-// 初期化関数をすぐ実行
 initializeMessaging();
 
-// const messagingForSW = getMessagingForSW(app);
-// const messaginForSW = getMessaging();
-
-export { app, messaging, getFCMToken, onMessage };
+export { app, messaging, getFCMToken };
