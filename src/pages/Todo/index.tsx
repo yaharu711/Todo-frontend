@@ -9,7 +9,6 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import useNotification from "./useNotification";
 
 const TodoPage = () => {
   const {
@@ -24,17 +23,15 @@ const TodoPage = () => {
     sensors,
     handleDragEnd,
   } = useTodoViewModel();
-  const { registFCMToken, updateFCMToken, isShowNotificationButton } =
-    useNotification();
+  // const { registFCMToken, notificationPermission } = useNotification();
 
   return (
     <div className={styles.container}>
+      {/* 更新用の仕組みも作らないとね */}
       {/* <button onClick={updateFCMToken}>更新</button> */}
       <TodoInputForm
         isPendingForCreateTodo={isPendingForCreateTodo}
         submit={createTodo}
-        getFCMToken={registFCMToken}
-        isShowNotificationButton={isShowNotificationButton}
       />
       <>
         <DndContext

@@ -9,15 +9,11 @@ import UseTodoInputFormViewModel from "./useTodoInputFormViewModel";
 type TodoInputFormProps = {
   isPendingForCreateTodo: boolean;
   submit: (params: CreateTodoParams) => void;
-  getFCMToken: () => void;
-  isShowNotificationButton: boolean;
 };
 
 const TodoInputForm: React.FC<TodoInputFormProps> = ({
   isPendingForCreateTodo,
   submit,
-  getFCMToken,
-  isShowNotificationButton,
 }) => {
   const {
     inputedTodoName,
@@ -48,9 +44,6 @@ const TodoInputForm: React.FC<TodoInputFormProps> = ({
       >
         作成
       </Button>
-      {isShowNotificationButton && (
-        <Button onClick={() => getFCMToken()}>通知を許可する</Button>
-      )}
     </div>
   );
 };

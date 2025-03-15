@@ -5,12 +5,26 @@ import { isSupported } from "firebase/messaging";
 
 const useNotification = () => {
   //   console.log((await isSupported()) && Notification.permission);
+  const [notificationPermission, setNotificationPermission] = useState<
+    NotificationPermission | "un-supported"
+  >("default");
+
+  useEffect(() => {
+    const checkNotificationSupport = async () => {
+      const supported = await isSupported();
+      setNotificationPermission(
+        supported ? Notification.permission : "un-supported"
+      );
+    };
+
+    checkNotificationSupport();
+  }, []);
 
   const registFCMToken = async () => {
     const permission = (await isSupported())
       ? await Notification.requestPermission()
       : "un-supported";
-    setIsShowNotificationButton(permission === "default");
+    setNotificationPermission(permission);
     if (permission !== "granted" && permission !== "un-supported") {
       console.log("通知の許可がされていません");
       return;
@@ -24,6 +38,7 @@ const useNotification = () => {
     // APIにFCMTokenを投げてDBに保存する
   };
 
+  // Service Workerを更新した時や通知権限がgrantedなのにFCMトークンない場合の再発行など(deniedにして権限リセットではなく、grantedに戻した時とか)
   const updateFCMToken = async () => {
     try {
       const FCMToken = await getFCMToken();
@@ -37,24 +52,10 @@ const useNotification = () => {
     }
   };
 
-  const [isShowNotificationButton, setIsShowNotificationButton] =
-    useState<boolean>(false);
-
-  useEffect(() => {
-    const checkNotificationSupport = async () => {
-      const supported = await isSupported();
-      setIsShowNotificationButton(
-        supported && Notification.permission === "default"
-      );
-    };
-
-    checkNotificationSupport();
-  }, []);
-
   return {
     registFCMToken,
     updateFCMToken,
-    isShowNotificationButton,
+    notificationPermission,
   };
 };
 
