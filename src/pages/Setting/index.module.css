@@ -1,0 +1,31 @@
+/* 🔹 ヘッダーのスタイル */
+.settings_header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* 🔹 左寄せ */
+}
+
+.settings_container {
+  padding: 16px;
+  background-color: var(--background-color);
+  min-height: 100vh;
+  color: white;
+}
+
+.settings_title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.settings_section {
+  background: #121212;
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+.section_title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
