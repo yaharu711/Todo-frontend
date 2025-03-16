@@ -1,34 +1,17 @@
-import { useNavigate } from "react-router-dom";
-import ToggleButton from "../../components/ToggleButton";
 import styles from "./index.module.css";
-import Button from "../../components/Button";
+import ToggleSettingItem from "./components/ToggleSettingltem/ToggleSettingItem";
+import SettingHeader from "./components/SettingHeader/SettingHeader";
 
 const SettingPage = () => {
-  const navigate = useNavigate();
   return (
     <div className={styles.settings_container}>
-      <div className={styles.settings_header}>
-        <Button
-          onClick={() => navigate(-1)}
-          style={{
-            background: "none",
-            border: "none",
-            color: "white",
-            fontSize: "35px",
-            cursor: "pointer",
-            padding: 0,
-            width: "25px",
-            marginRight: "5px",
-            marginBottom: "5px",
-          }}
-        >
-          &lt;
-        </Button>
-        <h2 className={styles.settings_title}>アプリ設定</h2>
-      </div>
+      <SettingHeader />
       <div className={styles.settings_section}>
         <h2 className={styles.section_title}>通知の設定</h2>
-        <ToggleButton />
+        <ToggleSettingItem
+          title="ブラウザ通知"
+          description="ブラウザの通知機能のON/OFFできます"
+        />
       </div>
     </div>
   );
