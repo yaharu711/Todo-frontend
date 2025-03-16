@@ -2,8 +2,13 @@
 .switch {
   position: relative;
   display: inline-block;
-  width: 34px;
+  width: 40px;
   height: 20px;
+}
+
+.switch[data-is-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .switch input {
@@ -41,5 +46,5 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-  transform: translateX(14px);
+  transform: translateX(20px);
 }

@@ -5,23 +5,27 @@ import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { registErrorHandler } from "./errorHandlers";
 
-export const useRegist = (setInputError: React.Dispatch<React.SetStateAction<{
-  name: string;
-  email: string;
-  password: string;
-  passwordConfirmation: string;
-}>>) => {
+export const useRegist = (
+  setInputError: React.Dispatch<
+    React.SetStateAction<{
+      name: string;
+      email: string;
+      password: string;
+      passwordConfirmation: string;
+    }>
+  >
+) => {
   const navigate = useNavigate();
   return useMutation({
     mutationFn: (params: RegistRequest) => UserApi.regist(params),
     onError: (error) => {
-        registErrorHandler(setInputError, error)
+      registErrorHandler(setInputError, error);
     },
     onSuccess: () => {
-        navigate("/login")
-    }
-  })
-}
+      navigate("/login");
+    },
+  });
+};
 
 export const useLogin = (
   setError: React.Dispatch<React.SetStateAction<string>>

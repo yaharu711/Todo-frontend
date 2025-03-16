@@ -5,6 +5,10 @@
   align-items: center;
 }
 
+.left {
+  width: 80%;
+}
+
 .toggle_label {
   font-size: 14px;
   font-weight: bold;

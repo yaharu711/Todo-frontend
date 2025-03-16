@@ -1,21 +1,28 @@
-import { useState } from "react";
 import ToggleButton from "../../../../components/ToggleButton";
 import styles from "./ToggleSettingItem.module.css";
 
 type Props = {
   title: string;
   description?: string;
+  checked: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
 };
 
-const ToggleSettingItem = ({ title, description = "" }: Props) => {
-  const [on, setON] = useState(false);
+const ToggleSettingItem = ({
+  title,
+  description = "",
+  checked,
+  onChange,
+  disabled = false,
+}: Props) => {
   return (
     <div className={styles.toggle_container}>
-      <div>
+      <div className={styles.left}>
         <p className={styles.toggle_label}>{title}</p>
         <p className={styles.toggle_description}>{description}</p>
       </div>
-      <ToggleButton checked={on} onChange={() => setON((prev) => !prev)} />
+      <ToggleButton checked={checked} onChange={onChange} disabled={disabled} />
     </div>
   );
 };
