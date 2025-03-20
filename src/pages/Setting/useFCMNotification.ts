@@ -51,9 +51,15 @@ const useFCMNotification = () => {
       console.error("FCMがサポートされていないか、まだ初期化されていません。");
       return;
     }
-    saveFCMTokenMutate({ fcm_token: FCMToken });
-    setIsNotificationEnabled(true);
-    showSuccessToast("通知機能をオンにしました✅");
+    saveFCMTokenMutate(
+      { fcm_token: FCMToken },
+      {
+        onSuccess: () => {
+          setIsNotificationEnabled(true);
+          showSuccessToast("通知機能をオンにしました✅");
+        },
+      }
+    );
   };
 
   // これにより、Service Workerに紐づくトークンはFirebaes上からは削除される
@@ -76,9 +82,12 @@ const useFCMNotification = () => {
       );
       return;
     }
-    invalidateLatestFCMTokenMutate();
-    setIsNotificationEnabled(false);
-    showSuccessToast("通知機能をオフにしました✅");
+    invalidateLatestFCMTokenMutate(undefined, {
+      onSuccess: () => {
+        setIsNotificationEnabled(false);
+        showSuccessToast("通知機能をオフにしました✅");
+      },
+    });
   };
 
   // Service Workerを更新した時や通知権限がgrantedなのにFCMトークンない場合の再発行など(deniedにして権限リセットではなく、grantedに戻した時とか)
