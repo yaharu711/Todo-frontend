@@ -10,7 +10,7 @@ const WebNotificationSettingItem = () => {
     isDeniedPermission,
   } = WebNotificationSettingItemViewModel();
 
-  // descriptionの動的な決定
+  // descriptionは通知の権限などの状態によって動的に決まる
   let description = "ブラウザの通知機能のON/OFFできます"; // デフォルト
 
   if (isDeniedPermission) {
@@ -21,9 +21,10 @@ const WebNotificationSettingItem = () => {
       "申し訳ありません、まだこの端末では使えません。対応端末はPCとなります。";
   }
 
-  // isDeniedの時→ブラウザの通知の権限をデフォルトにリセットしてから、再度ONにしてください
-  // !isSupportedの時→ まだこのブラウザではブラウザ通知機能は使えません
-  // 上記以外はブラウザの通知機能のON/OFFできます
+  // isNotificationEnabledの状態が確定していない時はトグルを表示しない
+  // →トグルが表示された後に、操作もしていないのに変化したらユーザに混乱を与えるため
+  if (isNotificationEnabled === null) return <p>...loading</p>;
+
   return (
     <ToggleSettingItem
       title="ブラウザ通知"

@@ -3,10 +3,17 @@ import { getFCMToken, messaging } from "../../api/client/firebase";
 import { useEffect, useState } from "react";
 import { deleteToken, isSupported } from "firebase/messaging";
 import { showSuccessToast } from "../../util/CustomToast";
+import {
+  useCheckExistValidFCMToken,
+  useInvalidateLatestFCMToken,
+  useSaveFCMToken,
+} from "../../api/FCM/hooks";
 
 const useFCMNotification = () => {
-  const [isNotificationEnabled, setIsNotificationEnabled] =
-    useState<boolean>(false);
+  const { data: isExistValidFCMToken } = useCheckExistValidFCMToken();
+  const [isNotificationEnabled, setIsNotificationEnabled] = useState<
+    boolean | null
+  >(null);
   const [isDeniedPermission, setIsDeniedPermission] = useState<boolean>(false);
   const [isSupportedBrowser, setIsSupportedBrowser] = useState<boolean>(false);
 
@@ -15,21 +22,24 @@ const useFCMNotification = () => {
     const initialize = async () => {
       const supported = await isSupported();
       setIsSupportedBrowser(supported);
-      if (!supported) return;
-      // ここは、LaravelのAPIも作ってトークンが存在するかも確認する必要がある
-      // TODO: つまり、「permissionがgranted」かつ「トークンが存在する」なら通知が有効
-      setIsNotificationEnabled(Notification.permission === "granted");
+      if (!supported) {
+        setIsNotificationEnabled(false);
+        return;
+      }
+
+      setIsNotificationEnabled(
+        Notification.permission === "granted" && isExistValidFCMToken
+      );
       setIsDeniedPermission(Notification.permission === "denied");
     };
 
     initialize();
-  }, []);
+  }, [isExistValidFCMToken]);
 
+  const { mutate: saveFCMTokenMutate } = useSaveFCMToken();
+  const { mutate: invalidateLatestFCMTokenMutate } =
+    useInvalidateLatestFCMToken();
   const registFCMToken = async () => {
-    if (!isSupportedBrowser) {
-      toast("まだ通知機能が使えないブラウザです");
-      return;
-    }
     const permission = await Notification.requestPermission();
     if (permission !== "granted") {
       console.log("通知の許可がされていません");
@@ -37,25 +47,37 @@ const useFCMNotification = () => {
     }
 
     const FCMToken = await getFCMToken();
-    console.log(FCMToken);
-    // TODO: APIにFCMTokenを投げてDBに保存する
+    if (FCMToken === null) {
+      console.error("FCMがサポートされていないか、まだ初期化されていません。");
+      return;
+    }
+    saveFCMTokenMutate({ fcm_token: FCMToken });
     setIsNotificationEnabled(true);
     showSuccessToast("通知機能をオンにしました✅");
   };
 
   // これにより、Service Workerに紐づくトークンはFirebaes上からは削除される
-  // つまり、APIからPushリクエストしても404が返ってくる
-  // しかし、ここでAPIでLaravelサーバ上からもユーザに紐づくトークンを削除しないと、
-  // サーバとしてユーザが通知をオフにしているという状態を保持できないので、delete APIも呼ぶ必要がある
+  // つまり、APIからPushリクエストしても404が返ってくるようになる
   const unRegisterFCMToken = async () => {
     if (!isSupportedBrowser || messaging === null) {
       toast("まだ通知機能が使えないブラウザです");
       return;
     }
-    await deleteToken(messaging);
+    const result = await deleteToken(messaging);
+    if (result === false) {
+      toast.error(
+        "通知をOFFにできませんでした。予期せぬエラーのため開発者に問い合わせてください",
+        {
+          progressStyle: {
+            background:
+              "linear-gradient(90deg, rgba(100, 108, 255, 1) 0%, rgba(173, 216, 230, 1) 100%)",
+          },
+        }
+      );
+      return;
+    }
+    invalidateLatestFCMTokenMutate();
     setIsNotificationEnabled(false);
-    // TODO: APIからトークン削除する必要がある。
-    // 一応論理削除にしておこうかな
     showSuccessToast("通知機能をオフにしました✅");
   };
 
