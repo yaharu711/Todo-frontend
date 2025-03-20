@@ -1,0 +1,20 @@
+/** トグルで設定する項目 */
+.toggle_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left {
+  width: 80%;
+}
+
+.toggle_label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.toggle_description {
+  font-size: 12px;
+  color: #aaaaaa;
+}

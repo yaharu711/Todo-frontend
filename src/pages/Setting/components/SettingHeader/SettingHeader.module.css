@@ -1,0 +1,11 @@
+/* 🔹 ヘッダーのスタイル */
+.settings_header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* 🔹 左寄せ */
+}
+
+.settings_title {
+  font-size: 20px;
+  font-weight: bold;
+}

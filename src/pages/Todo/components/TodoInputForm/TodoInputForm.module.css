@@ -1,7 +1,7 @@
 /* wrappは他のコンポーネントでも使う共通のものだが、
 CSSモジュールを使っている場合はどのように共通化する？？？ */
 .wrap {
-  margin-top: 32px;
+  margin-top: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
