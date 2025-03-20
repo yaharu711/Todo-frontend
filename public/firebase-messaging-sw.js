@@ -1,7 +1,6 @@
 // 以下だとメッセージ受信できた！！！！
 self.addEventListener("push", function (event) {
-  console.log("📩 メッセージを受信できました");
-  console.log(event);
+  console.log("📩 メッセージを受信できました！");
 
   if (!event.data) {
     console.error("📭 受信データが空です。");
@@ -25,12 +24,13 @@ self.addEventListener("push", function (event) {
 });
 
 // 以下はなくても、getToken()を再実行すると、新しいService Workerが適応されるみたい
-// self.addEventListener("install", (event) => {
-//   console.log("🛠 Service Worker インストール中...");
-//   event.waitUntil(self.skipWaiting());
-// });
+// しかし、getToken()に直接registrationを渡すようにすると、以下がないとリロードしたりしてもすぐに適応されなくなった
+self.addEventListener("install", (event) => {
+  console.log("🛠 Service Worker インストール中...");
+  event.waitUntil(self.skipWaiting());
+});
 
-// self.addEventListener("activate", (event) => {
-//   console.log("🚀 新しい Service Worker がアクティブに！古いのはどうなる？");
-//   event.waitUntil(self.clients.claim());
-// });
+self.addEventListener("activate", (event) => {
+  console.log("🚀 新しい Service Worker がアクティブに！古いのはどうなる？");
+  event.waitUntil(self.clients.claim());
+});

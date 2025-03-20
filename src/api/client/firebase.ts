@@ -38,7 +38,9 @@ const initializeMessaging = async (): Promise<void> => {
 };
 
 // FCMトークンを取得する関数
-const getFCMToken = async (): Promise<string | null> => {
+const getFCMToken = async (
+  serviceWorkerRegistration: ServiceWorkerRegistration
+): Promise<string | null> => {
   if (!messaging) {
     console.warn("FCMがサポートされていないか、まだ初期化されていません。");
     return null;
@@ -47,6 +49,7 @@ const getFCMToken = async (): Promise<string | null> => {
   try {
     const token = await getToken(messaging, {
       vapidKey: import.meta.env.VITE_VAPID_KEY as string,
+      serviceWorkerRegistration,
     });
     return token;
   } catch (error) {

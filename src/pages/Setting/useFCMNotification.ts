@@ -40,13 +40,17 @@ const useFCMNotification = () => {
   const { mutate: invalidateLatestFCMTokenMutate } =
     useInvalidateLatestFCMToken();
   const registFCMToken = async () => {
+    // public配下のService Workerを明示的に登録
+    const registration = await navigator.serviceWorker.register(
+      "/firebase-messaging-sw.js"
+    );
     const permission = await Notification.requestPermission();
     if (permission !== "granted") {
       console.log("通知の許可がされていません");
       return;
     }
 
-    const FCMToken = await getFCMToken();
+    const FCMToken = await getFCMToken(registration);
     if (FCMToken === null) {
       console.error("FCMがサポートされていないか、まだ初期化されていません。");
       return;
@@ -90,27 +94,9 @@ const useFCMNotification = () => {
     });
   };
 
-  // Service Workerを更新した時や通知権限がgrantedなのにFCMトークンない場合の再発行など(deniedにして権限リセットではなく、grantedに戻した時とか)
-  // TODO: トークンの更新は、ユーザにやらせるようにすれば良さそう！
-  // 通知の許可・拒否の状態をpermissionとLaravel APIでトークンの存在有無によって決める
-  // そうすれば、grantedでトークンがない時は通知設定がOFFになるので、ユーザがONにすればgetFCMToken()で再発行して保存できる！
-  const updateFCMToken = async () => {
-    try {
-      const FCMToken = await getFCMToken();
-      console.log(FCMToken);
-    } catch (error) {
-      // deniedしている場合は例外がはかれるので、キャッチしてアクションする
-      console.error(error);
-      toast(
-        "通知の権限をリセットしてリロードしてください。そして、再度通知のアイコンをクリックして通知を許可してください"
-      );
-    }
-  };
-
   return {
     registFCMToken,
     unRegisterFCMToken,
-    updateFCMToken,
     isNotificationEnabled,
     isSupportedBrowser,
     isDeniedPermission,
