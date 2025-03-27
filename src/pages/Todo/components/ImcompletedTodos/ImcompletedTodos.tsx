@@ -132,6 +132,7 @@ const ImcompletedTodos = ({
         target={selectedTodo}
         setOpen={setOpen}
         updateTodoDetail={updateTodoDetail}
+        updateTodo={updateTodo}
       />
     </section>
   );

@@ -26,10 +26,17 @@
   display: flex;
   flex-direction: column;
   row-gap: 16px;
-  padding: 48px 16px;
+  padding: 32px 16px;
   width: 90%;
   /* ドロワー内で縦スクロールができるように */
   overflow-y: auto;
+}
+
+.todo_name_wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 8px;
 }
 
 .todo_name {
