@@ -41,7 +41,7 @@ const UseImcompletedTodosViewModel = (
     setSelectedTodo(target);
     setOpen((prev) => !prev);
   };
-  // 初回ロード時に#todo_id=1のようなURLパラメータがあれば、そのTODOのドロワーを開く
+  // Todoのリマインダー通知を開くとTodoの詳細を表示するため、URLにTodoのIDを持たせている
   useEffect(() => {
     const hash = location.hash; // 例: "#todo_id=1"
     const match = hash.match(/todo_id=(\d+)/);
