@@ -60,6 +60,7 @@ const ImcompletedTodoDetailModal = ({
         >
           <div className={styles.content}>
             <div className={styles.todo_name_wrapper}>
+              <p className={styles.todo_name}>{target.name}</p>
               <IconButton
                 onClick={() => {
                   updateTodo({
@@ -74,12 +75,11 @@ const ImcompletedTodoDetailModal = ({
                 }}
                 children={
                   <CiCircleCheck
-                    size={35}
+                    size={40}
                     style={{ color: "var(--color-icon)" }}
                   />
                 }
               />
-              <p className={styles.todo_name}>{target.name}</p>
             </div>
             {isEditMode ? (
               <Textarea
