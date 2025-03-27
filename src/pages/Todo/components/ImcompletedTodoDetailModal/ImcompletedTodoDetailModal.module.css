@@ -32,6 +32,12 @@
   overflow-y: auto;
 }
 
+.todo_name_wrapper {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}
+
 .todo_name {
   font-size: 1.1rem;
   width: auto;

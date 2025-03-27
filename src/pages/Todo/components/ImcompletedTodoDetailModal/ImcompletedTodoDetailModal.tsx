@@ -1,21 +1,29 @@
 import { Drawer } from "vaul";
-import { ImcompletedTodoType, UpdateTodoDetailParams } from "../../types";
+import {
+  ImcompletedTodoType,
+  UpdateTodoDetailParams,
+  UpdateTodoParams,
+} from "../../types";
 import useImcompletedTodoDetailModalViewModdel from "./ImcompletedTodoDetailModalViewModel";
 import Textarea from "../../../../components/Textarea";
 import Button from "../../../../components/Button";
 import styles from "./ImcompletedTodoDetailModal.module.css";
 import { formatDate } from "../../../../util/CustomDate";
+import IconButton from "../../../../components/IconButton";
+import { CiCircleCheck } from "react-icons/ci";
 
 const ImcompletedTodoDetailModal = ({
   isOpen,
   target,
   setOpen,
   updateTodoDetail,
+  updateTodo,
 }: {
   isOpen: boolean;
   target: ImcompletedTodoType;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   updateTodoDetail: (props: UpdateTodoDetailParams) => void;
+  updateTodo: ({ params, successMessage }: UpdateTodoParams) => void;
 }) => {
   const {
     inputedMemo,
@@ -51,7 +59,28 @@ const ImcompletedTodoDetailModal = ({
           }}
         >
           <div className={styles.content}>
-            <p className={styles.todo_name}>{target.name}</p>
+            <div className={styles.todo_name_wrapper}>
+              <IconButton
+                onClick={() => {
+                  updateTodo({
+                    params: {
+                      id: target.id,
+                      name: target.name,
+                      is_completed: true,
+                    },
+                    successMessage: "完了にしました✅",
+                  });
+                  onComplete(target);
+                }}
+                children={
+                  <CiCircleCheck
+                    size={35}
+                    style={{ color: "var(--color-icon)" }}
+                  />
+                }
+              />
+              <p className={styles.todo_name}>{target.name}</p>
+            </div>
             {isEditMode ? (
               <Textarea
                 label="メモ"
@@ -76,7 +105,7 @@ const ImcompletedTodoDetailModal = ({
             <span className={styles.created_at}>
               作成日: {formatDate(target.created_at)}
             </span>
-            <Button onClick={() => onComplete(target)}>完了</Button>
+            <Button onClick={() => onComplete(target)}>閉じる</Button>
           </div>
         </Drawer.Content>
       </Drawer.Portal>
