@@ -14,7 +14,6 @@ const useImcompletedTodoDetailModalViewModdel = ({
   updateTodoDetail,
   setOpen,
 }: Props) => {
-  // TODO: memoのようにAPIから取得されるデータに設定された通知の日時も含めるようにして、初期値をそれにする。
   const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(
     target.notificate_at ? new Date(target.notificate_at) : null
   );

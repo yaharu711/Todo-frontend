@@ -38,8 +38,9 @@ const ImcompletedTodo = ({
     editTodoOnKeyDown,
     editTodoOnBlur,
     onChangeEditMode,
+    completeTodo,
     hasAdditionalInfo,
-  } = UseImcompletedTodoViewModel({ target, updateTodoDetail });
+  } = UseImcompletedTodoViewModel({ target, updateTodoDetail, updateTodo });
 
   return (
     <li className={styles.li}>
@@ -84,17 +85,7 @@ const ImcompletedTodo = ({
         {/* 完了ボタンについて */}
         {isMobile ? (
           <IconButton
-            onClick={() =>
-              updateTodo({
-                params: {
-                  id: target.id,
-                  name: target.name,
-                  notificate_at: null,
-                  is_completed: true,
-                },
-                successMessage: "完了にしました✅",
-              })
-            }
+            onClick={completeTodo}
             disabled={isDisabledButton || isError}
             children={
               <CiCircleCheck size={30} style={{ color: "var(--color-icon)" }} />
@@ -103,17 +94,7 @@ const ImcompletedTodo = ({
         ) : (
           <Button
             disabled={isDisabledButton || isError}
-            onClick={() =>
-              updateTodo({
-                params: {
-                  id: target.id,
-                  name: target.name,
-                  notificate_at: null,
-                  is_completed: true,
-                },
-                successMessage: "完了にしました✅",
-              })
-            }
+            onClick={completeTodo}
             children="完了"
           />
         )}
