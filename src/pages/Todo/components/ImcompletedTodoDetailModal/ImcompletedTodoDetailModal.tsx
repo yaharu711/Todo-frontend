@@ -11,6 +11,7 @@ import styles from "./ImcompletedTodoDetailModal.module.css";
 import { formatDate } from "../../../../util/CustomDate";
 import IconButton from "../../../../components/IconButton";
 import { CiCircleCheck } from "react-icons/ci";
+import NotificationDateTimeSetting from "./components/NotificationDateTimeSetting/NotificationDateTimeSetting";
 
 const ImcompletedTodoDetailModal = ({
   isOpen,
@@ -81,6 +82,7 @@ const ImcompletedTodoDetailModal = ({
                 }
               />
             </div>
+            <NotificationDateTimeSetting />
             {isEditMode ? (
               <Textarea
                 label="メモ"
