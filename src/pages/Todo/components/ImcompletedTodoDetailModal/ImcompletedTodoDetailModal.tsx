@@ -12,6 +12,7 @@ import { formatDate } from "../../../../util/CustomDate";
 import IconButton from "../../../../components/IconButton";
 import { CiCircleCheck } from "react-icons/ci";
 import NotificationDateTimeSetting from "./components/NotificationDateTimeSetting/NotificationDateTimeSetting";
+import { format } from "date-fns";
 
 const ImcompletedTodoDetailModal = ({
   isOpen,
@@ -70,6 +71,10 @@ const ImcompletedTodoDetailModal = ({
                     params: {
                       id: target.id,
                       name: target.name,
+                      memo: inputedMemo,
+                      notificate_at:
+                        selectedDateTime &&
+                        format(selectedDateTime, "yyyy-MM-dd HH:mm"),
                       is_completed: true,
                     },
                     successMessage: "完了にしました✅",

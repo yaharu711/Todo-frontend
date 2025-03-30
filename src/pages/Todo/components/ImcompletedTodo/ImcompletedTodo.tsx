@@ -97,6 +97,7 @@ const ImcompletedTodo = ({
                 params: {
                   id: target.id,
                   name: target.name,
+                  notificate_at: null,
                   is_completed: true,
                 },
                 successMessage: "完了にしました✅",
@@ -115,6 +116,7 @@ const ImcompletedTodo = ({
                 params: {
                   id: target.id,
                   name: target.name,
+                  notificate_at: null,
                   is_completed: true,
                 },
                 successMessage: "完了にしました✅",

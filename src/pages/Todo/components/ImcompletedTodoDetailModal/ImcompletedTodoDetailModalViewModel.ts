@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ImcompletedTodoType, UpdateTodoDetailParams } from "../../types";
 import { replaceUrlToLink } from "../../../../util/ReplaceUrlToLink";
 import DOMPurify from "dompurify";
+import { format } from "date-fns";
 
 export type Props = {
   target: ImcompletedTodoType;
@@ -14,7 +15,9 @@ const useImcompletedTodoDetailModalViewModdel = ({
   setOpen,
 }: Props) => {
   // TODO: memoのようにAPIから取得されるデータに設定された通知の日時も含めるようにして、初期値をそれにする。
-  const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(null);
+  const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(
+    target.notificate_at ? new Date(target.notificate_at) : null
+  );
   const onChangeDateTime = (date: Date | null) => setSelectedDateTime(date);
   const [inputedMemo, setInputedMemo] = useState<string>(target.memo);
   const [editInputError, setEditInputError] = useState("");
@@ -31,11 +34,23 @@ const useImcompletedTodoDetailModalViewModdel = ({
     // 変化なく何も入力していない場合は編集していなかったことにする
     if (inputedMemo === target.memo || inputedMemo === "") {
       setInputedMemo(target.memo);
-      return;
     }
     if (inputedMemo.trim() === "") {
       // 編集モードは終わらないまま編集してもらう
       setEditInputError("空白・改行のみは許可されていません");
+    }
+    // 変更がない場合（inputedMemoもselectedDateTimeも変わっていない場合）は処理しない
+    const isNotUpdatedMemo = inputedMemo === target.memo;
+    const isNotSetNotification = !target.notificate_at && !selectedDateTime;
+    const isNotUpdatedNotificateAt =
+      selectedDateTime &&
+      format(new Date(selectedDateTime), "yyyy-MM-dd HH:mm:ss") ===
+        target.notificate_at;
+    console.log(isNotSetNotification, isNotUpdatedNotificateAt);
+    if (
+      isNotUpdatedMemo &&
+      (isNotUpdatedNotificateAt || isNotSetNotification)
+    ) {
       return;
     }
 
@@ -44,6 +59,8 @@ const useImcompletedTodoDetailModalViewModdel = ({
         id: target.id,
         name: target.name,
         memo: inputedMemo,
+        notificate_at:
+          selectedDateTime && format(selectedDateTime, "yyyy-MM-dd HH:mm"),
       },
       setInputError: setEditInputError,
     });

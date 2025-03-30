@@ -5,6 +5,7 @@ export type ImcompletedTodoType = {
   id: number;
   name: string;
   memo: string;
+  notificate_at?: string;
   created_at: string;
   completed_at?: string;
   imcompleted_at: string;
