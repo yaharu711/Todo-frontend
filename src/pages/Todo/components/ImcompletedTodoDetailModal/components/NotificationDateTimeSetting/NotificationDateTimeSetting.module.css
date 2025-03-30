@@ -1,0 +1,44 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.label {
+  margin-right: 8px;
+}
+
+/* withPortalプロップスを渡すようになると、portalClassNameは指定しても効かなくなる
+ .popper {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 9999;
+} */
+
+:global(.react-datepicker),
+:global(.react-datepicker__header),
+:global(.react-datepicker-time__header),
+:global(.react-datepicker__time-box),
+/* 曜日や月の表示、日付セルの基本状態 */
+:global(.react-datepicker__day),
+:global(.react-datepicker__day-name),
+:global(.react-datepicker__current-month) {
+  color: var(--font-color);
+  background-color: var(--background-color);
+}
+
+/* ホバー時の背景色 */
+:global(.react-datepicker__day:not(.react-datepicker__day--disabled):hover),
+:global(.react-datepicker__time-list-item:hover),
+:global(.react-datepicker__day--selected)
+/* :global(.react-datepicker__time-list-item--selected)なぜか反映されない。。  */ {
+  background-color: var(--color-thema);
+}
+
+/* 非活性にしたいスタイル */
+:global(.react-datepicker__day--disabled),
+:global(.react-datepicker__time-list-item--disabled) {
+  opacity: 0.6; /* 必要に応じて調整 */
+  cursor: not-allowed;
+}

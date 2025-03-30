@@ -46,6 +46,7 @@ const updateTodos = async ({
   id,
   name,
   memo,
+  notificate_at,
   is_completed,
 }: UpdateTodosRequest) => {
   await axios.patch(
@@ -53,6 +54,7 @@ const updateTodos = async ({
     {
       name,
       memo,
+      notificate_at,
       is_completed,
     },
     {

@@ -27,17 +27,6 @@
   margin: 0;
 }
 
-.additional_info_wrapper {
-  display: flex;
-  align-items: center;
-  height: 25px;
-}
-
-.memo {
-  font-size: 0.9rem;
-  margin-left: 4px;
-}
-
 .todo_name[data-is-error="true"] {
   color: red;
 }

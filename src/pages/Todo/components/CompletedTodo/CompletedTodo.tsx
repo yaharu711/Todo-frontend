@@ -33,13 +33,17 @@ const CompletedTodo = ({
                 params: {
                   id: target.id,
                   name: target.name,
+                  notificate_at: null,
                   is_completed: false,
                 },
                 successMessage: "未完了にしました✅",
               })
             }
             children={
-              <PiKeyReturnLight size={30} style={{color: "var(--color-icon)"}} />
+              <PiKeyReturnLight
+                size={30}
+                style={{ color: "var(--color-icon)" }}
+              />
             }
             disabled={isPendingForImcompleteTodo || isPendingForCompleteTodo}
           />
@@ -50,6 +54,7 @@ const CompletedTodo = ({
                 params: {
                   id: target.id,
                   name: target.name,
+                  notificate_at: null,
                   is_completed: false,
                 },
                 successMessage: "未完了ににしました✅",

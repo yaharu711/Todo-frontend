@@ -1,11 +1,20 @@
 import { useState } from "react";
-import { ImcompletedTodoType, UpdateTodoDetailParams } from "../../types";
+import {
+  ImcompletedTodoType,
+  UpdateTodoDetailParams,
+  UpdateTodoParams,
+} from "../../types";
 
 export type Props = {
   target: ImcompletedTodoType;
   updateTodoDetail: (props: UpdateTodoDetailParams) => void;
+  updateTodo: ({ params, successMessage }: UpdateTodoParams) => void;
 };
-const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
+const UseImcompletedTodoViewModel = ({
+  target,
+  updateTodoDetail,
+  updateTodo,
+}: Props) => {
   const [inputedTodoName, setInputedTodoName] = useState<string>(target.name);
   const [editInputError, setEditInputError] = useState<string>("");
   const [isDisabledButton, setIsDisabledButton] = useState<boolean>(false);
@@ -40,6 +49,7 @@ const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
       request: {
         id: target.id,
         name: inputedTodoName,
+        notificate_at: null,
       },
       setInputError: setEditInputError,
     });
@@ -67,9 +77,19 @@ const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
     editTodo(target);
   };
 
-  // そろそろリマインダー設定ができるようになる予定なので、ここの条件にリマインダーの有無も追加される
-  const hasAdditionalInfo = target.memo !== "";
+  const completeTodo = () => {
+    updateTodo({
+      params: {
+        id: target.id,
+        name: target.name,
+        notificate_at: null, // todoが完了したら通知は不要なはずなので削除する
+        is_completed: true,
+      },
+      successMessage: "完了にしました✅",
+    });
+  };
 
+  const hasAdditionalInfo = target.memo !== "" || target.notificate_at !== null;
   return {
     inputedTodoName,
     editInputError,
@@ -79,6 +99,7 @@ const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
     onChangeInput,
     editTodoOnKeyDown,
     editTodoOnBlur,
+    completeTodo,
     hasAdditionalInfo,
   };
 };

@@ -10,7 +10,7 @@ import TextInput from "../../../../components/TextInput";
 import { isMobile } from "react-device-detect";
 import Button from "../../../../components/Button";
 import UseImcompletedTodoViewModel from "./useImcompletedTodoViewModel";
-import { MdOutlineStickyNote2 } from "react-icons/md";
+import AdditionalInfo from "./components/AdditionalInfo/AdditionalInfo";
 
 type Props = {
   target: ImcompletedTodoType;
@@ -38,8 +38,9 @@ const ImcompletedTodo = ({
     editTodoOnKeyDown,
     editTodoOnBlur,
     onChangeEditMode,
+    completeTodo,
     hasAdditionalInfo,
-  } = UseImcompletedTodoViewModel({ target, updateTodoDetail });
+  } = UseImcompletedTodoViewModel({ target, updateTodoDetail, updateTodo });
 
   return (
     <li className={styles.li}>
@@ -77,31 +78,14 @@ const ImcompletedTodo = ({
           </p>
         )}
         {hasAdditionalInfo && (
-          <div className={styles.additional_info_wrapper}>
-            <MdOutlineStickyNote2
-              onClick={() => toggleModal(target)}
-              size={15}
-            />
-            <span className={styles.memo} onClick={() => toggleModal(target)}>
-              メモ
-            </span>
-          </div>
+          <AdditionalInfo target={target} toggleModal={toggleModal} />
         )}
       </div>
       <div className={styles.buttons_wrap} data-is-edit-mode={isEditMode}>
         {/* 完了ボタンについて */}
         {isMobile ? (
           <IconButton
-            onClick={() =>
-              updateTodo({
-                params: {
-                  id: target.id,
-                  name: target.name,
-                  is_completed: true,
-                },
-                successMessage: "完了にしました✅",
-              })
-            }
+            onClick={completeTodo}
             disabled={isDisabledButton || isError}
             children={
               <CiCircleCheck size={30} style={{ color: "var(--color-icon)" }} />
@@ -110,16 +94,7 @@ const ImcompletedTodo = ({
         ) : (
           <Button
             disabled={isDisabledButton || isError}
-            onClick={() =>
-              updateTodo({
-                params: {
-                  id: target.id,
-                  name: target.name,
-                  is_completed: true,
-                },
-                successMessage: "完了にしました✅",
-              })
-            }
+            onClick={completeTodo}
             children="完了"
           />
         )}

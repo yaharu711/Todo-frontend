@@ -8,6 +8,7 @@ const defaultSelectedImcompletedTodoType: ImcompletedTodoType = {
   id: 1,
   name: "default",
   memo: "",
+  notificate_at: null,
   created_at: "",
   imcompleted_at: "",
   updateDetailStatus: "",

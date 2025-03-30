@@ -1,0 +1,17 @@
+.additional_info_wrapper {
+  display: flex;
+  align-items: center;
+  column-gap: 12px;
+  height: 25px;
+}
+
+.additional_info {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.additional_text {
+  font-size: 0.87rem;
+  margin-left: 4px;
+}

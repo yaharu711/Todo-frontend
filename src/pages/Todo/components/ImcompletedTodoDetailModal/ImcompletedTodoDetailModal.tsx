@@ -11,6 +11,8 @@ import styles from "./ImcompletedTodoDetailModal.module.css";
 import { formatDate } from "../../../../util/CustomDate";
 import IconButton from "../../../../components/IconButton";
 import { CiCircleCheck } from "react-icons/ci";
+import NotificationDateTimeSetting from "./components/NotificationDateTimeSetting/NotificationDateTimeSetting";
+import { format } from "date-fns";
 
 const ImcompletedTodoDetailModal = ({
   isOpen,
@@ -26,6 +28,8 @@ const ImcompletedTodoDetailModal = ({
   updateTodo: ({ params, successMessage }: UpdateTodoParams) => void;
 }) => {
   const {
+    selectedDateTime,
+    onChangeDateTime,
     inputedMemo,
     editInputError,
     isEditMode,
@@ -67,6 +71,10 @@ const ImcompletedTodoDetailModal = ({
                     params: {
                       id: target.id,
                       name: target.name,
+                      memo: inputedMemo,
+                      notificate_at:
+                        selectedDateTime &&
+                        format(selectedDateTime, "yyyy-MM-dd HH:mm"),
                       is_completed: true,
                     },
                     successMessage: "完了にしました✅",
@@ -81,6 +89,10 @@ const ImcompletedTodoDetailModal = ({
                 }
               />
             </div>
+            <NotificationDateTimeSetting
+              selectedDateTime={selectedDateTime}
+              onChangeDateTime={onChangeDateTime}
+            />
             {isEditMode ? (
               <Textarea
                 label="メモ"
