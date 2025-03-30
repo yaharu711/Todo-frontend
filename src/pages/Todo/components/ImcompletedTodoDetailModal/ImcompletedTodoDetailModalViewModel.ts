@@ -13,6 +13,9 @@ const useImcompletedTodoDetailModalViewModdel = ({
   updateTodoDetail,
   setOpen,
 }: Props) => {
+  // TODO: memoのようにAPIから取得されるデータに設定された通知の日時も含めるようにして、初期値をそれにする。
+  const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(null);
+  const onChangeDateTime = (date: Date | null) => setSelectedDateTime(date);
   const [inputedMemo, setInputedMemo] = useState<string>(target.memo);
   const [editInputError, setEditInputError] = useState("");
   const [isEditMode, setIsEditMode] = useState(false);
@@ -75,6 +78,8 @@ const useImcompletedTodoDetailModalViewModdel = ({
   );
 
   return {
+    selectedDateTime,
+    onChangeDateTime,
     inputedMemo,
     editInputError,
     isEditMode,

@@ -27,6 +27,8 @@ const ImcompletedTodoDetailModal = ({
   updateTodo: ({ params, successMessage }: UpdateTodoParams) => void;
 }) => {
   const {
+    selectedDateTime,
+    onChangeDateTime,
     inputedMemo,
     editInputError,
     isEditMode,
@@ -82,7 +84,10 @@ const ImcompletedTodoDetailModal = ({
                 }
               />
             </div>
-            <NotificationDateTimeSetting />
+            <NotificationDateTimeSetting
+              selectedDateTime={selectedDateTime}
+              onChangeDateTime={onChangeDateTime}
+            />
             {isEditMode ? (
               <Textarea
                 label="メモ"

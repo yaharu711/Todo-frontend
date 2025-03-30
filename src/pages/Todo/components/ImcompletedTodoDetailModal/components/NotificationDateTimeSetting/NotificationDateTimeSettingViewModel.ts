@@ -1,10 +1,7 @@
-import { useState } from "react";
-
-const useNotificationDateTimeSettingViewModel = () => {
-  const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(null);
-
+const useNotificationDateTimeSettingViewModel = (
+  selectedDateTime: Date | null
+) => {
   const now = new Date();
-  const onChangeDateTime = (date: Date | null) => setSelectedDateTime(date);
   // 選択日が今日の場合、現在時刻の1分後（秒・ミリ秒は0に）を返す
   const getMinTimeForSelectedDate = (date: Date) => {
     if (
@@ -41,14 +38,12 @@ const useNotificationDateTimeSettingViewModel = () => {
         return endOfDay;
       })()
     : (() => {
-        const endOfDay = new Date();
+        const endOfDay = now;
         endOfDay.setHours(23, 59, 0, 0);
         return endOfDay;
       })();
 
   return {
-    selectedDateTime,
-    onChangeDateTime,
     now,
     minTime,
     maxTime,

@@ -7,9 +7,18 @@ import { RxCross2 } from "react-icons/rx";
 import styles from "./NotificationDateTimeSetting.module.css";
 import { ja } from "date-fns/locale/ja";
 
-const NotificationDateTimeSetting = () => {
-  const { selectedDateTime, onChangeDateTime, now, minTime, maxTime } =
-    useNotificationDateTimeSettingViewModel();
+type Props = {
+  selectedDateTime: Date | null;
+  onChangeDateTime: (date: Date | null) => void;
+};
+
+const NotificationDateTimeSetting = ({
+  selectedDateTime,
+  onChangeDateTime,
+}: Props) => {
+  const { now, minTime, maxTime } =
+    useNotificationDateTimeSettingViewModel(selectedDateTime);
+
   return (
     <div className={styles.wrapper}>
       <span className={styles.label}>リマインド:</span>
