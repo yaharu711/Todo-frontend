@@ -40,6 +40,7 @@ const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
       request: {
         id: target.id,
         name: inputedTodoName,
+        notificate_at: null,
       },
       setInputError: setEditInputError,
     });
@@ -68,7 +69,8 @@ const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
   };
 
   // そろそろリマインダー設定ができるようになる予定なので、ここの条件にリマインダーの有無も追加される
-  const hasAdditionalInfo = target.memo !== "";
+  const hasMemo = target.memo !== "";
+  const hasNotification = target.notificate_at !== null;
 
   return {
     inputedTodoName,
@@ -79,7 +81,8 @@ const UseImcompletedTodoViewModel = ({ target, updateTodoDetail }: Props) => {
     onChangeInput,
     editTodoOnKeyDown,
     editTodoOnBlur,
-    hasAdditionalInfo,
+    hasMemo,
+    hasNotification,
   };
 };
 

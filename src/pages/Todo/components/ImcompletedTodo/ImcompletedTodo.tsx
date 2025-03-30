@@ -11,6 +11,8 @@ import { isMobile } from "react-device-detect";
 import Button from "../../../../components/Button";
 import UseImcompletedTodoViewModel from "./useImcompletedTodoViewModel";
 import { MdOutlineStickyNote2 } from "react-icons/md";
+import { FaRegBell } from "react-icons/fa";
+import { formatDate } from "../../../../util/CustomDate";
 
 type Props = {
   target: ImcompletedTodoType;
@@ -38,7 +40,8 @@ const ImcompletedTodo = ({
     editTodoOnKeyDown,
     editTodoOnBlur,
     onChangeEditMode,
-    hasAdditionalInfo,
+    hasMemo,
+    hasNotification,
   } = UseImcompletedTodoViewModel({ target, updateTodoDetail });
 
   return (
@@ -49,7 +52,7 @@ const ImcompletedTodo = ({
       />
       <div
         className={styles.todo_name_wrapp}
-        data-has-additional-info={hasAdditionalInfo}
+        data-has-additional-info={hasMemo || hasNotification}
       >
         {/* TODO: 編集モードの時スタイルが崩れるから、どうにかする */}
         {isEditMode ? (
@@ -76,15 +79,32 @@ const ImcompletedTodo = ({
             {target.name}
           </p>
         )}
-        {hasAdditionalInfo && (
+        {(hasMemo || hasNotification) && (
           <div className={styles.additional_info_wrapper}>
-            <MdOutlineStickyNote2
-              onClick={() => toggleModal(target)}
-              size={15}
-            />
-            <span className={styles.memo} onClick={() => toggleModal(target)}>
-              メモ
-            </span>
+            {hasMemo && (
+              <div
+                className={styles.additional_info}
+                onClick={() => toggleModal(target)}
+              >
+                <MdOutlineStickyNote2
+                  onClick={() => toggleModal(target)}
+                  size={15}
+                />
+                <span className={styles.additional_text}>メモ</span>
+              </div>
+            )}
+            {hasNotification && (
+              <div
+                className={styles.additional_info}
+                onClick={() => toggleModal(target)}
+              >
+                <FaRegBell size={15} />
+                <span className={styles.additional_text}>
+                  {target.notificate_at !== null &&
+                    formatDate(target.notificate_at)}
+                </span>
+              </div>
+            )}
           </div>
         )}
       </div>
