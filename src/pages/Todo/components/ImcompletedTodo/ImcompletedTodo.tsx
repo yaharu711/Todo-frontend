@@ -8,7 +8,6 @@ import IconButton from "../../../../components/IconButton";
 import { CiCircleCheck, CiEdit, CiTrash } from "react-icons/ci";
 import TextInput from "../../../../components/TextInput";
 import { isMobile } from "react-device-detect";
-import Button from "../../../../components/Button";
 import UseImcompletedTodoViewModel from "./useImcompletedTodoViewModel";
 import AdditionalInfo from "./components/AdditionalInfo/AdditionalInfo";
 
@@ -83,37 +82,21 @@ const ImcompletedTodo = ({
       </div>
       <div className={styles.buttons_wrap} data-is-edit-mode={isEditMode}>
         {/* 完了ボタンについて */}
-        {isMobile ? (
-          <IconButton
-            onClick={completeTodo}
-            disabled={isDisabledButton || isError}
-            children={
-              <CiCircleCheck size={30} style={{ color: "var(--color-icon)" }} />
-            }
-          />
-        ) : (
-          <Button
-            disabled={isDisabledButton || isError}
-            onClick={completeTodo}
-            children="完了"
-          />
-        )}
+        <IconButton
+          onClick={completeTodo}
+          disabled={isDisabledButton || isError}
+          children={
+            <CiCircleCheck size={30} style={{ color: "var(--color-icon)" }} />
+          }
+        />
         {/* 削除ボタンについて */}
-        {isMobile ? (
-          <IconButton
-            onClick={() => deleteTodo(target.id)}
-            disabled={isDisabledButton || isError}
-            children={
-              <CiTrash size={30} style={{ color: "var(--color-icon)" }} />
-            }
-          />
-        ) : (
-          <Button
-            disabled={isDisabledButton || isError}
-            onClick={() => deleteTodo(target.id)}
-            children="削除"
-          />
-        )}
+        <IconButton
+          onClick={() => deleteTodo(target.id)}
+          disabled={isDisabledButton || isError}
+          children={
+            <CiTrash size={30} style={{ color: "var(--color-icon)" }} />
+          }
+        />
       </div>
     </li>
   );

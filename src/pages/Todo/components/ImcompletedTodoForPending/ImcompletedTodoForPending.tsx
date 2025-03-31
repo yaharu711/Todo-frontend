@@ -1,6 +1,4 @@
-import Button from "../../../../components/Button";
 import IconButton from "../../../../components/IconButton";
-import { isMobile } from "react-device-detect";
 import { CiCircleCheck, CiEdit, CiTrash } from "react-icons/ci";
 import styles from "./ImcompletedTodoForPending.module.css";
 
@@ -29,27 +27,19 @@ const ImcompletedTodoForPending = ({
       </div>
       <div className={styles.buttons_wrap}>
         {/* 完了ボタンについて */}
-        {isMobile ? (
-          <IconButton
-            disabled={true}
-            onClick={() => null}
-            children={
-              <CiCircleCheck size={30} color="rgba(255, 255, 255, 0.9)" />
-            }
-          />
-        ) : (
-          <Button disabled={true} onClick={() => null} children="完了" />
-        )}
+        <IconButton
+          disabled={true}
+          onClick={() => null}
+          children={
+            <CiCircleCheck size={30} color="rgba(255, 255, 255, 0.9)" />
+          }
+        />
         {/* 削除ボタンについて */}
-        {isMobile ? (
-          <IconButton
-            onClick={() => null}
-            disabled={true}
-            children={<CiTrash size={30} color="rgba(255, 255, 255, 0.9)" />}
-          />
-        ) : (
-          <Button disabled={true} onClick={() => null} children="削除" />
-        )}
+        <IconButton
+          onClick={() => null}
+          disabled={true}
+          children={<CiTrash size={30} color="rgba(255, 255, 255, 0.9)" />}
+        />
       </div>
     </li>
   );
