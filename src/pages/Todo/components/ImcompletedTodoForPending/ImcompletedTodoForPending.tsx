@@ -17,12 +17,12 @@ const ImcompletedTodoForPending = ({
       data-is-pending-for-complete-todo={isPendingForCompleteTodo}
       data-is-pending-for-imcomplete-todo={isPendingForImcompleteTodo}
     >
+      <IconButton
+        disabled={true}
+        onClick={() => null}
+        children={<CiEdit size={25} color="rgba(255, 255, 255, 0.9)" />}
+      />
       <div className={styles.todo_name_wrapp}>
-        <IconButton
-          disabled={true}
-          onClick={() => null}
-          children={<CiEdit size={25} color="rgba(255, 255, 255, 0.9)" />}
-        />
         <p className={styles.todo_name}>{todoName}</p>
       </div>
       <div className={styles.buttons_wrap}>
