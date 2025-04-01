@@ -47,6 +47,7 @@
   padding: 0 8px;
   min-height: 65px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .buttons_wrap {
@@ -66,8 +67,15 @@
     width: 100%;
   }
 
+  .todo_left {
+    display: flex;
+    column-gap: 16px;
+  }
+
   .li {
     width: 93%;
+    /* デフォルトに戻す。スマホだとliで93%しかとらないので、borderやpaddingではみ出ることがないため。 */
+    box-sizing: content-box;
   }
 
   .buttons_wrap {

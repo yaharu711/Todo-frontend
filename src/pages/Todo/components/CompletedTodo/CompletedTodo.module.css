@@ -12,8 +12,10 @@
   margin: 0 auto;
   border: 1px solid rgba(255, 255, 255, 0.214);
   border-radius: 6px;
-  padding: 0 8px;
+  padding: 0 16px;
+  min-height: 65px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .li[data-is-pending-for-imcomplete-todo="true"] {
@@ -36,6 +38,9 @@
 @media screen and (max-width: 768px) {
   .li {
     width: 93%;
+    /* デフォルトに戻す。スマホだとliで93%しかとらないので、borderやpaddingではみ出ることがないため。 */
+    box-sizing: content-box;
+    padding: 0 8px;
   }
 
   .buttons_wrap {
