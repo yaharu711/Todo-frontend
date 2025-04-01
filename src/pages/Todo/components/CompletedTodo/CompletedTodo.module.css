@@ -8,10 +8,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0;
+  column-gap: 16px;
+  margin: 0 auto;
   border: 1px solid rgba(255, 255, 255, 0.214);
   border-radius: 6px;
-  padding: 0 8px;
+  padding: 0 16px;
+  min-height: 65px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .li[data-is-pending-for-imcomplete-todo="true"] {
@@ -28,20 +32,15 @@
 
 .buttons_wrap {
   display: flex;
-  column-gap: 16px;
+  column-gap: 8px;
 }
 
 @media screen and (max-width: 768px) {
-  .wrap {
-    width: 100%;
-  }
-
   .li {
-    display: flex;
-    align-items: center;
-    column-gap: 16px;
     width: 93%;
-    margin: 0 auto;
+    /* デフォルトに戻す。スマホだとliで93%しかとらないので、borderやpaddingではみ出ることがないため。 */
+    box-sizing: content-box;
+    padding: 0 8px;
   }
 
   .buttons_wrap {

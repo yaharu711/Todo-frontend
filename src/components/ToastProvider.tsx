@@ -9,7 +9,7 @@ const ToastProvider = ({ children }: { children: React.ReactNode }) => {
       {children}
       <ToastContainer
         position={isMobile ? "bottom-center" : "top-right"}
-        autoClose={3500}
+        autoClose={2500}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

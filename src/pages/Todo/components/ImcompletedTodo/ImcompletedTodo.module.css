@@ -1,3 +1,8 @@
+.todo_left {
+  display: flex;
+  column-gap: 32px;
+}
+
 .todo_name_wrapp {
   display: flex;
   flex-direction: column;
@@ -35,12 +40,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  column-gap: 4px;
-  margin: 0;
+  column-gap: 16px;
+  margin: 0 auto;
   border: 1px solid rgba(255, 255, 255, 0.214);
   border-radius: 6px;
   padding: 0 8px;
   min-height: 65px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .buttons_wrap {
@@ -60,12 +67,15 @@
     width: 100%;
   }
 
-  .li {
+  .todo_left {
     display: flex;
-    align-items: center;
     column-gap: 16px;
+  }
+
+  .li {
     width: 93%;
-    margin: 0 auto;
+    /* デフォルトに戻す。スマホだとliで93%しかとらないので、borderやpaddingではみ出ることがないため。 */
+    box-sizing: content-box;
   }
 
   .buttons_wrap {

@@ -16,6 +16,8 @@
   border: 1px solid rgba(255, 255, 255, 0.214);
   border-radius: 6px;
   padding: 0 8px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media screen and (max-width: 768px) {
@@ -29,5 +31,7 @@
     column-gap: 16px;
     width: 93%;
     margin: 0 auto;
+    /* デフォルトに戻す。スマホだとliで93%しかとらないので、borderやpaddingではみ出ることがないため。 */
+    box-sizing: content-box;
   }
 }
