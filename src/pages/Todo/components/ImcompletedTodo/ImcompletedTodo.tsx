@@ -43,42 +43,44 @@ const ImcompletedTodo = ({
 
   return (
     <li className={styles.li}>
-      <IconButton
-        onClick={() => onChangeEditMode()}
-        children={<CiEdit size={25} style={{ color: "var(--color-icon)" }} />}
-      />
-      <div
-        className={styles.todo_name_wrapp}
-        data-has-additional-info={hasAdditionalInfo}
-      >
-        {/* TODO: 編集モードの時スタイルが崩れるから、どうにかする */}
-        {isEditMode ? (
-          <TextInput
-            placeholder={target.name}
-            name="edit_modal"
-            value={inputedTodoName}
-            onChange={onChangeInput}
-            onKeyDown={(e) => editTodoOnKeyDown(e, target)}
-            onBlur={(e) => editTodoOnBlur(e, target)}
-            errorMessage={editInputError}
-            style={{
-              width: isMobile ? "170px" : "300px",
-              height: isMobile ? "35px" : "auto",
-            }}
-            autoFocus={true}
-          />
-        ) : (
-          <p
-            className={styles.todo_name}
-            data-is-error={isError}
-            onClick={() => toggleModal(target)}
-          >
-            {target.name}
-          </p>
-        )}
-        {hasAdditionalInfo && (
-          <AdditionalInfo target={target} toggleModal={toggleModal} />
-        )}
+      <div className={styles.todo_left}>
+        <IconButton
+          onClick={() => onChangeEditMode()}
+          children={<CiEdit size={25} style={{ color: "var(--color-icon)" }} />}
+        />
+        <div
+          className={styles.todo_name_wrapp}
+          data-has-additional-info={hasAdditionalInfo}
+        >
+          {/* TODO: 編集モードの時スタイルが崩れるから、どうにかする */}
+          {isEditMode ? (
+            <TextInput
+              placeholder={target.name}
+              name="edit_modal"
+              value={inputedTodoName}
+              onChange={onChangeInput}
+              onKeyDown={(e) => editTodoOnKeyDown(e, target)}
+              onBlur={(e) => editTodoOnBlur(e, target)}
+              errorMessage={editInputError}
+              style={{
+                width: isMobile ? "170px" : "300px",
+                height: isMobile ? "35px" : "auto",
+              }}
+              autoFocus={true}
+            />
+          ) : (
+            <p
+              className={styles.todo_name}
+              data-is-error={isError}
+              onClick={() => toggleModal(target)}
+            >
+              {target.name}
+            </p>
+          )}
+          {hasAdditionalInfo && (
+            <AdditionalInfo target={target} toggleModal={toggleModal} />
+          )}
+        </div>
       </div>
       <div className={styles.buttons_wrap} data-is-edit-mode={isEditMode}>
         {/* 完了ボタンについて */}

@@ -52,7 +52,7 @@ const ImcompletedTodos = ({
         {isSortMode ? (
           <Button
             onClick={onClickSaveSorted}
-            style={{ width: "65px", height: "45px" }}
+            style={{ width: "80px", height: "45px" }}
             disabled={isPendingForSortedTodo}
           >
             完了
