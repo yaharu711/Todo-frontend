@@ -15,8 +15,13 @@ const useImcompletedTodoDetailModalViewModdel = ({
   setOpen,
 }: Props) => {
   const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(
-    target.notificate_at ? new Date(target.notificate_at) : null
+    target.notificate_at !== null ? new Date(target.notificate_at) : null
   );
+  useEffect(() => {
+    setSelectedDateTime(
+      target.notificate_at !== null ? new Date(target.notificate_at) : null
+    );
+  }, [target]);
   const onChangeDateTime = (date: Date | null) => setSelectedDateTime(date);
   const [inputedMemo, setInputedMemo] = useState<string>(target.memo);
   const [editInputError, setEditInputError] = useState("");
