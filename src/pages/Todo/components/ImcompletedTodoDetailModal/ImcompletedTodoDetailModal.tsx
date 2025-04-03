@@ -13,6 +13,7 @@ import IconButton from "../../../../components/IconButton";
 import { CiCircleCheck } from "react-icons/ci";
 import NotificationDateTimeSetting from "./components/NotificationDateTimeSetting/NotificationDateTimeSetting";
 import { format } from "date-fns";
+import { isMobile } from "react-device-detect";
 
 const ImcompletedTodoDetailModal = ({
   isOpen,
@@ -63,8 +64,8 @@ const ImcompletedTodoDetailModal = ({
           }}
         >
           <div className={styles.content}>
+            {/* TODO: ここは、メモと同じように編集モードを作る。また、一行編集にならないようにtextタグでやろうかな */}
             <div className={styles.todo_name_wrapper}>
-              <p className={styles.todo_name}>{target.name}</p>
               <IconButton
                 onClick={() => {
                   updateTodo({
@@ -83,11 +84,12 @@ const ImcompletedTodoDetailModal = ({
                 }}
                 children={
                   <CiCircleCheck
-                    size={40}
+                    size={isMobile ? 35 : 40}
                     style={{ color: "var(--color-icon)" }}
                   />
                 }
               />
+              <p className={styles.todo_name}>{target.name}</p>
             </div>
             <NotificationDateTimeSetting
               selectedDateTime={selectedDateTime}
