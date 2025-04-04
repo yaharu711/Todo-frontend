@@ -34,7 +34,6 @@
 
 .todo_name_wrapper {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   column-gap: 8px;
   margin-bottom: 16px;
@@ -50,6 +49,7 @@
 
 .created_at {
   font-size: 0.9rem;
+  margin-top: 16px;
 }
 
 .memo_wrapper {
