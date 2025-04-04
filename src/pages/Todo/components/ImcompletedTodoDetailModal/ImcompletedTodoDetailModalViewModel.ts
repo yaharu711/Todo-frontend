@@ -35,10 +35,6 @@ const useImcompletedTodoDetailModalViewModdel = ({
 
   // これをonCloseの時と、完了ボタンを押した時に実行する
   const editTodo = (target: ImcompletedTodoType) => {
-    // 変化なく何も入力していない場合は編集していなかったことにする
-    if (inputedMemo === target.memo || inputedMemo === "") {
-      setInputedMemo(target.memo);
-    }
     if (inputedMemo.trim() === "") {
       // 編集モードは終わらないまま編集してもらう
       setEditInputError("空白・改行のみは許可されていません");
@@ -50,7 +46,6 @@ const useImcompletedTodoDetailModalViewModdel = ({
       selectedDateTime &&
       format(new Date(selectedDateTime), "yyyy-MM-dd HH:mm:ss") ===
         target.notificate_at;
-    console.log(isNotSetNotification, isNotUpdatedNotificateAt);
     if (
       isNotUpdatedMemo &&
       (isNotUpdatedNotificateAt || isNotSetNotification)

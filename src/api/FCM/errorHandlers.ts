@@ -7,7 +7,6 @@ export const commonFCMApiErrorHandler = (
   navigate: NavigateFunction
 ) => {
   const axiosError = error as AxiosError;
-  console.log(axiosError.status);
   if (axiosError.status === 401) {
     navigate("/login?isFrom401=true", { replace: true });
     // 500エラーの時はstatusがundefinedになる
