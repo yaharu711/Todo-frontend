@@ -68,5 +68,10 @@
   border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.768);
   padding: 10px;
-  white-space: pre-wrap; /* 改行を表示 */
+  /* ユーザが入力した改行を保持 */
+  white-space: pre-wrap;
+  /* 領域からはみ出すときだけ折り返す。単語の切り目とかは考慮されない */
+  overflow-wrap: anywhere; /* 収まらない場合に折り返す */
+  /* word-break: normal; 単語の分割はデフォルトに依存 */
+  line-break: strict; /* 禁則処理を厳格に適用 */
 }
