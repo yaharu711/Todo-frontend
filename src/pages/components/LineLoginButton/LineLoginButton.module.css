@@ -1,0 +1,30 @@
+.button {
+  /* 
+    widthを指定しないのが肝。そうしないと、画像の大きさによってボタンの大きさを決められない
+    ボタンではなく、画像の大きさでボタンの大きさを決めるため。
+  /* width: 120px; */
+  height: 35px;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.img {
+  /* 
+    横幅を固定にしないのが肝。そうしないと、画像の大きさによってボタンの大きさを決められない
+    ボタンではなく、画像の大きさでボタンの大きさを決めるため。
+  */
+  width: auto;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+@media screen and (max-width: 768px) {
+  .button {
+    /* width: 100px; */
+    height: 29px;
+  }
+}
