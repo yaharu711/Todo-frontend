@@ -18,12 +18,24 @@ const WebNotificationSettingItemViewModel = () => {
 
   const isDisabledToggle = !isSupportedBrowser || isDeniedPermission;
 
+  // descriptionは通知の権限などの状態によって動的に決まる
+  let description = "ブラウザの通知機能のON/OFFできます"; // デフォルト
+
+  if (isDeniedPermission) {
+    description =
+      "この機能を使うにはブラウザの通知の権限をデフォルトにリセットしてから、再度ONにしてください";
+  } else if (!isSupportedBrowser) {
+    description =
+      "申し訳ありません、まだこの端末では使えません。対応端末はPCとなります。";
+  }
+
   return {
     isNotificationEnabled,
     isSupportedBrowser,
     onChangeToggle,
     isDisabledToggle,
     isDeniedPermission,
+    description,
   };
 };
 
