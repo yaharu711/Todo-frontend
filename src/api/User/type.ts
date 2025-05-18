@@ -8,7 +8,7 @@ export type RegistRequest = {
   email: string;
   password: string;
   password_confirmation: string;
-}
+};
 
 export type LoginRequest = {
   email: string;
@@ -17,4 +17,8 @@ export type LoginRequest = {
 
 export type CheckLoginedResponse = {
   is_logined: boolean;
+};
+
+export type CreateLineAuthUrlResponse = {
+  url: string;
 };
