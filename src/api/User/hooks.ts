@@ -54,3 +54,10 @@ export const useCheckLogined = () => {
     queryFn: UserApi.checkLogined,
   });
 };
+
+export const useCheckLineBotFriend = () => {
+  return useQuery({
+    queryKey: ["users", "check-line-bot-friend"],
+    queryFn: UserApi.checkLineBotFriend,
+  });
+};
