@@ -36,7 +36,7 @@ const TodoInputForm: React.FC<TodoInputFormProps> = ({
           width: isMobile ? "240px" : "300px",
           height: "40px",
         }}
-        autoFocus={true}
+        autoFocus={false}
       />
       <Button
         disabled={inputedTodoName === "" || isPendingForCreateTodo}
