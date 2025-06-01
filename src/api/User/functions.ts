@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from "axios";
 import {
-  CheckLineBotFriendResponse,
   CheckLoginedResponse,
   CreateLineAuthUrlResponse,
   LoginRequest,
@@ -37,20 +36,11 @@ const createLineAuthUrl = async (): Promise<CreateLineAuthUrlResponse> => {
   return res.data;
 };
 
-const checkLineBotFriend = async (): Promise<CheckLineBotFriendResponse> => {
-  const res = await axios.get(ENDPOINT + "/api/line/check-friend", {
-    withCredentials: true,
-  });
-
-  return res.data;
-};
-
 const UserApi = {
   regist,
   login,
   checkLogined,
   createLineAuthUrl,
-  checkLineBotFriend,
 };
 
 export default UserApi;

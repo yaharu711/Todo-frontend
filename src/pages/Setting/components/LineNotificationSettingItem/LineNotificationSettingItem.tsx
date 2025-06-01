@@ -3,10 +3,12 @@ import LineNotificationSettingItemViewModel from "./LineNotificationSettingItemV
 
 const LineNotificationSettingItem = ({
   isLineBotFriend,
+  isNotificationEnabled,
 }: {
   isLineBotFriend: boolean;
+  isNotificationEnabled: boolean;
 }) => {
-  const { isNotificationEnabled, onChangeToggle, description } =
+  const { onChangeToggle, description } =
     LineNotificationSettingItemViewModel(isLineBotFriend);
 
   return (

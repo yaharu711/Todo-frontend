@@ -7,23 +7,34 @@ import useSettingPageViewModel from "./SettingPageViewModel";
 import { ClipLoader } from "react-spinners";
 
 const SettingPage = () => {
-  const { isLineBotFriend, isPending } = useSettingPageViewModel();
-  console.log(isLineBotFriend);
+  const {
+    isLineBotFriend,
+    isPendingForcheckLineBotFriend,
+    isNotificationEnabled,
+    isPendingForLineNotificationStatus,
+  } = useSettingPageViewModel();
+
   return (
     <div className={styles.settings_container}>
       <SettingHeader />
       <div className={styles.settings_section}>
         <h2 className={styles.section_title}>通知の設定</h2>
         <WebNotificationSettingItem />
-        {isPending || isLineBotFriend === undefined ? (
+        {isPendingForcheckLineBotFriend ||
+        isLineBotFriend === undefined ||
+        isPendingForLineNotificationStatus ||
+        isNotificationEnabled === undefined ? (
           <ClipLoader size={25} color="rgba(255, 255, 255, 0.9)" />
         ) : (
-          <LineNotificationSettingItem isLineBotFriend={isLineBotFriend} />
+          <LineNotificationSettingItem
+            isLineBotFriend={isLineBotFriend}
+            isNotificationEnabled={isNotificationEnabled}
+          />
         )}
       </div>
       <div className={styles.settings_section}>
         <h2 className={styles.section_title}>LINE連携</h2>
-        {isPending || isLineBotFriend === undefined ? (
+        {isPendingForcheckLineBotFriend || isLineBotFriend === undefined ? (
           <ClipLoader size={25} color="rgba(255, 255, 255, 0.9)" />
         ) : (
           <LineBotSettingItem isLineBotFriend={isLineBotFriend} />
