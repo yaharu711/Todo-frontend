@@ -1,11 +1,21 @@
-import { useCheckLineBotFriend } from "../../api/Line/hooks";
+import {
+  useCheckLineBotFriend,
+  useGetLineNotificationStatus,
+} from "../../api/Line/hooks";
 
 const useSettingPageViewModel = () => {
-  const { data, isPending } = useCheckLineBotFriend();
+  const { data: lineBotFriend, isPending: isPendingForcheckLineBotFriend } =
+    useCheckLineBotFriend();
+  const {
+    data: lineNotificationStatus,
+    isPending: isPendingForLineNotificationStatus,
+  } = useGetLineNotificationStatus();
 
   return {
-    isLineBotFriend: data?.friend_flag,
-    isPending,
+    isLineBotFriend: lineBotFriend?.friend_flag,
+    isPendingForcheckLineBotFriend,
+    isPendingForLineNotificationStatus,
+    isNotificationEnabled: lineNotificationStatus?.is_notification,
   };
 };
 
