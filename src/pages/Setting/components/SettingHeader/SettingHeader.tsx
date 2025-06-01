@@ -7,7 +7,7 @@ const SettingHeader = () => {
   return (
     <div className={styles.settings_header}>
       <Button
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/todos")}
         style={{
           background: "none",
           border: "none",
