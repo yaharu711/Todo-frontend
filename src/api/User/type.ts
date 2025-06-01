@@ -22,7 +22,3 @@ export type CheckLoginedResponse = {
 export type CreateLineAuthUrlResponse = {
   url: string;
 };
-
-export type CheckLineBotFriendResponse = {
-  friend_flag: boolean;
-};

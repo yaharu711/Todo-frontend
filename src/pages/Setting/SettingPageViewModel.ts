@@ -1,4 +1,4 @@
-import { useCheckLineBotFriend } from "../../api/User/hooks";
+import { useCheckLineBotFriend } from "../../api/Line/hooks";
 
 const useSettingPageViewModel = () => {
   const { data, isPending } = useCheckLineBotFriend();

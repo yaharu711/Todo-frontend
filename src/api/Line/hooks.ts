@@ -7,3 +7,10 @@ export const useGetLineNotificationStatus = () => {
     queryFn: LineApi.getLineNotificationStatus,
   });
 };
+
+export const useCheckLineBotFriend = () => {
+  return useQuery({
+    queryKey: ["users", "check-line-bot-friend"],
+    queryFn: LineApi.checkLineBotFriend,
+  });
+};
