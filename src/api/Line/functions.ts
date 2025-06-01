@@ -14,6 +14,19 @@ const getLineNotificationStatus =
     return res.data;
   };
 
+const switchLineNotificationStatus = async (
+  is_notification: boolean
+): Promise<void> => {
+  const res = await axios.patch(
+    ENDPOINT + "/line/notifications",
+    { is_notification: is_notification },
+    {
+      withCredentials: true,
+    }
+  );
+  return res.data;
+};
+
 const checkLineBotFriend = async (): Promise<CheckLineBotFriendResponse> => {
   const res = await axios.get(ENDPOINT + "/line/check-friend", {
     withCredentials: true,
@@ -24,5 +37,6 @@ const checkLineBotFriend = async (): Promise<CheckLineBotFriendResponse> => {
 
 export const LineApi = {
   getLineNotificationStatus,
+  switchLineNotificationStatus,
   checkLineBotFriend,
 };
