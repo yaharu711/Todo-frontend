@@ -61,10 +61,3 @@ export const useCheckLineBotFriend = () => {
     queryFn: UserApi.checkLineBotFriend,
   });
 };
-
-export const useGetLineNotificationStatus = () => {
-  return useQuery({
-    queryKey: ["users", "get-line-notification-status"],
-    queryFn: UserApi.getLineNotificationStatus,
-  });
-};

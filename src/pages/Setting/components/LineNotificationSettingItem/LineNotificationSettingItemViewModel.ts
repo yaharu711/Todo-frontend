@@ -1,4 +1,4 @@
-import { useGetLineNotificationStatus } from "../../../../api/User/hooks";
+import { useGetLineNotificationStatus } from "../../../../api/Line/hooks";
 
 const LineNotificationSettingItemViewModel = (isLineBotFriend: boolean) => {
   // 2つ目: LINE通知のON/OFFの状態を取得するAPI
