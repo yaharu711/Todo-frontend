@@ -26,3 +26,7 @@ export type CreateLineAuthUrlResponse = {
 export type CheckLineBotFriendResponse = {
   friend_flag: boolean;
 };
+
+export type GetLineNotificationStatusResponse = {
+  is_notification: boolean;
+};

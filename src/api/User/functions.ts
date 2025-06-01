@@ -3,6 +3,7 @@ import {
   CheckLineBotFriendResponse,
   CheckLoginedResponse,
   CreateLineAuthUrlResponse,
+  GetLineNotificationStatusResponse,
   LoginRequest,
   RegistRequest,
 } from "./type";
@@ -45,12 +46,21 @@ const checkLineBotFriend = async (): Promise<CheckLineBotFriendResponse> => {
   return res.data;
 };
 
+const getLineNotificationStatus =
+  async (): Promise<GetLineNotificationStatusResponse> => {
+    const res = await axios.get(ENDPOINT + "/api/line/notifications", {
+      withCredentials: true,
+    });
+    return res.data;
+  };
+
 const UserApi = {
   regist,
   login,
   checkLogined,
   createLineAuthUrl,
   checkLineBotFriend,
+  getLineNotificationStatus,
 };
 
 export default UserApi;
