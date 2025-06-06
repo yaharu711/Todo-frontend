@@ -10,7 +10,10 @@ import {
 } from "../../api/FCM/hooks";
 
 const useFCMNotification = () => {
-  const { data: isExistValidFCMToken } = useCheckExistValidFCMToken();
+  const {
+    data: isExistValidFCMToken,
+    isPending: isPendingForCheckIsExistValidFCMToken,
+  } = useCheckExistValidFCMToken();
   const [isNotificationEnabled, setIsNotificationEnabled] = useState<
     boolean | null
   >(null);
@@ -26,15 +29,20 @@ const useFCMNotification = () => {
         setIsNotificationEnabled(false);
         return;
       }
-
+      setIsDeniedPermission(Notification.permission === "denied");
+      if (
+        isPendingForCheckIsExistValidFCMToken ||
+        isExistValidFCMToken === undefined
+      ) {
+        return;
+      }
       setIsNotificationEnabled(
         Notification.permission === "granted" && isExistValidFCMToken
       );
-      setIsDeniedPermission(Notification.permission === "denied");
     };
 
     initialize();
-  }, [isExistValidFCMToken]);
+  }, [isExistValidFCMToken, isPendingForCheckIsExistValidFCMToken]);
 
   const { mutate: saveFCMTokenMutate } = useSaveFCMToken();
   const { mutate: invalidateLatestFCMTokenMutate } =
