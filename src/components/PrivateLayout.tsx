@@ -1,6 +1,4 @@
 import { Outlet } from "react-router-dom";
-import { Suspense } from "react";
-import FadeLoaderOverlapedAll from "./FadeLoaderOverlapedAll";
 import { ErrorBoundary } from "react-error-boundary";
 import { APIErrorHandler } from "../api/ErrorBoundary";
 
@@ -9,9 +7,7 @@ const PrivateLayout = () => {
   // それをSuspenseで囲うことでローディング中の処理をシンプルに記述できるようになっている。
   return (
     <ErrorBoundary FallbackComponent={APIErrorHandler}>
-      <Suspense fallback={<FadeLoaderOverlapedAll />}>
-        <Outlet />
-      </Suspense>
+      <Outlet />
     </ErrorBoundary>
   );
 };
