@@ -21,7 +21,7 @@ import { showSuccessToast } from "../../util/CustomToast";
 
 const useTodoViewModel = () => {
   // TODOの取得と定義
-  const { data: todos } = useGetTodos();
+  const { data: todos, isPending: isPendingForGetTodos } = useGetTodos();
   const imcompletedTodos = todos.imcompletedTodosWithStatus;
   const completedTodos = todos.completedTodosWithStatus;
 
@@ -98,6 +98,7 @@ const useTodoViewModel = () => {
   };
 
   return {
+    isPendingForGetTodos,
     imcompletedTodos,
     completedTodos,
     createTodo,

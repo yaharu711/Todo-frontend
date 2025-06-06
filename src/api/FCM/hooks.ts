@@ -1,4 +1,4 @@
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { FCMApi } from "./functions";
 import { SaveFCMTokenRequest } from "./types";
 import { commonFCMApiErrorHandler } from "./errorHandlers";
@@ -21,7 +21,7 @@ export const useInvalidateLatestFCMToken = () => {
 };
 
 export const useCheckExistValidFCMToken = () => {
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: ["check-exist-valid-fcm-token"],
     queryFn: async () => {
       const data = await FCMApi.checkExistValidFCMToken();

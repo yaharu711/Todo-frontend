@@ -1,3 +1,4 @@
+import { ClipLoader } from "react-spinners";
 import ToggleButton from "../../../../components/ToggleButton";
 import styles from "./ToggleSettingItem.module.css";
 
@@ -7,6 +8,7 @@ type Props = {
   checked: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
+  isPendingForToggleButton?: boolean;
 };
 
 const ToggleSettingItem = ({
@@ -15,6 +17,7 @@ const ToggleSettingItem = ({
   checked,
   onChange,
   disabled = false,
+  isPendingForToggleButton = false,
 }: Props) => {
   return (
     <div className={styles.toggle_container}>
@@ -22,7 +25,15 @@ const ToggleSettingItem = ({
         <p className={styles.toggle_label}>{title}</p>
         <p className={styles.toggle_description}>{description}</p>
       </div>
-      <ToggleButton checked={checked} onChange={onChange} disabled={disabled} />
+      {isPendingForToggleButton ? (
+        <ClipLoader size={25} color="rgba(255, 255, 255, 0.9)" />
+      ) : (
+        <ToggleButton
+          checked={checked}
+          onChange={onChange}
+          disabled={disabled}
+        />
+      )}
     </div>
   );
 };

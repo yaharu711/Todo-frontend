@@ -1,8 +1,8 @@
 import {
   QueryClient,
   useMutation,
+  useQuery,
   useQueryClient,
-  useSuspenseQuery,
 } from "@tanstack/react-query";
 import TodoApi from "./functions";
 import { UpdateTodosRequest } from "./types";
@@ -27,8 +27,7 @@ export type useGetTodosResponse = {
 };
 
 export const useGetTodos = () => {
-  // 結局、updateをキャッシュ更新して、cancelQueriesを実行しても、invalidateは上書きされて、処理は完了している？？？だから、statusがdoneに書き換わっている？
-  return useSuspenseQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["todos"],
     queryFn: async (): Promise<useGetTodosResponse> => {
       const data = await TodoApi.getTodos();
@@ -53,6 +52,14 @@ export const useGetTodos = () => {
       return { imcompletedTodosWithStatus, completedTodosWithStatus };
     },
   });
+
+  return {
+    data: data || {
+      imcompletedTodosWithStatus: [],
+      completedTodosWithStatus: [],
+    },
+    isPending,
+  };
 };
 
 export const useCreateTodo = () => {

@@ -10,9 +10,11 @@ import {
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import Header from "./components/Header/Header";
+import { ClipLoader } from "react-spinners";
 
 const TodoPage = () => {
   const {
+    isPendingForGetTodos,
     imcompletedTodos,
     completedTodos,
     createTodo,
@@ -36,29 +38,33 @@ const TodoPage = () => {
           isPendingForCreateTodo={isPendingForCreateTodo}
           submit={createTodo}
         />
-        <>
-          <DndContext
-            sensors={sensors}
-            modifiers={[restrictToVerticalAxis]}
-            collisionDetection={closestCenter} // ソート可能なリストはデフォルトのRectangle intersectionより判定が甘いアルゴリズムにする
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext
-              items={imcompletedTodos}
-              strategy={verticalListSortingStrategy}
+        {isPendingForGetTodos ? (
+          <ClipLoader size={25} color="rgba(255, 255, 255, 0.9)" />
+        ) : (
+          <>
+            <DndContext
+              sensors={sensors}
+              modifiers={[restrictToVerticalAxis]}
+              collisionDetection={closestCenter} // ソート可能なリストはデフォルトのRectangle intersectionより判定が甘いアルゴリズムにする
+              onDragEnd={handleDragEnd}
             >
-              <ImcompletedTodos
-                todos={imcompletedTodos}
-                creatingTodoForPending={creatingTodoForPending}
-                isPendingForCreateTodo={isPendingForCreateTodo}
-                updateTodo={updateTodo}
-                updateTodoDetail={updateTodoDetail}
-                deleteTodo={deleteTodo}
-              />
-            </SortableContext>
-          </DndContext>
-          <CompletedTodos todos={completedTodos} updateTodo={updateTodo} />
-        </>
+              <SortableContext
+                items={imcompletedTodos}
+                strategy={verticalListSortingStrategy}
+              >
+                <ImcompletedTodos
+                  todos={imcompletedTodos}
+                  creatingTodoForPending={creatingTodoForPending}
+                  isPendingForCreateTodo={isPendingForCreateTodo}
+                  updateTodo={updateTodo}
+                  updateTodoDetail={updateTodoDetail}
+                  deleteTodo={deleteTodo}
+                />
+              </SortableContext>
+            </DndContext>
+            <CompletedTodos todos={completedTodos} updateTodo={updateTodo} />
+          </>
+        )}
       </div>
     </div>
   );
