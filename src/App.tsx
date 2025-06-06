@@ -1,14 +1,8 @@
 import { Route, Routes } from "react-router-dom";
-import LoginPage from "./pages/Login";
 import PublicLayout from "./components/PublicLayout";
 import PrivateLayout from "./components/PrivateLayout";
-import TodoPage from "./pages/Todo";
-import HomePage from "./pages/HomePage";
-import UnExpectedErrorPage from "./pages/UnExpectedErrorPage";
 import ToastProvider from "./components/ToastProvider";
-import NotFoundUrlPage from "./pages/NotFoundUrlPage";
-import RegisterPage from "./pages/Register";
-import SettingPage from "./pages/Setting";
+import { lazy, Suspense } from "react";
 
 export type ButtonProps = {
   onClick: (target: TodoType) => void;
@@ -19,22 +13,82 @@ export type TodoType = {
   isEditMode: boolean;
 };
 
+const HomePageLazy = lazy(() => import("./pages/HomePage"));
+const RegisterPageLazy = lazy(() => import("./pages/Register"));
+const LoginPageLazy = lazy(() => import("./pages/Login"));
+const TodoPageLazy = lazy(() => import("./pages/Todo"));
+const SettingPageLazy = lazy(() => import("./pages/Setting"));
+const UnExpectedErrorPageLazy = lazy(
+  () => import("./pages/UnExpectedErrorPage")
+);
+const NotFoundUrlPageLazy = lazy(() => import("./pages/NotFoundUrlPage"));
+
 const App = () => {
+  // 全体にローディングが入った後に、部分的にローディング入るのが微妙な気がするから、一旦何も表示しないように
   return (
     <div className="App">
       <ToastProvider>
         <Routes>
           <Route element={<PublicLayout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/regist" element={<RegisterPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/500" element={<UnExpectedErrorPage />} />
+            <Route
+              path="/"
+              element={
+                <Suspense fallback={<div></div>}>
+                  <HomePageLazy />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/regist"
+              element={
+                <Suspense fallback={<div></div>}>
+                  <RegisterPageLazy />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <Suspense fallback={<div></div>}>
+                  <LoginPageLazy />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/500"
+              element={
+                <Suspense fallback={<div></div>}>
+                  <UnExpectedErrorPageLazy />
+                </Suspense>
+              }
+            />
           </Route>
           <Route element={<PrivateLayout />}>
-            <Route path="/todos" element={<TodoPage />} />
-            <Route path="/setting" element={<SettingPage />} />
+            <Route
+              path="/todos"
+              element={
+                <Suspense fallback={<div></div>}>
+                  <TodoPageLazy />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/setting"
+              element={
+                <Suspense fallback={<div></div>}>
+                  <SettingPageLazy />
+                </Suspense>
+              }
+            />
           </Route>
-          <Route path="*" element={<NotFoundUrlPage />} />
+          <Route
+            path="*"
+            element={
+              <Suspense fallback={<div></div>}>
+                <NotFoundUrlPageLazy />
+              </Suspense>
+            }
+          />
         </Routes>
       </ToastProvider>
     </div>
