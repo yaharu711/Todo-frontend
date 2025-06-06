@@ -39,7 +39,7 @@ const TodoPage = () => {
           submit={createTodo}
         />
         {isPendingForGetTodos ? (
-          <ClipLoader size={25} color="rgba(255, 255, 255, 0.9)" />
+          <ClipLoader size={50} color="rgba(255, 255, 255, 0.9)" />
         ) : (
           <>
             <DndContext
