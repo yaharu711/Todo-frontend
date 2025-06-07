@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 // 上位のコンポーネントで処理するという思想なのかな
 export const APIErrorHandler = ({ error }: { error: AxiosError }) => {
   const navigate = useNavigate();
-  console.error("API Error:", error);
   // コンポーネント内なので、以下のような副作用はuseEffectで処理してあげる
   // これによりレンダリングとの処理が分離できるので予期せぬバグが起きない
   useEffect(() => {
