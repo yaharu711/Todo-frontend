@@ -4,8 +4,13 @@ import {
 } from "../../api/Line/hooks";
 
 const useSettingPageViewModel = () => {
-  const { data: lineBotFriend, isPending: isPendingForcheckLineBotFriend } =
-    useCheckLineBotFriend();
+  const {
+    data: lineBotFriend,
+    isPending: isPendingForcheckLineBotFriend,
+    error,
+  } = useCheckLineBotFriend();
+  // 取得系のエラーはとりあえず投げる
+  if (error) throw error;
   const {
     data: lineNotificationStatus,
     isPending: isPendingForLineNotificationStatus,
