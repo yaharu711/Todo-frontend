@@ -27,7 +27,7 @@ export type useGetTodosResponse = {
 };
 
 export const useGetTodos = () => {
-  const { data, isPending } = useQuery({
+  const { data, isPending, error } = useQuery({
     queryKey: ["todos"],
     queryFn: async (): Promise<useGetTodosResponse> => {
       const data = await TodoApi.getTodos();
@@ -59,6 +59,7 @@ export const useGetTodos = () => {
       completedTodosWithStatus: [],
     },
     isPending,
+    error,
   };
 };
 

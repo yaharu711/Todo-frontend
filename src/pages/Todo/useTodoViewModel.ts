@@ -21,7 +21,10 @@ import { showSuccessToast } from "../../util/CustomToast";
 
 const useTodoViewModel = () => {
   // TODOの取得と定義
-  const { data: todos, isPending: isPendingForGetTodos } = useGetTodos();
+  const { data: todos, isPending: isPendingForGetTodos, error } = useGetTodos();
+  // 取得系のエラーはとりあえず投げる
+  if (error) throw error;
+
   const imcompletedTodos = todos.imcompletedTodosWithStatus;
   const completedTodos = todos.completedTodosWithStatus;
 
