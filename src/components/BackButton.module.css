@@ -1,0 +1,24 @@
+.back_button {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* ← アイコンとテキストの間隔 */
+  padding: 0;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--font-color);
+  cursor: pointer;
+}
+
+.back_button:active {
+  opacity: 0.4; /* タップ時のフィードバック */
+}
+
+.back_button__icon {
+  display: block;
+}
+
+.back-button__label {
+  user-select: none; /* テキスト選択を防止 */
+}
