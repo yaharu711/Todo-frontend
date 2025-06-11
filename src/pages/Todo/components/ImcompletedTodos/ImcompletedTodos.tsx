@@ -43,7 +43,7 @@ const ImcompletedTodos = ({
 
   return (
     <section className={styles.wrap}>
-      <h2>未完了のTODO</h2>
+      <h2>TODO</h2>
       <div
         className={styles.sortIcon}
         data-is-pending-for-sort-todo={isPendingForSortedTodo}

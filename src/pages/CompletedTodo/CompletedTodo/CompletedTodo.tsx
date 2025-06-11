@@ -1,38 +1,31 @@
-import { CompletedTodoType, UpdateTodoParams } from "../../types";
+import { CompletedTodoType } from "../../Todo/types";
 import styles from "./CompletedTodo.module.css";
-import IconButton from "../../../../components/IconButton";
+import IconButton from "../../../components/IconButton";
 import { PiKeyReturnLight } from "react-icons/pi";
+import { ImcompleteTodoParams } from "../CompletedTodoViewModel";
 
 type Props = {
   target: CompletedTodoType;
-  updateTodo: ({ params, successMessage }: UpdateTodoParams) => void;
+  imcompleteTodo: ({ id, successMessage }: ImcompleteTodoParams) => void;
   isPendingForImcompleteTodo: boolean;
-  isPendingForCompleteTodo: boolean;
 };
 
 const CompletedTodo = ({
   target,
-  updateTodo,
+  imcompleteTodo,
   isPendingForImcompleteTodo,
-  isPendingForCompleteTodo,
 }: Props) => {
   return (
     <li
       className={styles.li}
       data-is-pending-for-imcomplete-todo={isPendingForImcompleteTodo}
-      data-is-pending-for-complete-todo={isPendingForCompleteTodo}
     >
       <p className={styles.todo_name}>{target.name}</p>
       <div className={styles.buttons_wrap}>
         <IconButton
           onClick={() =>
-            updateTodo({
-              params: {
-                id: target.id,
-                name: target.name,
-                notificate_at: null,
-                is_completed: false,
-              },
+            imcompleteTodo({
+              id: target.id,
               successMessage: "未完了にしました✅",
             })
           }
@@ -42,7 +35,7 @@ const CompletedTodo = ({
               style={{ color: "var(--color-icon)" }}
             />
           }
-          disabled={isPendingForImcompleteTodo || isPendingForCompleteTodo}
+          disabled={isPendingForImcompleteTodo}
         />
       </div>
     </li>

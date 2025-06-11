@@ -23,6 +23,8 @@ import { arrayMove } from "@dnd-kit/sortable";
 
 export type useGetTodosResponse = {
   imcompletedTodosWithStatus: ImcompletedTodoType[];
+};
+export type useGetCompletedTodosResponse = {
   completedTodosWithStatus: CompletedTodoType[];
 };
 
@@ -31,7 +33,7 @@ export const useGetTodos = () => {
     queryKey: ["todos"],
     queryFn: async (): Promise<useGetTodosResponse> => {
       const data = await TodoApi.getTodos();
-      const imcompletedTodosWithStatus = data.imcompletedTodos.map(function (
+      const imcompletedTodosWithStatus = data.todos.map(function (
         imcompletedTodo
       ) {
         return {
@@ -40,22 +42,38 @@ export const useGetTodos = () => {
           updateTodoStatus: "done",
         };
       });
-      const completedTodosWithStatus = data.completedTodos.map(function (
-        completedTodo
-      ) {
-        return {
-          ...completedTodo,
-          updateTodoStatus: "done",
-        };
-      });
 
-      return { imcompletedTodosWithStatus, completedTodosWithStatus };
+      return { imcompletedTodosWithStatus };
     },
   });
 
   return {
     data: data || {
       imcompletedTodosWithStatus: [],
+    },
+    isPending,
+    error,
+  };
+};
+
+export const useGetCompletedTodos = () => {
+  const { data, isPending, error } = useQuery({
+    queryKey: ["completed-todos"],
+    queryFn: async (): Promise<useGetCompletedTodosResponse> => {
+      const data = await TodoApi.getCompletedTodos();
+      const completedTodosWithStatus = data.todos.map(function (completedTodo) {
+        return {
+          ...completedTodo,
+          updateTodoStatus: "done",
+        };
+      });
+
+      return { completedTodosWithStatus };
+    },
+  });
+
+  return {
+    data: data || {
       completedTodosWithStatus: [],
     },
     isPending,
@@ -160,6 +178,44 @@ export const useUpdateTodos = () => {
   });
 };
 
+export const useImcompleteTodo = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: (id: number) =>
+      TodoApi.updateTodos({
+        id,
+        notificate_at: null,
+        is_completed: false,
+      }),
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ["completed-todos"] });
+
+      const previousTodos = queryClient.getQueryData(["completed-todos"]);
+
+      const request: UpdateTodosRequest = {
+        id,
+        notificate_at: null,
+        is_completed: false,
+      };
+      // 楽観的更新
+      updateCacheForImcompleteTodo({ queryClient, request });
+
+      return { previousTodos };
+    },
+    onError: (error: Error, _variables, context) => {
+      updateTodoErrorHandler(error, navigate);
+      if (context === undefined) return;
+      queryClient.setQueryData(["completed-todos"], context.previousTodos);
+    },
+    onSettled: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["completed-todos"],
+      });
+    },
+  });
+};
+
 export const useDeleteTodo = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -184,7 +240,6 @@ export const useDeleteTodo = () => {
           });
         return {
           imcompletedTodosWithStatus: newImcompletedTodos,
-          completedTodosWithStatus: old.completedTodosWithStatus,
         };
       });
 
@@ -241,7 +296,6 @@ export const useSortImcompletedTodoQueryCache = () => {
           );
           return {
             imcompletedTodosWithStatus: newImcompletedTodo,
-            completedTodosWithStatus: previousTodos.completedTodosWithStatus,
           };
         }
       );
@@ -272,7 +326,6 @@ const updateCacheForUpdateTodoDetail = ({
     });
     return {
       imcompletedTodosWithStatus: newImcompletedTodos,
-      completedTodosWithStatus: old.completedTodosWithStatus,
     };
   });
 };
@@ -295,20 +348,8 @@ const updateCacheForCompleteTodo = ({
             }
           : imcompletedTodoWithStatus;
       });
-    const newCompletedTodos: CompletedTodoType[] = [
-      {
-        id: request.id,
-        name: request.name || "",
-        created_at: "",
-        completed_at: "",
-        imcompleted_at: "",
-        updateTodoStatus: "add_pending",
-      },
-      ...old.completedTodosWithStatus,
-    ];
     return {
       imcompletedTodosWithStatus: newImcompletedTodos,
-      completedTodosWithStatus: newCompletedTodos,
     };
   });
 };
@@ -320,34 +361,22 @@ const updateCacheForImcompleteTodo = ({
   queryClient: QueryClient;
   request: UpdateTodosRequest;
 }) => {
-  queryClient.setQueryData(["todos"], (old: useGetTodosResponse) => {
-    const newCompletedTodos: CompletedTodoType[] =
-      old.completedTodosWithStatus.map(function (completedTodoWithStatus) {
-        return completedTodoWithStatus.id === request.id
-          ? {
-              ...completedTodoWithStatus,
-              name: request.name || "",
-              updateTodoStatus: "delete_pending",
-            }
-          : completedTodoWithStatus;
-      });
-    const newImcompletedTodos: ImcompletedTodoType[] = [
-      {
-        id: request.id,
-        name: request.name || "",
-        memo: "",
-        notificate_at: null,
-        created_at: "",
-        completed_at: "",
-        imcompleted_at: "",
-        updateDetailStatus: "done",
-        updateTodoStatus: "add_pending",
-      },
-      ...old.imcompletedTodosWithStatus,
-    ];
-    return {
-      imcompletedTodosWithStatus: newImcompletedTodos,
-      completedTodosWithStatus: newCompletedTodos,
-    };
-  });
+  queryClient.setQueryData(
+    ["completed-todos"],
+    (old: useGetCompletedTodosResponse) => {
+      const newCompletedTodos: CompletedTodoType[] =
+        old.completedTodosWithStatus.map(function (completedTodoWithStatus) {
+          return completedTodoWithStatus.id === request.id
+            ? {
+                ...completedTodoWithStatus,
+                name: request.name || "",
+                updateTodoStatus: "delete_pending",
+              }
+            : completedTodoWithStatus;
+        });
+      return {
+        completedTodosWithStatus: newCompletedTodos,
+      };
+    }
+  );
 };

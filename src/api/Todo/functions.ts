@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
   CreateTodoRequest,
+  GetCompletedTodosResponse,
   GetTodosResponse,
   UpdateTodosRequest,
 } from "./types";
@@ -32,6 +33,16 @@ const getHelloMessage = async (): Promise<string> => {
 const getTodos = async (): Promise<GetTodosResponse> => {
   const res = await axios.get(ENDPOINT + "/api/todos", {
     withCredentials: true,
+  });
+  return res.data;
+};
+
+const getCompletedTodos = async (): Promise<GetCompletedTodosResponse> => {
+  const res = await axios.get(ENDPOINT + "/api/todos", {
+    withCredentials: true,
+    params: {
+      is_completed_only: true,
+    },
   });
   return res.data;
 };
@@ -85,6 +96,7 @@ const sortTodos = async (sorted_todo_ids: number[]) => {
 const TodoApi = {
   getHelloMessage,
   getTodos,
+  getCompletedTodos,
   createTodo,
   updateTodos,
   deleteTodo,

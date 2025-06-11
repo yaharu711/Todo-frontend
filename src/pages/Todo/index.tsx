@@ -1,6 +1,5 @@
 import TodoInputForm from "./components/TodoInputForm/TodoInputForm";
 import styles from "./index.module.css";
-import CompletedTodos from "./components/CompletedTodos/CompletedTodos";
 import ImcompletedTodos from "./components/ImcompletedTodos/ImcompletedTodos";
 import useTodoViewModel from "./useTodoViewModel";
 import { closestCenter, DndContext } from "@dnd-kit/core";
@@ -16,7 +15,6 @@ const TodoPage = () => {
   const {
     isPendingForGetTodos,
     imcompletedTodos,
-    completedTodos,
     createTodo,
     creatingTodoForPending,
     updateTodoDetail,
@@ -62,7 +60,6 @@ const TodoPage = () => {
                 />
               </SortableContext>
             </DndContext>
-            <CompletedTodos todos={completedTodos} updateTodo={updateTodo} />
           </>
         )}
       </div>
