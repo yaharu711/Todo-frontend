@@ -10,6 +10,7 @@ import TextInput from "../../../../components/TextInput";
 import { isMobile } from "react-device-detect";
 import UseImcompletedTodoViewModel from "./useImcompletedTodoViewModel";
 import AdditionalInfo from "./components/AdditionalInfo/AdditionalInfo";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 type Props = {
   target: ImcompletedTodoType;
@@ -39,6 +40,7 @@ const ImcompletedTodo = ({
     onChangeEditMode,
     completeTodo,
     hasAdditionalInfo,
+    showFireworks,
   } = UseImcompletedTodoViewModel({ target, updateTodoDetail, updateTodo });
 
   return (
@@ -84,13 +86,29 @@ const ImcompletedTodo = ({
       </div>
       <div className={styles.buttons_wrap} data-is-edit-mode={isEditMode}>
         {/* 完了ボタンについて */}
-        <IconButton
-          onClick={completeTodo}
-          disabled={isDisabledButton || isError}
-          children={
-            <CiCircleCheck size={30} style={{ color: "var(--color-icon)" }} />
-          }
-        />
+        <div className={styles.complete_button_wrap}>
+          <IconButton
+            onClick={completeTodo}
+            disabled={isDisabledButton || isError}
+            children={
+              <CiCircleCheck size={30} style={{ color: "var(--color-icon)" }} />
+            }
+            style={{
+              zIndex: 2,
+              position: "relative",
+            }}
+          />
+          {showFireworks && (
+            <div className={styles.fireworks_lottie}>
+              <DotLottieReact
+                src="/animations/complete_button_animation.lottie"
+                autoplay
+                loop={true}
+                style={{ width: 150, height: 150 }}
+              />
+            </div>
+          )}
+        </div>
         {/* 削除ボタンについて */}
         <IconButton
           onClick={() => deleteTodo(target.id)}
