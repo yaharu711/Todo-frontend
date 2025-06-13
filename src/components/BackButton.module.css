@@ -9,6 +9,7 @@
   font-weight: 700;
   color: var(--font-color);
   cursor: pointer;
+  width: 130px;
 }
 
 .back_button:active {

@@ -2,7 +2,6 @@
   display: flex;
   justify-content: end;
   width: 100%;
-  margin-top: 10px;
 }
 
 .content {
@@ -28,5 +27,5 @@
 .menue_wrap {
   display: flex;
   flex-direction: column;
-  row-gap: 16px;
+  row-gap: 24px;
 }

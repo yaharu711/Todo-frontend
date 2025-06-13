@@ -11,7 +11,7 @@ const BackButton = () => {
   return (
     <button className={styles.back_button} onClick={onClick}>
       <IoChevronBackOutline size={25} />
-      <span className={styles.back_button__label}>Todo</span>
+      <span className={styles.back_button__label}>ホーム</span>
     </button>
   );
 };

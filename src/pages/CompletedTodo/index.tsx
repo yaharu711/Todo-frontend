@@ -4,16 +4,20 @@ import CompletedTodo from "./components/CompletedTodo/CompletedTodo";
 import useCompletedTodoViewModel from "./CompletedTodoViewModel";
 import { ClipLoader } from "react-spinners";
 import Header from "../Todo/components/Header/Header";
+import BackButton from "../../components/BackButton";
 
 const CompletedTodoPage = () => {
   const { todos, imcompleteTodo, isPendingForGetCompletedTodos } =
     useCompletedTodoViewModel();
   return (
     <div className={styles.container}>
-      <Header />
+      <div className={styles.header}>
+        <BackButton />
+        <Header />
+      </div>
       <div className={styles.main_container}>
         <section className={styles.wrap}>
-          <h2>完了済みのTODO</h2>
+          <h2 className={styles.h2}>完了済みのTODO</h2>
           {isPendingForGetCompletedTodos ? (
             <ClipLoader size={50} color="rgba(255, 255, 255, 0.9)" />
           ) : (
@@ -25,6 +29,7 @@ const CompletedTodoPage = () => {
                     target={todo}
                     imcompleteTodo={imcompleteTodo}
                     isPendingForImcompleteTodo={
+                      isPendingForGetCompletedTodos ||
                       todo.updateTodoStatus === "delete_pending"
                     }
                   />

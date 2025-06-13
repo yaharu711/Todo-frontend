@@ -15,6 +15,7 @@ input {
   width: 100%;
   min-width: 370px;
   margin: 0 auto;
+  padding-top: 10px;
 }
 
 .main_container {
