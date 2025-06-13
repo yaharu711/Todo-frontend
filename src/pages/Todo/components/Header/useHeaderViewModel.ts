@@ -1,13 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const useHeaderViewModel = () => {
-  const navigate = useNavigate();
-  const onClickSettingButon = () => {
-    navigate("/setting");
-  };
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const changeIsOpen = (open: boolean) => setIsOpen(open);
 
   return {
-    onClickSettingButon,
+    isOpen,
+    changeIsOpen,
   };
 };
 

@@ -73,7 +73,7 @@ const App = () => {
               }
             />
             <Route
-              path="/setting"
+              path="/settings"
               element={
                 <Suspense fallback={<div></div>}>
                   <SettingPageLazy />
