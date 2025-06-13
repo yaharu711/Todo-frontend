@@ -48,7 +48,9 @@ const MenuModalPortal = ({ isOpen, changeIsOpen }: Props) => {
                     style={{ color: "var(--color-icon)" }}
                   />
                 </IconButton>
-                <span onClick={onClickSetting}>アプリ設定</span>
+                <span className={styles.label} onClick={onClickSetting}>
+                  アプリ設定
+                </span>
               </div>
             </div>
           </div>

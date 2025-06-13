@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <div className={styles.container}>
       <IconButton onClick={() => changeIsOpen(true)}>
-        <IoMenu size={30} style={{ color: "var(--color-icon)" }} />
+        <IoMenu size={35} style={{ color: "var(--color-icon)" }} />
       </IconButton>
       <MenuModalPortal isOpen={isOpen} changeIsOpen={changeIsOpen} />
     </div>

@@ -4,7 +4,9 @@ const MenueModalPortalViewModel = (changeIsOpen: (open: boolean) => void) => {
   const navigate = useNavigate();
   const onClickSetting = () => {
     changeIsOpen(false);
-    navigate("/settings");
+    setTimeout(() => {
+      navigate("/settings");
+    }, 300); // アニメーションが終わる頃に遷移
   };
 
   return {
