@@ -19,7 +19,6 @@ const MenuModalPortal = ({ isOpen, changeIsOpen }: Props) => {
       direction="bottom"
       repositionInputs={false}
     >
-      {/* Portalのせいで変なところに表示されていた。コメントアウトすると表示される！ */}
       <Drawer.Portal>
         <Drawer.Overlay className={styles.overlay} />
         <Drawer.Content className={styles.content_wraper}>
