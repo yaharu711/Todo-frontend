@@ -1,0 +1,49 @@
+.overlay {
+  position: fixed; /* relativeだと他の要素の影響を受ける可能性がある */
+  bottom: 0;
+  left: 0;
+  background-color: rgba(2, 1, 1, 0.75);
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+
+.content_wraper {
+  position: fixed; /* relativeだと他の要素の影響を受ける可能性がある */
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 60%;
+  width: 100%;
+  background-color: var(--background-color);
+  border-radius: 10px;
+  z-index: 1000;
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  padding: 32px 16px;
+  width: 90%;
+  /* ドロワー内で縦スクロールができるように */
+  overflow-y: auto;
+}
+
+.close_button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.menu_item {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}
