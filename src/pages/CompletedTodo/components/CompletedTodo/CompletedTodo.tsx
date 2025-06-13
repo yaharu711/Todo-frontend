@@ -1,8 +1,8 @@
-import { CompletedTodoType } from "../../Todo/types";
+import { CompletedTodoType } from "../../../Todo/types";
 import styles from "./CompletedTodo.module.css";
-import IconButton from "../../../components/IconButton";
+import IconButton from "../../../../components/IconButton";
 import { PiKeyReturnLight } from "react-icons/pi";
-import { ImcompleteTodoParams } from "../CompletedTodoViewModel";
+import { ImcompleteTodoParams } from "../../CompletedTodoViewModel";
 
 type Props = {
   target: CompletedTodoType;
