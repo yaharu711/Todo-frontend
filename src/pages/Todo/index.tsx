@@ -1,6 +1,5 @@
 import TodoInputForm from "./components/TodoInputForm/TodoInputForm";
 import styles from "./index.module.css";
-import CompletedTodos from "./components/CompletedTodos/CompletedTodos";
 import ImcompletedTodos from "./components/ImcompletedTodos/ImcompletedTodos";
 import useTodoViewModel from "./useTodoViewModel";
 import { closestCenter, DndContext } from "@dnd-kit/core";
@@ -9,14 +8,13 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import Header from "./components/Header/Header";
+import Header from "./components/TodoHeader/Header";
 import { ClipLoader } from "react-spinners";
 
 const TodoPage = () => {
   const {
     isPendingForGetTodos,
     imcompletedTodos,
-    completedTodos,
     createTodo,
     creatingTodoForPending,
     updateTodoDetail,
@@ -62,7 +60,6 @@ const TodoPage = () => {
                 />
               </SortableContext>
             </DndContext>
-            <CompletedTodos todos={completedTodos} updateTodo={updateTodo} />
           </>
         )}
       </div>

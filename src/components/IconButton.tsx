@@ -5,10 +5,21 @@ export type IconButtonProps = {
   onClick?: () => void;
   disabled?: boolean;
   children: ReactNode;
+  style?: React.CSSProperties;
 };
-const IconButton = ({ onClick, disabled, children }: IconButtonProps) => {
+const IconButton = ({
+  onClick,
+  disabled,
+  children,
+  style,
+}: IconButtonProps) => {
   return (
-    <button className={styles.button} onClick={onClick} disabled={disabled}>
+    <button
+      className={styles.button}
+      onClick={onClick}
+      disabled={disabled}
+      style={style}
+    >
       {children}
     </button>
   );

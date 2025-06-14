@@ -17,6 +17,7 @@ const HomePageLazy = lazy(() => import("./pages/HomePage"));
 const RegisterPageLazy = lazy(() => import("./pages/Register"));
 const LoginPageLazy = lazy(() => import("./pages/Login"));
 const TodoPageLazy = lazy(() => import("./pages/Todo"));
+const CompletedTodoPageLazy = lazy(() => import("./pages/CompletedTodo"));
 const SettingPageLazy = lazy(() => import("./pages/Setting"));
 const UnExpectedErrorPageLazy = lazy(
   () => import("./pages/UnExpectedErrorPage")
@@ -69,6 +70,14 @@ const App = () => {
               element={
                 <Suspense fallback={<div></div>}>
                   <TodoPageLazy />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/todos/completed"
+              element={
+                <Suspense fallback={<div></div>}>
+                  <CompletedTodoPageLazy />
                 </Suspense>
               }
             />

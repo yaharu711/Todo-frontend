@@ -42,13 +42,8 @@
   cursor: pointer;
 }
 
-.menu_item {
+.menue_wrap {
   display: flex;
-  align-items: center;
-  column-gap: 8px;
-}
-
-.label {
-  font-size: 1.1rem;
-  font-weight: 700;
+  flex-direction: column;
+  row-gap: 24px;
 }

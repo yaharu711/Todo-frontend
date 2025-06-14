@@ -1,5 +1,5 @@
 export type GetTodosResponse = {
-  imcompletedTodos: {
+  todos: {
     id: number;
     name: string;
     memo: string;
@@ -8,7 +8,10 @@ export type GetTodosResponse = {
     completed_at?: string;
     imcompleted_at: string;
   }[];
-  completedTodos: {
+};
+
+export type GetCompletedTodosResponse = {
+  todos: {
     id: number;
     name: string;
     memo: string;

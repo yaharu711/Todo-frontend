@@ -26,7 +26,6 @@ const useTodoViewModel = () => {
   if (error) throw error;
 
   const imcompletedTodos = todos.imcompletedTodosWithStatus;
-  const completedTodos = todos.completedTodosWithStatus;
 
   // 作成について
   const {
@@ -103,7 +102,6 @@ const useTodoViewModel = () => {
   return {
     isPendingForGetTodos,
     imcompletedTodos,
-    completedTodos,
     createTodo,
     creatingTodoForPending,
     updateTodoDetail,
