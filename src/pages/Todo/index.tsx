@@ -8,7 +8,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import Header from "../../components/Header/Header";
+import Header from "./components/TodoHeader/Header";
 import { ClipLoader } from "react-spinners";
 
 const TodoPage = () => {

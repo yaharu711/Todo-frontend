@@ -3,7 +3,6 @@ import styles from "./index.module.css";
 import CompletedTodo from "./components/CompletedTodo/CompletedTodo";
 import useCompletedTodoViewModel from "./CompletedTodoViewModel";
 import { ClipLoader } from "react-spinners";
-import Header from "../../components/Header/Header";
 import BackButton from "../../components/BackButton";
 
 const CompletedTodoPage = () => {
@@ -13,7 +12,6 @@ const CompletedTodoPage = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <BackButton />
-        <Header />
       </div>
       <div className={styles.main_container}>
         <section className={styles.wrap}>

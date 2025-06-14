@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const useHeaderViewModel = () => {
+const useHumbergerMenueViewModel = () => {
   const [isLoading, setIsLoading] = useState(true);
   const onLoad = () => {
     setIsLoading(false);
@@ -34,4 +34,4 @@ const useHeaderViewModel = () => {
   };
 };
 
-export default useHeaderViewModel;
+export default useHumbergerMenueViewModel;
