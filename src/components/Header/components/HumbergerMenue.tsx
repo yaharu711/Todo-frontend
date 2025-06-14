@@ -14,6 +14,7 @@ const HumbergerMenue = () => {
     onClickSettingMenue,
     onClickCompletedTodoMenue,
   } = useHumbergerMenueViewModel();
+
   return (
     <>
       <IconButton onClick={() => changeIsOpen(true)}>

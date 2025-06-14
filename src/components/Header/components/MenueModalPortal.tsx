@@ -1,6 +1,7 @@
 import { Drawer } from "vaul";
 import styles from "./MenuModalPortal.module.css";
-import Button from "../../Button";
+import IconButton from "../../IconButton";
+import { IoCloseCircleOutline } from "react-icons/io5";
 type Props = {
   isOpen: boolean;
   changeIsOpen: (open: boolean) => void;
@@ -9,22 +10,17 @@ type Props = {
 
 const MenuModalPortal = ({ isOpen, changeIsOpen, children }: Props) => {
   return (
-    <Drawer.Root
-      open={isOpen}
-      onOpenChange={changeIsOpen}
-      direction="bottom"
-      repositionInputs={false}
-    >
+    <Drawer.Root open={isOpen} onOpenChange={changeIsOpen} direction="bottom">
       <Drawer.Portal>
         <Drawer.Overlay className={styles.overlay} />
         <Drawer.Content className={styles.content_wraper}>
           <div className={styles.content}>
-            <Button
+            <IconButton
               onClick={() => changeIsOpen(false)}
               style={{
                 position: "absolute",
-                top: "38px",
-                right: "38px",
+                top: "15px",
+                right: "15px",
                 backgroundColor: "transparent",
                 border: "none",
                 cursor: "pointer",
@@ -33,8 +29,11 @@ const MenuModalPortal = ({ isOpen, changeIsOpen, children }: Props) => {
                 height: "auto",
               }}
             >
-              ✖︎
-            </Button>
+              <IoCloseCircleOutline
+                size={30}
+                style={{ color: "var(--color-icon)" }}
+              />
+            </IconButton>
             <div className={styles.menue_wrap}>{children}</div>
           </div>
         </Drawer.Content>
