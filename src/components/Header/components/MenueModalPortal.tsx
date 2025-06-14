@@ -1,6 +1,6 @@
 import { Drawer } from "vaul";
 import styles from "./MenuModalPortal.module.css";
-import Button from "../../../../../components/Button";
+import Button from "../../Button";
 type Props = {
   isOpen: boolean;
   changeIsOpen: (open: boolean) => void;

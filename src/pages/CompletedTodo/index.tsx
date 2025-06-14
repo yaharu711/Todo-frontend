@@ -3,7 +3,7 @@ import styles from "./index.module.css";
 import CompletedTodo from "./components/CompletedTodo/CompletedTodo";
 import useCompletedTodoViewModel from "./CompletedTodoViewModel";
 import { ClipLoader } from "react-spinners";
-import Header from "../Todo/components/Header/Header";
+import Header from "../../components/Header/Header";
 import BackButton from "../../components/BackButton";
 
 const CompletedTodoPage = () => {
