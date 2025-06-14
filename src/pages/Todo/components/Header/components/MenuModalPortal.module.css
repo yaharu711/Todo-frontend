@@ -21,3 +21,29 @@
   border-radius: 10px;
   z-index: 1000;
 }
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  padding: 32px 16px;
+  width: 90%;
+  /* ドロワー内で縦スクロールができるように */
+  overflow-y: auto;
+}
+
+.close_button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.menue_wrap {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+}
