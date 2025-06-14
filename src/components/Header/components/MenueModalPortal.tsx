@@ -10,7 +10,12 @@ type Props = {
 
 const MenuModalPortal = ({ isOpen, changeIsOpen, children }: Props) => {
   return (
-    <Drawer.Root open={isOpen} onOpenChange={changeIsOpen} direction="bottom">
+    <Drawer.Root
+      defaultOpen={false}
+      open={isOpen}
+      onOpenChange={changeIsOpen}
+      direction="bottom"
+    >
       <Drawer.Portal>
         <Drawer.Overlay className={styles.overlay} />
         <Drawer.Content className={styles.content_wraper}>

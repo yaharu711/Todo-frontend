@@ -8,16 +8,12 @@ const useHumbergerMenueViewModel = () => {
 
   const onClickSettingMenue = () => {
     changeIsOpen(false);
-    setTimeout(() => {
-      navigate("/settings");
-    }, 400); // アニメーションが終わる頃に遷移
+    navigate("/settings");
   };
 
   const onClickCompletedTodoMenue = () => {
     changeIsOpen(false);
-    setTimeout(() => {
-      navigate("/todos/completed");
-    }, 300);
+    navigate("/todos/completed");
   };
 
   return {
