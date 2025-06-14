@@ -77,7 +77,14 @@ const UseImcompletedTodoViewModel = ({
     editTodo(target);
   };
 
+  const [showFireworks, setShowFireworks] = useState(false);
+
+  const handleComplete = () => {
+    setShowFireworks(true);
+    setTimeout(() => setShowFireworks(false), 1500); // 花火を1.5秒後に消す
+  };
   const completeTodo = () => {
+    handleComplete();
     updateTodo({
       params: {
         id: target.id,
@@ -101,6 +108,7 @@ const UseImcompletedTodoViewModel = ({
     editTodoOnBlur,
     completeTodo,
     hasAdditionalInfo,
+    showFireworks,
   };
 };
 

@@ -62,6 +62,19 @@
   opacity: 0.6; /* 少し透明に */
 }
 
+.complete_button_wrap {
+  position: relative;
+}
+
+.fireworks_lottie {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
 @media screen and (max-width: 768px) {
   .wrap {
     width: 100%;

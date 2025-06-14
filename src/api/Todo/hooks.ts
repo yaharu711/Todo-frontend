@@ -369,7 +369,7 @@ const updateCacheForImcompleteTodo = ({
           return completedTodoWithStatus.id === request.id
             ? {
                 ...completedTodoWithStatus,
-                name: request.name || "",
+                name: request.name || completedTodoWithStatus.name,
                 updateTodoStatus: "delete_pending",
               }
             : completedTodoWithStatus;
