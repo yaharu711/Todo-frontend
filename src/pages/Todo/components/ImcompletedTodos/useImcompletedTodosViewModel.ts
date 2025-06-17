@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { ImcompletedTodoType } from "../../types";
-import { useSortTodosMutation } from "../../../../api/Todo/hooks";
+import {
+  useCompleteTodo,
+  useSortTodosMutation,
+} from "../../../../api/Todo/hooks";
 import { showSuccessToast } from "../../../../util/CustomToast";
 import { useLocation } from "react-router-dom";
 
@@ -57,6 +60,32 @@ const UseImcompletedTodosViewModel = (
     }
   }, []);
 
+  // 完了のアニメーションについて
+  const [displayAnimationTodoIds, setDisplayAnimationTodoIds] = useState<
+    number[]
+  >([]);
+  const handleDisplayAnimationTodoIds = (id: number) => {
+    setDisplayAnimationTodoIds((prev) => [...prev, id]);
+  };
+  const initDisplayAnimationTodoIds = () => {
+    setDisplayAnimationTodoIds([]);
+  };
+
+  const { mutate: completeTodoMutate } = useCompleteTodo();
+  const completeTodo = (todoId: number) => {
+    handleDisplayAnimationTodoIds(todoId);
+    setTimeout(() => {
+      initDisplayAnimationTodoIds();
+    }, 2000); // アニメーションのために1秒後にIDをnullに戻す
+    setTimeout(() => {
+      completeTodoMutate(todoId, {
+        onSuccess: () => {
+          showSuccessToast("完了にしました✅");
+        },
+      });
+    }, 1500);
+  };
+
   return {
     isSortMode,
     toggleSortMode,
@@ -66,6 +95,8 @@ const UseImcompletedTodosViewModel = (
     setOpen,
     selectedTodo,
     toggleModal,
+    completeTodo,
+    displayAnimationTodoIds,
   };
 };
 

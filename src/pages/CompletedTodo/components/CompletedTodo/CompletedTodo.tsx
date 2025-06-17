@@ -20,6 +20,7 @@ const CompletedTodo = ({
       className={styles.li}
       data-is-pending-for-imcomplete-todo={isPendingForImcompleteTodo}
     >
+      {/* TODO: 次は完了にするカスタムフックメソッドも作り、そして、成功したらアニメーションのステートを更新させる */}
       <p className={styles.todo_name}>{target.name}</p>
       <div className={styles.buttons_wrap}>
         <IconButton

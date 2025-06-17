@@ -1,8 +1,4 @@
-import {
-  ImcompletedTodoType,
-  UpdateTodoDetailParams,
-  UpdateTodoParams,
-} from "../../types";
+import { ImcompletedTodoType, UpdateTodoDetailParams } from "../../types";
 import styles from "./ImcompletedTodo.module.css";
 import IconButton from "../../../../components/IconButton";
 import { CiCircleCheck, CiEdit, CiTrash } from "react-icons/ci";
@@ -13,20 +9,20 @@ import AdditionalInfo from "./components/AdditionalInfo/AdditionalInfo";
 
 type Props = {
   target: ImcompletedTodoType;
-  updateTodo: ({ params, successMessage }: UpdateTodoParams) => void;
   updateTodoDetail: (props: UpdateTodoDetailParams) => void;
   deleteTodo: (id: number) => void;
   isError?: boolean;
   toggleModal: (target: ImcompletedTodoType) => void;
+  completeTodo: (todoId: number) => void;
 };
 
 const ImcompletedTodo = ({
   target,
-  updateTodo,
   updateTodoDetail,
   deleteTodo,
   isError = false,
   toggleModal,
+  completeTodo,
 }: Props) => {
   const {
     inputedTodoName,
@@ -37,9 +33,8 @@ const ImcompletedTodo = ({
     editTodoOnKeyDown,
     editTodoOnBlur,
     onChangeEditMode,
-    completeTodo,
     hasAdditionalInfo,
-  } = UseImcompletedTodoViewModel({ target, updateTodoDetail, updateTodo });
+  } = UseImcompletedTodoViewModel({ target, updateTodoDetail });
 
   return (
     <li className={styles.li}>
@@ -85,11 +80,15 @@ const ImcompletedTodo = ({
       <div className={styles.buttons_wrap} data-is-edit-mode={isEditMode}>
         {/* 完了ボタンについて */}
         <IconButton
-          onClick={completeTodo}
+          onClick={() => completeTodo(target.id)}
           disabled={isDisabledButton || isError}
           children={
             <CiCircleCheck size={30} style={{ color: "var(--color-icon)" }} />
           }
+          style={{
+            zIndex: 2,
+            position: "relative",
+          }}
         />
         {/* 削除ボタンについて */}
         <IconButton

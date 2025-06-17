@@ -32,6 +32,18 @@ h2 {
   opacity: 0.6; /* 少し透明に */
 }
 
+.todo_animation_wrap {
+  position: relative;
+}
+
+.fireworks_lottie {
+  position: absolute;
+  top: 3%;
+  left: 55%;
+  pointer-events: none;
+  z-index: 10;
+}
+
 @media screen and (max-width: 768px) {
   .wrap {
     width: 100%;

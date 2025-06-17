@@ -178,6 +178,44 @@ export const useUpdateTodos = () => {
   });
 };
 
+export const useCompleteTodo = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: (id: number) =>
+      TodoApi.updateTodos({
+        id,
+        notificate_at: null,
+        is_completed: true,
+      }),
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ["todos"] });
+
+      const previousTodos = queryClient.getQueryData(["todos"]);
+
+      const request: UpdateTodosRequest = {
+        id,
+        notificate_at: null,
+        is_completed: true,
+      };
+      // 楽観的更新
+      updateCacheForCompleteTodo({ queryClient, request });
+
+      return { previousTodos };
+    },
+    onError: (error: Error, _variables, context) => {
+      updateTodoErrorHandler(error, navigate);
+      if (context === undefined) return;
+      queryClient.setQueryData(["todos"], context.previousTodos);
+    },
+    onSettled: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["todos"],
+      });
+    },
+  });
+};
+
 export const useImcompleteTodo = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -343,7 +381,7 @@ const updateCacheForCompleteTodo = ({
         return imcompletedTodoWithStatus.id === request.id
           ? {
               ...imcompletedTodoWithStatus,
-              name: request.name || "",
+              name: request.name || imcompletedTodoWithStatus.name,
               updateTodoStatus: "delete_pending",
             }
           : imcompletedTodoWithStatus;
@@ -369,7 +407,7 @@ const updateCacheForImcompleteTodo = ({
           return completedTodoWithStatus.id === request.id
             ? {
                 ...completedTodoWithStatus,
-                name: request.name || "",
+                name: request.name || completedTodoWithStatus.name,
                 updateTodoStatus: "delete_pending",
               }
             : completedTodoWithStatus;
