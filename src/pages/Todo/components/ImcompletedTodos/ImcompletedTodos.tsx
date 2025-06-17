@@ -12,6 +12,7 @@ import UseImcompletedTodosViewModel from "./useImcompletedTodosViewModel";
 import Button from "../../../../components/Button";
 import SortableImcompletedTodo from "../SortableImcompletedTodo/SortableImcompletedTodo";
 import ImcompletedTodoDetailModal from "../ImcompletedTodoDetailModal/ImcompletedTodoDetailModal";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 type Props = {
   todos: ImcompletedTodoType[];
@@ -39,6 +40,8 @@ const ImcompletedTodos = ({
     setOpen,
     selectedTodo,
     toggleModal,
+    completeTodo,
+    displayAnimationTodoIds,
   } = UseImcompletedTodosViewModel(todos);
 
   return (
@@ -104,7 +107,7 @@ const ImcompletedTodos = ({
               <ImcompletedTodo
                 key={todo.id + "error"}
                 target={todo}
-                updateTodo={updateTodo}
+                completeTodo={completeTodo}
                 updateTodoDetail={updateTodoDetail}
                 deleteTodo={deleteTodo}
                 isError={true}
@@ -114,14 +117,26 @@ const ImcompletedTodos = ({
           }
 
           return (
-            <ImcompletedTodo
-              key={todo.id}
-              target={todo}
-              updateTodo={updateTodo}
-              updateTodoDetail={updateTodoDetail}
-              deleteTodo={deleteTodo}
-              toggleModal={toggleModal}
-            />
+            <div className={styles.todo_animation_wrap} key={todo.id}>
+              <ImcompletedTodo
+                key={todo.id}
+                target={todo}
+                completeTodo={completeTodo}
+                updateTodoDetail={updateTodoDetail}
+                deleteTodo={deleteTodo}
+                toggleModal={toggleModal}
+              />
+              {displayAnimationTodoIds.includes(todo.id) && (
+                <div className={styles.fireworks_lottie}>
+                  <DotLottieReact
+                    src="/animations/complete_button_click_animation.lottie"
+                    autoplay={true}
+                    loop={true}
+                    style={{ width: "140px", height: "140px" }}
+                  />
+                </div>
+              )}
+            </div>
           );
         })}
       </ul>

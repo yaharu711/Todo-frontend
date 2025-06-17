@@ -1,8 +1,4 @@
-import {
-  ImcompletedTodoType,
-  UpdateTodoDetailParams,
-  UpdateTodoParams,
-} from "../../types";
+import { ImcompletedTodoType, UpdateTodoDetailParams } from "../../types";
 import styles from "./ImcompletedTodo.module.css";
 import IconButton from "../../../../components/IconButton";
 import { CiCircleCheck, CiEdit, CiTrash } from "react-icons/ci";
@@ -10,24 +6,23 @@ import TextInput from "../../../../components/TextInput";
 import { isMobile } from "react-device-detect";
 import UseImcompletedTodoViewModel from "./useImcompletedTodoViewModel";
 import AdditionalInfo from "./components/AdditionalInfo/AdditionalInfo";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 type Props = {
   target: ImcompletedTodoType;
-  updateTodo: ({ params, successMessage }: UpdateTodoParams) => void;
   updateTodoDetail: (props: UpdateTodoDetailParams) => void;
   deleteTodo: (id: number) => void;
   isError?: boolean;
   toggleModal: (target: ImcompletedTodoType) => void;
+  completeTodo: (todoId: number) => void;
 };
 
 const ImcompletedTodo = ({
   target,
-  updateTodo,
   updateTodoDetail,
   deleteTodo,
   isError = false,
   toggleModal,
+  completeTodo,
 }: Props) => {
   const {
     inputedTodoName,
@@ -38,10 +33,8 @@ const ImcompletedTodo = ({
     editTodoOnKeyDown,
     editTodoOnBlur,
     onChangeEditMode,
-    completeTodo,
     hasAdditionalInfo,
-    showFireworks,
-  } = UseImcompletedTodoViewModel({ target, updateTodoDetail, updateTodo });
+  } = UseImcompletedTodoViewModel({ target, updateTodoDetail });
 
   return (
     <li className={styles.li}>
@@ -86,29 +79,17 @@ const ImcompletedTodo = ({
       </div>
       <div className={styles.buttons_wrap} data-is-edit-mode={isEditMode}>
         {/* 完了ボタンについて */}
-        <div className={styles.complete_button_wrap}>
-          <IconButton
-            onClick={completeTodo}
-            disabled={isDisabledButton || isError}
-            children={
-              <CiCircleCheck size={30} style={{ color: "var(--color-icon)" }} />
-            }
-            style={{
-              zIndex: 2,
-              position: "relative",
-            }}
-          />
-          {showFireworks && (
-            <div className={styles.fireworks_lottie}>
-              <DotLottieReact
-                src="/animations/complete_button_animation.lottie"
-                autoplay
-                loop={true}
-                style={{ width: 150, height: 150 }}
-              />
-            </div>
-          )}
-        </div>
+        <IconButton
+          onClick={() => completeTodo(target.id)}
+          disabled={isDisabledButton || isError}
+          children={
+            <CiCircleCheck size={30} style={{ color: "var(--color-icon)" }} />
+          }
+          style={{
+            zIndex: 2,
+            position: "relative",
+          }}
+        />
         {/* 削除ボタンについて */}
         <IconButton
           onClick={() => deleteTodo(target.id)}
