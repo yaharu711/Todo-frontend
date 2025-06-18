@@ -85,7 +85,7 @@ const ImcompletedTodo = ({
         {displayAnimationTodoIds.includes(target.id) ? (
           <div>
             <DotLottieReact
-              src="/animations/complete_button_click_animation.lottie"
+              src="/animations/mc1oedqm.lottie"
               autoplay={true}
               loop={false}
               style={{ width: "40px", height: "40px" }}
