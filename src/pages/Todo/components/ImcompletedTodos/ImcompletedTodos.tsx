@@ -12,7 +12,6 @@ import UseImcompletedTodosViewModel from "./useImcompletedTodosViewModel";
 import Button from "../../../../components/Button";
 import SortableImcompletedTodo from "../SortableImcompletedTodo/SortableImcompletedTodo";
 import ImcompletedTodoDetailModal from "../ImcompletedTodoDetailModal/ImcompletedTodoDetailModal";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 type Props = {
   todos: ImcompletedTodoType[];
@@ -112,6 +111,7 @@ const ImcompletedTodos = ({
                 deleteTodo={deleteTodo}
                 isError={true}
                 toggleModal={toggleModal}
+                displayAnimationTodoIds={displayAnimationTodoIds}
               />
             );
           }
@@ -125,17 +125,8 @@ const ImcompletedTodos = ({
                 updateTodoDetail={updateTodoDetail}
                 deleteTodo={deleteTodo}
                 toggleModal={toggleModal}
+                displayAnimationTodoIds={displayAnimationTodoIds}
               />
-              {displayAnimationTodoIds.includes(todo.id) && (
-                <div className={styles.fireworks_lottie}>
-                  <DotLottieReact
-                    src="/animations/complete_button_click_animation.lottie"
-                    autoplay={true}
-                    loop={true}
-                    style={{ width: "140px", height: "140px" }}
-                  />
-                </div>
-              )}
             </div>
           );
         })}
