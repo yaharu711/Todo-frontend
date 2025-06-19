@@ -1,4 +1,4 @@
-import { IoMenu } from "react-icons/io5";
+import { IoLogOutOutline, IoMenu } from "react-icons/io5";
 
 import { IoSettingsOutline } from "react-icons/io5";
 import { CgPlayListCheck } from "react-icons/cg";
@@ -13,6 +13,7 @@ const HumbergerMenue = () => {
     changeIsOpen,
     onClickSettingMenue,
     onClickCompletedTodoMenue,
+    onClickLogoutMenue,
   } = useHumbergerMenueViewModel();
 
   return (
@@ -38,6 +39,14 @@ const HumbergerMenue = () => {
             <CgPlayListCheck size={35} style={{ color: "var(--color-icon)" }} />
           }
           label="完了済みTodo"
+          width="200px"
+        />
+        <IconButtonWithLabel
+          onClick={onClickLogoutMenue}
+          iconComponent={
+            <IoLogOutOutline size={30} style={{ color: "var(--color-icon)" }} />
+          }
+          label="ログアウト"
           width="200px"
         />
       </MenuModalPortal>

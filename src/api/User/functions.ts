@@ -22,6 +22,13 @@ const login = async (request: LoginRequest): Promise<AxiosResponse> => {
   return res;
 };
 
+const logout = async (): Promise<AxiosResponse> => {
+  const res = await axios.post(ENDPOINT + "/logout", undefined, {
+    withCredentials: true,
+  });
+  return res;
+};
+
 const checkLogined = async (): Promise<CheckLoginedResponse> => {
   const res = await axios.post(ENDPOINT + "/check-login", undefined, {
     withCredentials: true,
@@ -39,6 +46,7 @@ const createLineAuthUrl = async (): Promise<CreateLineAuthUrlResponse> => {
 const UserApi = {
   regist,
   login,
+  logout,
   checkLogined,
   createLineAuthUrl,
 };
