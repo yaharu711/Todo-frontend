@@ -4,6 +4,7 @@ import { LoginRequest, RegistRequest } from "./type";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { registErrorHandler } from "./errorHandlers";
+import { showSuccessToast } from "../../util/CustomToast";
 
 export const useRegist = (
   setInputError: React.Dispatch<
@@ -44,6 +45,21 @@ export const useLogin = (
         setError(
           "メールアドレスかパスワードが間違っています。再度入力してください。"
         );
+    },
+  });
+};
+
+export const useLogout = () => {
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: () => UserApi.logout(),
+    onSuccess: () => {
+      showSuccessToast("ログアウトしました✅");
+      navigate("/login");
+    },
+    onError: () => {
+      showSuccessToast("ログアウトに失敗しました❌");
     },
   });
 };
