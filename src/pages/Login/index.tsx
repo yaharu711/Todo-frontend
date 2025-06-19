@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import FadeLoaderOverlapedAll from "../../components/FadeLoaderOverlapedAll";
+import ClipLoaderOverlapedAll from "../../components/ClipLoaderOverlapedAll";
 import LoginForm from "./components/LoginForm/LoginForm";
 import styles from "./index.module.css";
 import useLoginPageViewModel from "./useLoginPageViewModel";
@@ -10,7 +10,7 @@ const LoginPage = () => {
     <>
       <div className={styles.container}>
         <h1>ログインページ</h1>
-        {isPendingForCheckLogined ? <FadeLoaderOverlapedAll /> : <LoginForm />}
+        {isPendingForCheckLogined ? <ClipLoaderOverlapedAll /> : <LoginForm />}
       </div>
       <div className={styles.link_container}>
         <NavLink to="/regist" color="var(--color-thema)">

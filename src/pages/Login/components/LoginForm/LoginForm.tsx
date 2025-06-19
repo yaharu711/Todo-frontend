@@ -1,6 +1,6 @@
 import styles from "./LoginForm.module.css";
 import Button from "../../../../components/Button";
-import FadeLoaderOverlapedAll from "../../../../components/FadeLoaderOverlapedAll";
+import ClipLoaderOverlapedAll from "../../../../components/ClipLoaderOverlapedAll";
 import TextInput from "../../../../components/TextInput";
 import UseLoginFormViewModel from "./useLoginFormViewModel";
 
@@ -17,7 +17,7 @@ const LoginForm = () => {
 
   return (
     <>
-      {isPendingForLogin && <FadeLoaderOverlapedAll />}
+      {isPendingForLogin && <ClipLoaderOverlapedAll />}
       <div className={styles.container}>
         {error.length !== 0 && <span className={styles.error}>{error}</span>}
         <form className={styles.form} onSubmit={onSubmit}>
