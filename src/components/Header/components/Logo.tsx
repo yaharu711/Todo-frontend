@@ -2,10 +2,14 @@ import { Link } from "react-router-dom";
 import useLogoViewModel from "./LogoViewModel";
 import styles from "./Logo.module.css";
 
-const Logo = () => {
+type Props = {
+  href?: string;
+};
+
+const Logo = ({ href = "/todos" }: Props) => {
   const { isLoading, onLoad } = useLogoViewModel();
   return (
-    <Link className={styles.logo_wrap} to="/todos">
+    <Link className={styles.logo_wrap} to={href}>
       {isLoading && (
         <div
           style={{

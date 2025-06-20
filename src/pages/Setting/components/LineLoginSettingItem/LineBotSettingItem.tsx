@@ -18,7 +18,7 @@ const LineBotSettingItem = ({
       >
         {description}
       </p>
-      {!isLineBotFriend && <LineLoginButton />}
+      {!isLineBotFriend && <LineLoginButton width={95} height={30} />}
     </div>
   );
 };

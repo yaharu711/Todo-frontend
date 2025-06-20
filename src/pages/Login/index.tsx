@@ -1,23 +1,25 @@
-import { NavLink } from "react-router-dom";
 import ClipLoaderOverlapedAll from "../../components/ClipLoaderOverlapedAll";
 import LoginForm from "./components/LoginForm/LoginForm";
 import styles from "./index.module.css";
 import useLoginPageViewModel from "./useLoginPageViewModel";
+import SocialLogin from "./components/SocialLogin/SocialLogin";
+import LoginHeader from "./components/Header/LoginHeader";
 
 const LoginPage = () => {
   const { isPendingForCheckLogined } = useLoginPageViewModel();
   return (
-    <>
-      <div className={styles.container}>
-        <h1>ログインページ</h1>
-        {isPendingForCheckLogined ? <ClipLoaderOverlapedAll /> : <LoginForm />}
-      </div>
-      <div className={styles.link_container}>
-        <NavLink to="/regist" color="var(--color-thema)">
-          新規登録ページへ
-        </NavLink>
-      </div>
-    </>
+    <div className={styles.container}>
+      <LoginHeader />
+      <h1>ログイン</h1>
+      {isPendingForCheckLogined ? (
+        <ClipLoaderOverlapedAll />
+      ) : (
+        <>
+          <LoginForm />
+          <SocialLogin />
+        </>
+      )}
+    </div>
   );
 };
 
