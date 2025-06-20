@@ -1,18 +1,14 @@
-import { NavLink } from "react-router-dom";
 import RegisterForm from "./components/RegisterForm/RegisterForm";
 import styles from "./index.module.css";
+import RegisterHeader from "./components/Header/RegisterHeader";
 
 const RegisterPage = () => {
   return (
     <>
       <div className={styles.container}>
+        <RegisterHeader />
         <h1>新規登録ページ</h1>
         <RegisterForm />
-      </div>
-      <div className={styles.link_container}>
-        <NavLink to="/login" color="var(--color-thema)">
-          ログインページへ
-        </NavLink>
       </div>
     </>
   );
