@@ -6,12 +6,12 @@ const SocialLogin = () => {
     <div className={styles.social_login_container}>
       <div className={styles.login_line_wrap}>
         {/* LINE ログインボタン */}
-        <LineLoginButton width={140} height={40} />
+        <LineLoginButton width={180} height={50} />
 
         {/* 注意書き */}
         <div className={styles.alert_wrap}>
           <span className={styles.alert_title}>
-            既にアカウントがあり、初めてLINEログインする方へ
+            既にアカウント、初めてLINEログインする方へ
           </span>
           <br />
           <span className={styles.notice_text}>

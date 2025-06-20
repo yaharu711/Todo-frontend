@@ -5,8 +5,9 @@
 .login_line_wrap {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 16px;
+  margin-top: 32px;
   padding-top: 16px;
   border-top: rgba(255, 255, 255, 0.214) solid 2px;
 }

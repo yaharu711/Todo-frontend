@@ -38,7 +38,7 @@ const LoginForm = () => {
             value={password}
             onChange={onChangePassword}
           />
-          <Button type="submit" style={{ width: 150 }}>
+          <Button type="submit" style={{ width: "100%" }}>
             ログイン
           </Button>
         </form>
