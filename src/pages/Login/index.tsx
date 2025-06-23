@@ -1,4 +1,4 @@
-import ClipLoaderOverlapedAll from "../../components/ClipLoaderOverlapedAll";
+import ClipLoaderOverlapedAll from "../../components/ClipLoaderOverlapedAll/ClipLoaderOverlapedAll";
 import LoginForm from "./components/LoginForm/LoginForm";
 import styles from "./index.module.css";
 import useLoginPageViewModel from "./useLoginPageViewModel";

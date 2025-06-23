@@ -1,6 +1,6 @@
-import Button from "../../../../components/Button";
-import ClipLoaderOverlapedAll from "../../../../components/ClipLoaderOverlapedAll";
-import TextInput from "../../../../components/TextInput";
+import Button from "../../../../components/Button/Button";
+import ClipLoaderOverlapedAll from "../../../../components/ClipLoaderOverlapedAll/ClipLoaderOverlapedAll";
+import TextInput from "../../../../components/TextInput/TextInput";
 import styles from "./RegisterForm.module.css";
 import useRegisterFormViewModel from "./RegisterFormViewModel";
 

@@ -5,11 +5,11 @@ import {
   UpdateTodoParams,
 } from "../../types";
 import useImcompletedTodoDetailModalViewModdel from "./ImcompletedTodoDetailModalViewModel";
-import Textarea from "../../../../components/Textarea";
-import Button from "../../../../components/Button";
+import Textarea from "../../../../components/TextArea/Textarea";
+import Button from "../../../../components/Button/Button";
 import styles from "./ImcompletedTodoDetailModal.module.css";
 import { formatDate } from "../../../../util/CustomDate";
-import IconButton from "../../../../components/IconButton";
+import IconButton from "../../../../components/IconButton/IconButton";
 import { CiCircleCheck } from "react-icons/ci";
 import NotificationDateTimeSetting from "./components/NotificationDateTimeSetting/NotificationDateTimeSetting";
 import { format } from "date-fns";

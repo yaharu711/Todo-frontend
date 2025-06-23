@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import Logo from "../../../../components/Header/components/Logo";
+import Logo from "../../../../components/Logo/Logo";
 import styles from "./RegisterHeader.module.css";
 
 const RegisterHeader = () => {

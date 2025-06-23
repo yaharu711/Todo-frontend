@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import PublicLayout from "./components/PublicLayout";
 import PrivateLayout from "./components/PrivateLayout";
-import ToastProvider from "./components/ToastProvider";
+import ToastProvider from "./util/ToastProvider";
 import { lazy, Suspense } from "react";
 
 export type ButtonProps = {

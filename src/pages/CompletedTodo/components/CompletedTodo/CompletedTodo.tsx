@@ -1,6 +1,6 @@
 import { CompletedTodoType } from "../../../Todo/types";
 import styles from "./CompletedTodo.module.css";
-import IconButton from "../../../../components/IconButton";
+import IconButton from "../../../../components/IconButton/IconButton";
 import { PiKeyReturnLight } from "react-icons/pi";
 import { ImcompleteTodoParams } from "../../CompletedTodoViewModel";
 

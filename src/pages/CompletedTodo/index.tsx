@@ -3,7 +3,7 @@ import styles from "./index.module.css";
 import CompletedTodo from "./components/CompletedTodo/CompletedTodo";
 import useCompletedTodoViewModel from "./CompletedTodoViewModel";
 import { ClipLoader } from "react-spinners";
-import BackButton from "../../components/BackButton";
+import BackButton from "../../components/BuckButton/BackButton";
 
 const CompletedTodoPage = () => {
   const { todos, imcompleteTodo, isPendingForGetCompletedTodos } =

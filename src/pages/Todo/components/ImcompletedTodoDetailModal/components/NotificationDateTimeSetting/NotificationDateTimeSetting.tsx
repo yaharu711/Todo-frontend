@@ -2,7 +2,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import useNotificationDateTimeSettingViewModel from "./NotificationDateTimeSettingViewModel";
 import React from "react";
-import IconButton from "../../../../../../components/IconButton";
+import IconButton from "../../../../../../components/IconButton/IconButton";
 import { RxCross2 } from "react-icons/rx";
 import styles from "./NotificationDateTimeSetting.module.css";
 import { ja } from "date-fns/locale/ja";

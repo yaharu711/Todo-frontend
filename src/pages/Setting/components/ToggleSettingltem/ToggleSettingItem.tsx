@@ -1,5 +1,5 @@
 import { ClipLoader } from "react-spinners";
-import ToggleButton from "../../../../components/ToggleButton";
+import ToggleButton from "../../../../components/ToggleButton/ToggleButton";
 import styles from "./ToggleSettingItem.module.css";
 
 type Props = {

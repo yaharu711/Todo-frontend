@@ -6,10 +6,10 @@ import {
 import ImcompletedTodo from "../ImcompletedTodo/ImcompletedTodo";
 import styles from "./ImcompletedTodos.module.css";
 import ImcompletedTodoForPending from "../ImcompletedTodoForPending/ImcompletedTodoForPending";
-import IconButton from "../../../../components/IconButton";
+import IconButton from "../../../../components/IconButton/IconButton";
 import { GrSort } from "react-icons/gr";
 import UseImcompletedTodosViewModel from "./useImcompletedTodosViewModel";
-import Button from "../../../../components/Button";
+import Button from "../../../../components/Button/Button";
 import SortableImcompletedTodo from "../SortableImcompletedTodo/SortableImcompletedTodo";
 import ImcompletedTodoDetailModal from "../ImcompletedTodoDetailModal/ImcompletedTodoDetailModal";
 

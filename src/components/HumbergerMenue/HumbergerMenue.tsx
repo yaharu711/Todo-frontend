@@ -2,9 +2,9 @@ import { IoLogOutOutline, IoMenu } from "react-icons/io5";
 
 import { IoSettingsOutline } from "react-icons/io5";
 import { CgPlayListCheck } from "react-icons/cg";
-import IconButton from "../../IconButton";
-import MenuModalPortal from "./MenueModalPortal";
-import IconButtonWithLabel from "./IconButtonWithLabel";
+import IconButton from "../IconButton/IconButton";
+import MenuModalPortal from "../MenueModalPortal/MenueModalPortal";
+import IconButtonWithLabel from "../IconButtonWithLabel/IconButtonWithLabel";
 import useHumbergerMenueViewModel from "./HumbergerMenueViewModel";
 
 const HumbergerMenue = () => {

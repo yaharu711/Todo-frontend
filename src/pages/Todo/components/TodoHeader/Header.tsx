@@ -1,6 +1,6 @@
 import styles from "./Header.module.css";
-import HumbergerMenue from "../../../../components/Header/components/HumbergerMenue";
-import Logo from "../../../../components/Header/components/Logo";
+import HumbergerMenue from "../../../../components/HumbergerMenue/HumbergerMenue";
+import Logo from "../../../../components/Logo/Logo";
 
 const Header = () => {
   return (
