@@ -1,4 +1,4 @@
-import LineLoginButton from "../../../components/LineLoginButton/LineLoginButton";
+import LineLoginButton from "../../../../components/LineLoginButton/LineLoginButton";
 import styles from "./LineBotSettingItem.module.css";
 
 const LineBotSettingItem = ({

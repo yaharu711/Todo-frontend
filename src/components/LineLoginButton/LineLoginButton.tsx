@@ -1,4 +1,4 @@
-import UserApi from "../../../api/User/functions";
+import UserApi from "../../api/User/functions";
 import styles from "./LineLoginButton.module.css";
 
 type Props = {

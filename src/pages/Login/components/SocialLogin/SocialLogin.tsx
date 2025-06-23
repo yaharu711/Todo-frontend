@@ -1,4 +1,4 @@
-import LineLoginButton from "../../../components/LineLoginButton/LineLoginButton";
+import LineLoginButton from "../../../../components/LineLoginButton/LineLoginButton";
 import styles from "./SocialLogin.module.css";
 
 const SocialLogin = () => {

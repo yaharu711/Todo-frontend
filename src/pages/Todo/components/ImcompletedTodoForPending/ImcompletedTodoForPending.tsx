@@ -1,4 +1,4 @@
-import IconButton from "../../../../components/IconButton";
+import IconButton from "../../../../components/IconButton/IconButton";
 import { CiCircleCheck, CiEdit, CiTrash } from "react-icons/ci";
 import styles from "./ImcompletedTodoForPending.module.css";
 

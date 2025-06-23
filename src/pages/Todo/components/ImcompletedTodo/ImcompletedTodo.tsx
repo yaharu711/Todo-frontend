@@ -1,8 +1,8 @@
 import { ImcompletedTodoType, UpdateTodoDetailParams } from "../../types";
 import styles from "./ImcompletedTodo.module.css";
-import IconButton from "../../../../components/IconButton";
+import IconButton from "../../../../components/IconButton/IconButton";
 import { CiCircleCheck, CiEdit, CiTrash } from "react-icons/ci";
-import TextInput from "../../../../components/TextInput";
+import TextInput from "../../../../components/TextInput/TextInput";
 import { isMobile } from "react-device-detect";
 import UseImcompletedTodoViewModel from "./useImcompletedTodoViewModel";
 import AdditionalInfo from "./components/AdditionalInfo/AdditionalInfo";

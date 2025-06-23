@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./TodoInputForm.module.css";
-import Button from "../../../../components/Button";
-import TextInput from "../../../../components/TextInput";
+import Button from "../../../../components/Button/Button";
+import TextInput from "../../../../components/TextInput/TextInput";
 import { isMobile } from "react-device-detect";
 import { CreateTodoParams } from "../../types";
 import UseTodoInputFormViewModel from "./useTodoInputFormViewModel";

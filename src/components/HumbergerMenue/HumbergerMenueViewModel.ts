@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLogout } from "../../../api/User/hooks";
+import { useLogout } from "../../api/User/hooks";
 
 const useHumbergerMenueViewModel = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);

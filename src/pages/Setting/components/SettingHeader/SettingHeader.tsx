@@ -1,5 +1,5 @@
 import styles from "./SettingHeader.module.css";
-import BackButton from "../../../../components/BackButton";
+import BackButton from "../../../../components/BuckButton/BackButton";
 
 const SettingHeader = () => {
   return (

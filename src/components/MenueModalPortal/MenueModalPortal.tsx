@@ -1,6 +1,6 @@
 import { Drawer } from "vaul";
 import styles from "./MenuModalPortal.module.css";
-import IconButton from "../../IconButton";
+import IconButton from "../IconButton/IconButton";
 import { IoCloseCircleOutline } from "react-icons/io5";
 type Props = {
   isOpen: boolean;

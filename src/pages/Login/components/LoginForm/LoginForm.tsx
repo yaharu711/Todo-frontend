@@ -1,7 +1,7 @@
 import styles from "./LoginForm.module.css";
-import Button from "../../../../components/Button";
-import ClipLoaderOverlapedAll from "../../../../components/ClipLoaderOverlapedAll";
-import TextInput from "../../../../components/TextInput";
+import Button from "../../../../components/Button/Button";
+import ClipLoaderOverlapedAll from "../../../../components/ClipLoaderOverlapedAll/ClipLoaderOverlapedAll";
+import TextInput from "../../../../components/TextInput/TextInput";
 import UseLoginFormViewModel from "./useLoginFormViewModel";
 
 const LoginForm = () => {
