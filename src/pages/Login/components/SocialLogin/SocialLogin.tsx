@@ -6,7 +6,7 @@ const SocialLogin = () => {
     <div className={styles.social_login_container}>
       <div className={styles.login_line_wrap}>
         {/* LINE ログインボタン */}
-        <LineLoginButton width={180} height={50} />
+        <LineLoginButton width={160} height={45} />
 
         {/* 注意書き */}
         <div className={styles.alert_wrap}>
