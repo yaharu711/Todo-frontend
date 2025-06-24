@@ -42,3 +42,12 @@
   opacity: 0.6; /* 必要に応じて調整 */
   cursor: not-allowed;
 }
+
+:global(.react-datepicker__portal) {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
