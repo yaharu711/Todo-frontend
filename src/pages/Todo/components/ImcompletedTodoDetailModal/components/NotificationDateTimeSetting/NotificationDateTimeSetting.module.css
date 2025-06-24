@@ -7,15 +7,6 @@
   margin-right: 8px;
 }
 
-/* withPortalプロップスを渡すようになると、portalClassNameは指定しても効かなくなる
- .popper {
-  position: fixed !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  z-index: var(--z-index-top);
-} */
-
 :global(.react-datepicker),
 :global(.react-datepicker__header),
 :global(.react-datepicker-time__header),
