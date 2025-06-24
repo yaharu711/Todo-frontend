@@ -16,6 +16,7 @@
   --z-index-spinner: 101;
   --z-index-modal-overlay: 999;
   --z-index-modal: 1000;
+  --z-index-datepicker: 1001;
   --z-index-top: 9999;
 }
 
