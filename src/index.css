@@ -10,6 +10,12 @@
   --color-icon: rgba(255, 255, 255, 0.9);
   --color-thema: rgb(100, 108, 255);
   --background-color: rgb(36, 36, 36);
+  --z-index-loader-overlay: 100;
+  --z-index-loader: 101;
+  --z-index-modal-overlay: 999;
+  --z-index-modal: 1000;
+  --z-index-datepicker: 1001;
+  --z-index-top: 9999;
 }
 
 a {

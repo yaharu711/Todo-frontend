@@ -20,7 +20,7 @@ const ToastProvider = ({ children }: { children: React.ReactNode }) => {
         theme="dark"
         transition={Slide}
         style={{
-          zIndex: 9999, // トーストが他の要素に隠れないようにする
+          zIndex: "var(--z-index-top)", // トーストが他の要素に隠れないようにする
           marginBottom: isMobile ? "5px" : undefined, // モバイルで下部に余白を追加
         }}
       />

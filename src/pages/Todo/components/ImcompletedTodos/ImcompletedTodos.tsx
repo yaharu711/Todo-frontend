@@ -105,17 +105,15 @@ const ImcompletedTodos = ({
           }
 
           return (
-            <div className={styles.todo_animation_wrap} key={todo.id}>
-              <ImcompletedTodo
-                key={todo.id}
-                target={todo}
-                completeTodo={completeTodo}
-                updateTodoDetail={updateTodoDetail}
-                deleteTodo={deleteTodo}
-                toggleModal={toggleModal}
-                displayAnimationTodoIds={displayAnimationTodoIds}
-              />
-            </div>
+            <ImcompletedTodo
+              key={todo.id}
+              target={todo}
+              completeTodo={completeTodo}
+              updateTodoDetail={updateTodoDetail}
+              deleteTodo={deleteTodo}
+              toggleModal={toggleModal}
+              displayAnimationTodoIds={displayAnimationTodoIds}
+            />
           );
         })}
       </ul>
