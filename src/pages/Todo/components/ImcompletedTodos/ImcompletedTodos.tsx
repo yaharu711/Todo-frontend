@@ -80,18 +80,6 @@ const ImcompletedTodos = ({
           if (isSortMode) {
             return <SortableImcompletedTodo key={todo.id} target={todo} />;
           }
-          if (
-            todo.updateDetailStatus === "pending" ||
-            todo.updateTodoStatus === "add_pending"
-          )
-            return (
-              <ImcompletedTodoForPending
-                key={todo.id + "add_pending"}
-                todoName={todo.name}
-                //ここはImcompleteではなく、Addにしたい→実際の使われ方はAddだから→未完了以外にも作成も編集時も使うため
-                isPendingForImcompleteTodo={true}
-              />
-            );
           if (todo.updateTodoStatus === "delete_pending")
             return (
               <ImcompletedTodoForPending
