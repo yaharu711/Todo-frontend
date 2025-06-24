@@ -6,7 +6,7 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.574); /* 半透明の黒背景 */
-  z-index: 100; /* モーダルの下になるが、他の要素より上に配置 */
+  z-index: var(--z-index-overlay); /* モーダルの下になるが、他の要素より上に配置 */
 }
 
 .spinnersContent {
@@ -18,5 +18,5 @@
     -50%,
     -50%
   ); /** position: absolute, fixed;を使っている要素の中央寄せに有効  */
-  z-index: 101; /** 一応modalOverlayより前面に配置されるようにする */
+  z-index: var(--z-index-spinner); /** 一応modalOverlayより前面に配置されるようにする */
 }
