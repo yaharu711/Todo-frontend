@@ -93,6 +93,12 @@ const useImcompletedTodoDetailModalViewModdel = ({
     }
   );
 
+  // 通知の日付設定のモーダルについて
+  const [isOpenDatePicker, setIsOpenDatePicker] = useState(false);
+  const onChangeDatePicker = () => {
+    setIsOpenDatePicker((prev) => !prev);
+  };
+
   return {
     selectedDateTime,
     onChangeDateTime,
@@ -105,6 +111,8 @@ const useImcompletedTodoDetailModalViewModdel = ({
     onComplete,
     modalHeight,
     inputedMemoReplacedUrlToLink,
+    isOpenDatePicker,
+    onChangeDatePicker,
   };
 };
 

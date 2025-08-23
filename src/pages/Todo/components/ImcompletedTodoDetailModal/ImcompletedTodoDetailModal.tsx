@@ -40,6 +40,8 @@ const ImcompletedTodoDetailModal = ({
     onComplete,
     modalHeight,
     inputedMemoReplacedUrlToLink,
+    isOpenDatePicker,
+    onChangeDatePicker,
   } = useImcompletedTodoDetailModalViewModdel({
     target,
     updateTodoDetail,
@@ -53,6 +55,7 @@ const ImcompletedTodoDetailModal = ({
       direction="bottom"
       onClose={() => onClose(target)}
       repositionInputs={false}
+      dismissible={isOpenDatePicker ? false : true} // モーダルonモーダルになり、スクロールが伝播してしまうため、日時選択中は閉じないようにする
     >
       {/* Portalのせいで変なところに表示されていた。コメントアウトすると表示される！ */}
       <Drawer.Portal>
@@ -94,6 +97,7 @@ const ImcompletedTodoDetailModal = ({
             <NotificationDateTimeSetting
               selectedDateTime={selectedDateTime}
               onChangeDateTime={onChangeDateTime}
+              onChangeDatePicker={onChangeDatePicker}
             />
             {isEditMode ? (
               <Textarea
