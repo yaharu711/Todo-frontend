@@ -11,7 +11,7 @@ import styles from "./ImcompletedTodoDetailModal.module.css";
 import { formatDate } from "../../../../util/CustomDate";
 import IconButton from "../../../../components/IconButton/IconButton";
 import { CiCircleCheck } from "react-icons/ci";
-import NotificationDateTimeSetting from "./components/NotificationDateTimeSetting/NotificationDateTimeSetting";
+import NotificationDateTimeSetting from "./NotificationDateTimeSetting/NotificationDateTimeSetting";
 import { format } from "date-fns";
 import { isMobile } from "react-device-detect";
 

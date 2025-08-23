@@ -1,0 +1,7 @@
+.customDateDisplay {
+  cursor: pointer;
+  display: inline-block;
+  user-select: none;
+  padding: 4px 8px;
+  border-bottom: 1px solid #ccc;
+}

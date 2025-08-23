@@ -1,0 +1,22 @@
+.timePicker {
+  display: flex;
+  gap: 8px;
+  border-radius: 12px;
+  padding: 8px;
+  background: var(--background-color);
+  color: var(--font-color);
+  overflow: hidden;
+}
+
+.timeSelect {
+  flex: 1;
+  height: 180px;
+  background: transparent;
+  color: inherit;
+  border: none;
+  overflow-y: auto;
+}
+
+.timeSelect option {
+  height: 36px;
+}
