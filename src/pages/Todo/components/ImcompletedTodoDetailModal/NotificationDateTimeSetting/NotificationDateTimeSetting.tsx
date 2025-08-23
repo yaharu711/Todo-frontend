@@ -7,6 +7,7 @@ import styles from "./NotificationDateTimeSetting.module.css";
 import { ja } from "date-fns/locale/ja";
 import CustomTimeInput from "./components/CustomTimeInput/CustomTimeInput";
 import CustomDateDisplay from "./components/CustomDateDisplay/CustomDateDisplay";
+import React from "react";
 
 type Props = {
   selectedDateTime: Date | null;
@@ -17,8 +18,7 @@ const NotificationDateTimeSetting = ({
   selectedDateTime,
   onChangeDateTime,
 }: Props) => {
-  const { now, minTime, maxTime } =
-    useNotificationDateTimeSettingViewModel(selectedDateTime);
+  const { now } = useNotificationDateTimeSettingViewModel();
 
   return (
     <div className={styles.wrapper}>
@@ -28,15 +28,11 @@ const NotificationDateTimeSetting = ({
         onChange={onChangeDateTime}
         customInput={<CustomDateDisplay />}
         showTimeInput
-        customTimeInput={
-          <CustomTimeInput minTime={minTime} maxTime={maxTime} />
-        }
+        customTimeInput={<CustomTimeInput />}
         timeFormat="HH:mm"
         dateFormat="M月d日 H時m分"
         placeholderText="日時を選択"
-        minDate={now} // 過去の日付を選択不可にする
-        minTime={minTime}
-        maxTime={maxTime}
+        minDate={now} // Prevent selecting past dates
         locale={ja}
         withPortal
         timeCaption="時間"

@@ -3,64 +3,49 @@ import styles from "./CustomTimeInput.module.css";
 
 type CustomTimeInputProps = {
   date?: Date;
-  onChange?: (date: Date) => void;
-  minTime: Date;
-  maxTime: Date;
+  onChange?: (time: string) => void;
 };
 
-const CustomTimeInput = ({
-  date = new Date(),
-  onChange = () => undefined,
-  minTime,
-  maxTime,
-}: CustomTimeInputProps) => {
-  const [hour, setHour] = React.useState(date.getHours());
-  const [minute, setMinute] = React.useState(date.getMinutes());
+const CustomTimeInput = ({ date, onChange }: CustomTimeInputProps) => {
+  // Add default values to prevent crash if props are not passed
+  const [hour, setHour] = React.useState(date ? date.getHours() : 0);
+  const [minute, setMinute] = React.useState(date ? date.getMinutes() : 0);
 
   React.useEffect(() => {
-    setHour(date.getHours());
-    setMinute(date.getMinutes());
+    if (date) {
+      setHour(date.getHours());
+      setMinute(date.getMinutes());
+    }
   }, [date]);
 
   const hours = React.useMemo(() => {
-    const start = minTime.getHours();
-    const end = maxTime.getHours();
-    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-  }, [minTime, maxTime]);
+    return Array.from({ length: 24 }, (_, i) => i);
+  }, []);
 
   const minutes = React.useMemo(() => {
-    const start =
-      hour === minTime.getHours() ? minTime.getMinutes() : 0;
-    const end = hour === maxTime.getHours() ? maxTime.getMinutes() : 59;
-    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-  }, [hour, minTime, maxTime]);
+    return Array.from({ length: 60 }, (_, i) => i);
+  }, []);
 
   const handleHourChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newHour = Number(e.target.value);
     setHour(newHour);
-    const mins =
-      newHour === minTime.getHours()
-        ? minutes.filter((m) => m >= minTime.getMinutes())
-        : newHour === maxTime.getHours()
-        ? minutes.filter((m) => m <= maxTime.getMinutes())
-        : minutes;
-    let newMinute = minute;
-    if (mins.length) {
-      if (newMinute < mins[0]) newMinute = mins[0];
-      if (newMinute > mins[mins.length - 1]) newMinute = mins[mins.length - 1];
+    if (onChange) {
+      const timeString = `${String(newHour).padStart(2, "0")}:${String(
+        minute
+      ).padStart(2, "0")}`;
+      onChange(timeString);
     }
-    setMinute(newMinute);
-    const newDate = new Date(date);
-    newDate.setHours(newHour, newMinute, 0, 0);
-    onChange(newDate);
   };
 
   const handleMinuteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newMinute = Number(e.target.value);
     setMinute(newMinute);
-    const newDate = new Date(date);
-    newDate.setHours(hour, newMinute, 0, 0);
-    onChange(newDate);
+    if (onChange) {
+      const timeString = `${String(hour).padStart(2, "0")}:${String(
+        newMinute
+      ).padStart(2, "0")}`;
+      onChange(timeString);
+    }
   };
 
   return (
@@ -73,7 +58,7 @@ const CustomTimeInput = ({
       >
         {hours.map((h) => (
           <option key={h} value={h}>
-            {String(h).padStart(2, "0")}
+            {h}
           </option>
         ))}
       </select>
