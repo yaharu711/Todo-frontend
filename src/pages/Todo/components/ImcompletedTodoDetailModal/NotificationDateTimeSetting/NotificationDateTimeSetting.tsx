@@ -1,4 +1,4 @@
-import DatePicker, { CalendarContainerProps } from "react-datepicker";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import useNotificationDateTimeSettingViewModel from "./NotificationDateTimeSettingViewModel";
 import IconButton from "../../../../../components/IconButton/IconButton";
@@ -7,17 +7,14 @@ import styles from "./NotificationDateTimeSetting.module.css";
 import { ja } from "date-fns/locale/ja";
 import CustomDateDisplay from "./components/CustomDateDisplay/CustomDateDisplay";
 import { useState } from "react";
-import { format, setHours, setMinutes } from "date-fns";
-import {
-  TimeValue,
-  TimeWheelPicker,
-} from "./components/TimeWheelPicker/TimeWheelPicker";
-import Button from "../../../../../components/Button/Button";
+import { TimeValue } from "./components/TimeWheelPicker/TimeWheelPicker";
+import CalendarContainer from "./components/CalendarContainer/CalendarContainer";
 
 type Props = {
   selectedDateTime: Date | null;
   onChangeDateTime: (date: Date | null) => void;
-  minuteStep?: number; // 時分のステップ値、デフォルトは5分
+  minuteStep?: number; // 時分のステップ値（1分ごとだとスクロールが多くなるため、指定できるようにする）
+  isOpenDatePicker: boolean; // 日時選択ポップアップが開いているかどうか
   onChangeDatePicker: (isOpen: boolean) => void;
 };
 
@@ -25,105 +22,63 @@ const NotificationDateTimeSetting = ({
   selectedDateTime,
   onChangeDateTime,
   minuteStep = 5, // 時分のステップ値、デフォルトは5分
+  isOpenDatePicker,
   onChangeDatePicker,
 }: Props) => {
   const { now } = useNotificationDateTimeSettingViewModel();
-  // ポップアップ内の“段階”
+  // 日付選択と時刻選択をコンポーネント切り替えで行うために、stepで管理する
   const [step, setStep] = useState<"date" | "time">("date");
   // 日付が選ばれたあと、時分を編集中に保持
   const [draftDate, setDraftDate] = useState<Date | null>(selectedDateTime);
   const [tm, setTm] = useState<TimeValue>(() => {
-    const d = selectedDateTime ?? new Date();
+    let d: Date;
+    if (selectedDateTime) {
+      d = selectedDateTime;
+    } else {
+      // 時刻選択で0時から始まると少しスクロールが多くなるため、デフォルト値は中間の12時に設定する
+      d = new Date();
+      d.setHours(12, 0, 0, 0);
+    }
     return {
       hour: d.getHours(),
       minute: Math.floor(d.getMinutes() / minuteStep) * minuteStep,
     };
   });
 
-  const CalendarContainer = ({
-    className,
-    children,
-  }: CalendarContainerProps) => {
-    return (
-      <div
-        className={className}
-        style={{ padding: 12 }}
-        onTouchMove={(e) => e.preventDefault()}
-      >
-        {step === "date" ? (
-          <>{children /* ← 通常のカレンダーをそのまま描画 */}</>
-        ) : (
-          <div
-            onTouchMove={(e) => e.stopPropagation()}
-            onWheel={(e) => e.stopPropagation()}
-            style={{ width: 300, marginTop: 16 }}
-          >
-            <div style={{ fontWeight: 700, marginBottom: 24 }}>
-              {draftDate
-                ? format(draftDate, `M月d日 ${tm.hour}時${tm.minute}分`)
-                : "Select date"}
-            </div>
-            <TimeWheelPicker
-              value={tm}
-              onChange={setTm}
-              minuteStep={minuteStep}
-            />
-            <div
-              style={{
-                display: "flex",
-                gap: 8,
-                marginTop: 16,
-                justifyContent: "flex-end",
-              }}
-            >
-              <Button
-                onClick={() => setStep("date")}
-                style={{
-                  width: 70,
-                  height: 45,
-                }}
-              >
-                戻る
-              </Button>
-              <Button
-                onClick={() => {
-                  if (!draftDate) return;
-                  let d = setHours(draftDate, tm.hour);
-                  d = setMinutes(d, tm.minute);
-                  onChangeDateTime(d);
-                }}
-                style={{
-                  width: 70,
-                  height: 45,
-                }}
-              >
-                決定
-              </Button>
-            </div>
-          </div>
-        )}
-      </div>
-    );
+  const onSelectDate = (d: Date | null) => {
+    setDraftDate(d as Date);
+    setStep("time");
   };
+
+  // 決定押した時に、datepickerが閉じるようにする。決定ボタンのonClickイベントですぐできそう。
+  // css moduleにするリファクタリングも行うこと
+  // 時刻選択時のスクロールのがたつきはどうにかならないのか、、
 
   return (
     <div className={styles.wrapper}>
       <span className={styles.label}>リマインド:</span>
       <DatePicker
+        open={isOpenDatePicker}
         selected={selectedDateTime}
         onChange={onChangeDateTime}
-        onSelect={(d) => {
-          setDraftDate(d as Date);
-          // 既存値の時分を引き継ぐ
-          const base = (d as Date) ?? new Date();
-          setTm({
-            hour: base.getHours(),
-            minute: Math.floor(base.getMinutes() / minuteStep) * minuteStep,
-          });
-          setStep("time");
-        }}
+        onSelect={onSelectDate}
         customInput={<CustomDateDisplay />}
-        calendarContainer={CalendarContainer}
+        calendarContainer={(props) => (
+          console.log("CalendarContainer props:", props),
+          (
+            <CalendarContainer
+              {...props}
+              step={step}
+              setStep={setStep}
+              draftDate={draftDate}
+              tm={tm}
+              setTm={setTm}
+              minuteStep={minuteStep}
+              onChangeDateTime={onChangeDateTime}
+              onChangeDatePicker={onChangeDatePicker}
+            />
+          )
+        )}
         shouldCloseOnSelect={false} // 日付クリックで閉じない（時間ステップに切替）
         onCalendarOpen={() => onChangeDatePicker(true)}
         onCalendarClose={() => {

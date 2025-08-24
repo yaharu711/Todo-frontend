@@ -1,0 +1,20 @@
+.container {
+  padding: 12px;
+}
+
+.timeStepWrapper {
+  width: 300px;
+  margin-top: 16px;
+}
+
+.draftDate {
+  font-size: 1rem;
+  margin-bottom: 24px;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  justify-content: flex-end;
+}

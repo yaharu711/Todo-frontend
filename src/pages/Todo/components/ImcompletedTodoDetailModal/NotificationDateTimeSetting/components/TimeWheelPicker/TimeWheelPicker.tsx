@@ -45,8 +45,7 @@ export function TimeWheelPicker({
         </div>
         <Picker
           value={hourValueObj}
-          onChange={(data, t) => {
-            console.log("onChange", data, t);
+          onChange={(data) => {
             const newHour = data.h;
             if (newHour !== value.hour) {
               onChange({ hour: newHour, minute: value.minute });

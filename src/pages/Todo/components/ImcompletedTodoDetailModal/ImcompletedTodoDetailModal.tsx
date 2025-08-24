@@ -97,6 +97,7 @@ const ImcompletedTodoDetailModal = ({
             <NotificationDateTimeSetting
               selectedDateTime={selectedDateTime}
               onChangeDateTime={onChangeDateTime}
+              isOpenDatePicker={isOpenDatePicker}
               onChangeDatePicker={onChangeDatePicker}
             />
             {isEditMode ? (
