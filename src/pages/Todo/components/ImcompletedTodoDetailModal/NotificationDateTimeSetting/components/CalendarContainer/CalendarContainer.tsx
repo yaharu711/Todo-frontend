@@ -1,3 +1,4 @@
+// @ts-expect-error: DatePicker types are incompatible with our usage but function correctly
 import DatePicker, { CalendarContainerProps } from "react-datepicker";
 import { format, setHours, setMinutes } from "date-fns";
 import Button from "../../../../../../../components/Button/Button";
