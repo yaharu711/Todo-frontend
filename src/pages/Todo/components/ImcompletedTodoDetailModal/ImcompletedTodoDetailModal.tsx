@@ -11,7 +11,7 @@ import styles from "./ImcompletedTodoDetailModal.module.css";
 import { formatDate } from "../../../../util/CustomDate";
 import IconButton from "../../../../components/IconButton/IconButton";
 import { CiCircleCheck } from "react-icons/ci";
-import NotificationDateTimeSetting from "./components/NotificationDateTimeSetting/NotificationDateTimeSetting";
+import NotificationDateTimeSetting from "./NotificationDateTimeSetting/NotificationDateTimeSetting";
 import { format } from "date-fns";
 import { isMobile } from "react-device-detect";
 
@@ -40,6 +40,8 @@ const ImcompletedTodoDetailModal = ({
     onComplete,
     modalHeight,
     inputedMemoReplacedUrlToLink,
+    isOpenDatePicker,
+    onChangeDatePicker,
   } = useImcompletedTodoDetailModalViewModdel({
     target,
     updateTodoDetail,
@@ -53,6 +55,7 @@ const ImcompletedTodoDetailModal = ({
       direction="bottom"
       onClose={() => onClose(target)}
       repositionInputs={false}
+      dismissible={isOpenDatePicker ? false : true} // モーダルonモーダルになり、スクロールが伝播してしまうため、日時選択中は閉じないようにする
     >
       {/* Portalのせいで変なところに表示されていた。コメントアウトすると表示される！ */}
       <Drawer.Portal>
@@ -94,6 +97,8 @@ const ImcompletedTodoDetailModal = ({
             <NotificationDateTimeSetting
               selectedDateTime={selectedDateTime}
               onChangeDateTime={onChangeDateTime}
+              isOpenDatePicker={isOpenDatePicker}
+              onChangeDatePicker={onChangeDatePicker}
             />
             {isEditMode ? (
               <Textarea
