@@ -1,8 +1,9 @@
-import { CalendarContainerProps } from "react-datepicker";
+import DatePicker, { CalendarContainerProps } from "react-datepicker";
 import { format, setHours, setMinutes } from "date-fns";
 import Button from "../../../../../../../components/Button/Button";
 import { TimeValue, TimeWheelPicker } from "../TimeWheelPicker/TimeWheelPicker";
 import styles from "./CalendarContainer.module.css";
+import React from "react";
 
 type CustomCalendarContainerProps = CalendarContainerProps & {
   step: "date" | "time";
@@ -12,7 +13,7 @@ type CustomCalendarContainerProps = CalendarContainerProps & {
   setTm: (tm: TimeValue) => void;
   minuteStep: number;
   onChangeDateTime: (date: Date | null) => void;
-  onChangeDatePicker: (isOpen: boolean) => void;
+  datePickerRef: React.RefObject<DatePicker>;
 };
 
 const CalendarContainer = ({
@@ -25,7 +26,7 @@ const CalendarContainer = ({
   setTm,
   minuteStep,
   onChangeDateTime,
-  onChangeDatePicker,
+  datePickerRef,
 }: CustomCalendarContainerProps) => {
   return (
     <div className={`${className} ${styles.container}`}>
@@ -56,7 +57,9 @@ const CalendarContainer = ({
                 let d = setHours(draftDate, tm.hour);
                 d = setMinutes(d, tm.minute);
                 onChangeDateTime(d);
-                onChangeDatePicker(false);
+                if (datePickerRef.current) {
+                  datePickerRef.current.setOpen(false);
+                }
               }}
               style={{ width: "70px", height: "45px" }}
             >

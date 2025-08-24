@@ -6,7 +6,7 @@ import { RxCross2 } from "react-icons/rx";
 import styles from "./NotificationDateTimeSetting.module.css";
 import { ja } from "date-fns/locale/ja";
 import CustomDateDisplay from "./components/CustomDateDisplay/CustomDateDisplay";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { TimeValue } from "./components/TimeWheelPicker/TimeWheelPicker";
 import CalendarContainer from "./components/CalendarContainer/CalendarContainer";
 
@@ -26,6 +26,9 @@ const NotificationDateTimeSetting = ({
   onChangeDatePicker,
 }: Props) => {
   const { now } = useNotificationDateTimeSettingViewModel();
+  // calendarContainerを使っているのと、表示・非表示をこちらのStateで管理するようにしているため、
+  // 時刻選択して設定をクリックしてもモーダルが閉じれないため、DatePickerのsetOpenをcalendarContainerで使う必要があった
+  const datePickerRef = useRef<DatePicker>(null);
   // 日付選択と時刻選択をコンポーネント切り替えで行うために、stepで管理する
   const [step, setStep] = useState<"date" | "time">("date");
   // 日付が選ばれたあと、時分を編集中に保持
@@ -45,12 +48,16 @@ const NotificationDateTimeSetting = ({
     };
   });
 
+  const resetDateTime = () => {
+    setTm({ hour: 12, minute: 0 });
+    onChangeDateTime(null);
+  };
+
   const onSelectDate = (d: Date | null) => {
     setDraftDate(d as Date);
     setStep("time");
   };
 
-  // 決定押した時に、datepickerが閉じるようにする。決定ボタンのonClickイベントですぐできそう。
   // css moduleにするリファクタリングも行うこと
   // 時刻選択時のスクロールのがたつきはどうにかならないのか、、
 
@@ -58,26 +65,24 @@ const NotificationDateTimeSetting = ({
     <div className={styles.wrapper}>
       <span className={styles.label}>リマインド:</span>
       <DatePicker
+        ref={datePickerRef}
         open={isOpenDatePicker}
         selected={selectedDateTime}
         onChange={onChangeDateTime}
         onSelect={onSelectDate}
         customInput={<CustomDateDisplay />}
         calendarContainer={(props) => (
-          console.log("CalendarContainer props:", props),
-          (
-            <CalendarContainer
-              {...props}
-              step={step}
-              setStep={setStep}
-              draftDate={draftDate}
-              tm={tm}
-              setTm={setTm}
-              minuteStep={minuteStep}
-              onChangeDateTime={onChangeDateTime}
-              onChangeDatePicker={onChangeDatePicker}
-            />
-          )
+          <CalendarContainer
+            {...props}
+            step={step}
+            setStep={setStep}
+            draftDate={draftDate}
+            tm={tm}
+            setTm={setTm}
+            minuteStep={minuteStep}
+            onChangeDateTime={onChangeDateTime}
+            datePickerRef={datePickerRef}
+          />
         )}
         shouldCloseOnSelect={false} // 日付クリックで閉じない（時間ステップに切替）
         onCalendarOpen={() => onChangeDatePicker(true)}
@@ -93,7 +98,7 @@ const NotificationDateTimeSetting = ({
         withPortal
       />
       {selectedDateTime !== null && (
-        <IconButton onClick={() => onChangeDateTime(null)}>
+        <IconButton onClick={resetDateTime}>
           <RxCross2 size={15} style={{ color: "var(--color-icon)" }} />
         </IconButton>
       )}

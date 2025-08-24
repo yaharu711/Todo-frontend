@@ -1,6 +1,7 @@
 // TimeWheelPicker.tsx
 import Picker from "react-mobile-picker";
 import { useMemo } from "react";
+import styles from "./TimeWheelPicker.module.css";
 
 export type TimeValue = { hour: number; minute: number };
 
@@ -24,25 +25,9 @@ export function TimeWheelPicker({
   const minuteValueObj = useMemo(() => ({ m: value.minute }), [value.minute]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: 16,
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <div className={styles.container}>
       <div>
-        <div
-          style={{
-            marginBottom: 8,
-            opacity: 0.7,
-            width: "40px",
-            textAlign: "center",
-          }}
-        >
-          時
-        </div>
+        <div className={styles.label}>時</div>
         <Picker
           value={hourValueObj}
           onChange={(data) => {
@@ -62,16 +47,7 @@ export function TimeWheelPicker({
         </Picker>
       </div>
       <div>
-        <div
-          style={{
-            marginBottom: 8,
-            opacity: 0.7,
-            width: "40px",
-            textAlign: "center",
-          }}
-        >
-          分
-        </div>
+        <div className={styles.label}>分</div>
         <Picker
           value={minuteValueObj}
           onChange={(data) => {
