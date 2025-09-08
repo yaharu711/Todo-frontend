@@ -13,7 +13,10 @@ type Props = {
   updateTodoDetail: (props: UpdateTodoDetailParams) => void;
   deleteTodo: (id: number) => void;
   isError?: boolean;
-  toggleModal: (target: ImcompletedTodoType) => void;
+  toggleModal: (
+    target: ImcompletedTodoType,
+    options?: { focusName?: boolean }
+  ) => void;
   completeTodo: (todoId: number) => void;
   displayAnimationTodoIds: number[];
 };
@@ -43,7 +46,7 @@ const ImcompletedTodo = ({
     <li className={styles.li}>
       <div className={styles.todo_left}>
         <IconButton
-          onClick={() => onChangeEditMode()}
+          onClick={() => toggleModal(target, { focusName: true })}
           children={<CiEdit size={25} style={{ color: "var(--color-icon)" }} />}
         />
         <div

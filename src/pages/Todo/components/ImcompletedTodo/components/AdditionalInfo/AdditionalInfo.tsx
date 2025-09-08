@@ -7,7 +7,10 @@ import AdditionalInfoViewModel from "./AdditionalInfoViewModel";
 
 type Props = {
   target: ImcompletedTodoType;
-  toggleModal: (target: ImcompletedTodoType) => void;
+  toggleModal: (
+    target: ImcompletedTodoType,
+    options?: { focusName?: boolean }
+  ) => void;
 };
 
 const AdditionalInfo = ({ target, toggleModal }: Props) => {
