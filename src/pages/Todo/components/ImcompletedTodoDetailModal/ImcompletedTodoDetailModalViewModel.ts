@@ -54,7 +54,7 @@ const useImcompletedTodoDetailModalViewModdel = ({
     setNameEditInputError("");
   };
   const startNameEdit = () => setIsNameEditMode(true);
-  const finishNameEdit = () => {
+  const finishNameEdit = (_e?: React.FocusEvent) => {
     if (inputedTodoName.trim() === "") {
       setNameEditInputError("空白のみは許可されていません");
       return;

@@ -22,7 +22,7 @@ const ImcompletedTodoDetailModal = ({
   setOpen,
   updateTodoDetail,
   updateTodo,
-  initialNameEditMode?,
+  initialNameEditMode,
 }: {
   isOpen: boolean;
   target: ImcompletedTodoType;

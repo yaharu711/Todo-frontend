@@ -38,7 +38,6 @@ const ImcompletedTodo = ({
     onChangeInput,
     editTodoOnKeyDown,
     editTodoOnBlur,
-    onChangeEditMode,
     hasAdditionalInfo,
   } = UseImcompletedTodoViewModel({ target, updateTodoDetail });
 
