@@ -69,6 +69,15 @@ const useImcompletedTodoDetailModalViewModdel = ({
     finishNameEdit();
   };
 
+  const validateName = (): boolean => {
+    if (inputedTodoName.trim() === "") {
+      setNameEditInputError("空白のみは許可されていません");
+      setIsNameEditMode(true);
+      return false;
+    }
+    return true;
+  };
+
   // これをonCloseの時と、完了ボタンを押した時に実行する
   const editTodo = (target: ImcompletedTodoType) => {
     if (inputedMemo.trim() === "") {
@@ -164,6 +173,7 @@ const useImcompletedTodoDetailModalViewModdel = ({
     finishNameEdit,
     nameEditOnKeyDown,
     startNameEdit,
+    validateName,
   };
 };
 

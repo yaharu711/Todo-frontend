@@ -53,6 +53,7 @@ const ImcompletedTodoDetailModal = ({
     finishNameEdit,
     nameEditOnKeyDown,
     startNameEdit,
+    validateName,
   } = useImcompletedTodoDetailModalViewModdel({
     target,
     updateTodoDetail,
@@ -83,10 +84,11 @@ const ImcompletedTodoDetailModal = ({
             <div className={styles.todo_name_wrapper}>
               <IconButton
                 onClick={() => {
+                  if (!validateName()) return;
                   updateTodo({
                     params: {
                       id: target.id,
-                      name: inputedTodoName,
+                      name: inputedTodoName.trim(),
                       memo: inputedMemo,
                       notificate_at:
                         selectedDateTime &&
