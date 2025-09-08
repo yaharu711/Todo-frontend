@@ -14,6 +14,7 @@ import { CiCircleCheck } from "react-icons/ci";
 import NotificationDateTimeSetting from "./NotificationDateTimeSetting/NotificationDateTimeSetting";
 import { format } from "date-fns";
 import { isMobile } from "react-device-detect";
+import TextInput from "../../../../components/TextInput/TextInput";
 
 const ImcompletedTodoDetailModal = ({
   isOpen,
@@ -21,12 +22,14 @@ const ImcompletedTodoDetailModal = ({
   setOpen,
   updateTodoDetail,
   updateTodo,
+  initialNameEditMode?,
 }: {
   isOpen: boolean;
   target: ImcompletedTodoType;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   updateTodoDetail: (props: UpdateTodoDetailParams) => void;
   updateTodo: ({ params, successMessage }: UpdateTodoParams) => void;
+  initialNameEditMode?: boolean;
 }) => {
   const {
     selectedDateTime,
@@ -42,10 +45,19 @@ const ImcompletedTodoDetailModal = ({
     inputedMemoReplacedUrlToLink,
     isOpenDatePicker,
     onChangeDatePicker,
+    // name edit states
+    inputedTodoName,
+    nameEditInputError,
+    isNameEditMode,
+    onChangeInputedTodoName,
+    finishNameEdit,
+    nameEditOnKeyDown,
+    startNameEdit,
   } = useImcompletedTodoDetailModalViewModdel({
     target,
     updateTodoDetail,
     setOpen,
+    initialNameEditMode: initialNameEditMode ?? false,
   });
 
   return (
@@ -74,7 +86,7 @@ const ImcompletedTodoDetailModal = ({
                   updateTodo({
                     params: {
                       id: target.id,
-                      name: target.name,
+                      name: inputedTodoName,
                       memo: inputedMemo,
                       notificate_at:
                         selectedDateTime &&
@@ -92,7 +104,23 @@ const ImcompletedTodoDetailModal = ({
                   />
                 }
               />
-              <p className={styles.todo_name}>{target.name}</p>
+              {isNameEditMode ? (
+                <TextInput
+                  name="edit_todo_name_in_modal"
+                  value={inputedTodoName}
+                  placeholder={target.name}
+                  onChange={onChangeInputedTodoName}
+                  onBlur={finishNameEdit}
+                  onKeyDown={nameEditOnKeyDown}
+                  errorMessage={nameEditInputError}
+                  autoFocus={true}
+                  style={{ width: isMobile ? "180px" : "300px" }}
+                />
+              ) : (
+                <p className={styles.todo_name} onClick={() => startNameEdit()}>
+                  {inputedTodoName}
+                </p>
+              )}
             </div>
             <NotificationDateTimeSetting
               selectedDateTime={selectedDateTime}
