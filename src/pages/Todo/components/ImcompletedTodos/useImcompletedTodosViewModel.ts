@@ -37,12 +37,17 @@ const UseImcompletedTodosViewModel = (
   };
 
   const [isOpen, setOpen] = useState(false);
+  const [initialNameEditMode, setInitialNameEditMode] = useState(false);
   const location = useLocation();
   const [selectedTodo, setSelectedTodo] = useState<ImcompletedTodoType>(
     defaultSelectedImcompletedTodoType
   );
-  const toggleModal = (target: ImcompletedTodoType) => {
+  const toggleModal = (
+    target: ImcompletedTodoType,
+    options?: { focusName?: boolean }
+  ) => {
     setSelectedTodo(target);
+    setInitialNameEditMode(Boolean(options?.focusName));
     setOpen((prev) => !prev);
   };
   // Todoのリマインダー通知を開くとTodoの詳細を表示するため、URLにTodoのIDを持たせている
@@ -97,6 +102,7 @@ const UseImcompletedTodosViewModel = (
     toggleModal,
     completeTodo,
     displayAnimationTodoIds,
+    initialNameEditMode,
   };
 };
 

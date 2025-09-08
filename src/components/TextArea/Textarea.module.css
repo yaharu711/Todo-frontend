@@ -7,7 +7,7 @@
   min-height: 100px;
   height: auto;
   outline: 0;
-  background-color: var(--background-color);
+  background-color: #1a1a1a;
   color: var(--font-color);
   font-size: 1rem;
   /* デフォルトでは親のfont-familyを引き継がないので明示的に指定する */
