@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "./Textarea.module.css";
 
 type Props = {
@@ -6,11 +7,14 @@ type Props = {
   name?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  onKeyDown?: (e: React.KeyboardEvent) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
   onBlur?: (e: React.FocusEvent) => void;
   errorMessage?: string;
   style?: object;
+  containerStyle?: object;
   autoFocus?: boolean;
+  autoResize?: boolean;
+  maxHeight?: number; // px 指定
 };
 
 const Textarea = ({
@@ -23,10 +27,12 @@ const Textarea = ({
   onBlur,
   errorMessage,
   style,
+  containerStyle, // labelで囲っているからそのlabelに対してスタイルを当てたい場合に使う
   autoFocus,
+  autoResize = false,
 }: Props) => {
   return (
-    <label className={styles.wrapp_input}>
+    <label className={styles.wrapp_input} style={containerStyle}>
       {label}
       <textarea
         className={styles.input}
@@ -36,7 +42,15 @@ const Textarea = ({
         onChange={onChange}
         onKeyDown={onKeyDown}
         onBlur={onBlur}
-        style={style}
+        onFocus={(ev) => {
+          const len = ev.currentTarget.value.length;
+          ev.currentTarget.setSelectionRange(len, len);
+        }}
+        rows={1}
+        style={{
+          ...(style || {}),
+          ...(autoResize ? { minHeight: 0 } : {}),
+        }}
         autoFocus={autoFocus}
       />
       <span className={styles.input_error}>{errorMessage}</span>
