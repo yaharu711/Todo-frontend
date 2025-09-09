@@ -14,7 +14,6 @@ type Props = {
   containerStyle?: object;
   autoFocus?: boolean;
   autoResize?: boolean;
-  minRows?: number;
   maxHeight?: number; // px 指定
 };
 
@@ -31,7 +30,6 @@ const Textarea = ({
   containerStyle, // labelで囲っているからそのlabelに対してスタイルを当てたい場合に使う
   autoFocus,
   autoResize = false,
-  minRows = 1,
 }: Props) => {
   return (
     <label className={styles.wrapp_input} style={containerStyle}>
