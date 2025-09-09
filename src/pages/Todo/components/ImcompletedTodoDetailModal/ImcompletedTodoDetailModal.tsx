@@ -22,14 +22,12 @@ const ImcompletedTodoDetailModal = ({
   setOpen,
   updateTodoDetail,
   updateTodo,
-  initialNameEditMode,
 }: {
   isOpen: boolean;
   target: ImcompletedTodoType;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   updateTodoDetail: (props: UpdateTodoDetailParams) => void;
   updateTodo: ({ params, successMessage }: UpdateTodoParams) => void;
-  initialNameEditMode?: boolean;
 }) => {
   const {
     selectedDateTime,
@@ -58,8 +56,6 @@ const ImcompletedTodoDetailModal = ({
     target,
     updateTodoDetail,
     setOpen,
-    initialNameEditMode: initialNameEditMode ?? false,
-    isOpen,
   });
 
   return (

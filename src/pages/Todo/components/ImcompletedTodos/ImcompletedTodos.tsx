@@ -41,7 +41,6 @@ const ImcompletedTodos = ({
     toggleModal,
     completeTodo,
     displayAnimationTodoIds,
-    initialNameEditMode,
   } = UseImcompletedTodosViewModel(todos);
 
   return (
@@ -126,7 +125,6 @@ const ImcompletedTodos = ({
         setOpen={setOpen}
         updateTodoDetail={updateTodoDetail}
         updateTodo={updateTodo}
-        initialNameEditMode={initialNameEditMode}
       />
     </section>
   );
