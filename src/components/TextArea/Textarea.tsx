@@ -44,7 +44,11 @@ const Textarea = ({
         onChange={onChange}
         onKeyDown={onKeyDown}
         onBlur={onBlur}
-        rows={autoResize ? minRows : undefined}
+        onFocus={(ev) => {
+          const len = ev.currentTarget.value.length;
+          ev.currentTarget.setSelectionRange(len, len);
+        }}
+        rows={1}
         style={{
           ...(style || {}),
           ...(autoResize ? { minHeight: 0 } : {}),
