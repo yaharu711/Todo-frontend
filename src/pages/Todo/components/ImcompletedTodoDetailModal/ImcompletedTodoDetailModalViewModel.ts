@@ -9,12 +9,14 @@ export type Props = {
   updateTodoDetail: (props: UpdateTodoDetailParams) => void;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   initialNameEditMode?: boolean;
+  isOpen?: boolean;
 };
 const useImcompletedTodoDetailModalViewModdel = ({
   target,
   updateTodoDetail,
   setOpen,
   initialNameEditMode = false,
+  isOpen = false,
 }: Props) => {
   const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(
     target.notificate_at !== null ? new Date(target.notificate_at) : null
@@ -46,9 +48,15 @@ const useImcompletedTodoDetailModalViewModdel = ({
   useEffect(() => {
     setIsNameEditMode(initialNameEditMode);
   }, [initialNameEditMode]);
+  // モーダルが開いた直後に編集モードへ入る（CiEdit起点）
+  useEffect(() => {
+    if (isOpen && initialNameEditMode) {
+      setIsNameEditMode(true);
+    }
+  }, [isOpen, initialNameEditMode]);
   const [nameEditInputError, setNameEditInputError] = useState<string>("");
   const onChangeInputedTodoName = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setInputedTodoName(e.target.value);
     setNameEditInputError("");
@@ -62,9 +70,11 @@ const useImcompletedTodoDetailModalViewModdel = ({
     setIsNameEditMode(false);
   };
   const nameEditOnKeyDown = (
-    e: React.KeyboardEvent<HTMLInputElement>
+    e: React.KeyboardEvent<HTMLTextAreaElement>
   ) => {
     if (e.key !== "Enter") return;
+    // Shift+Enter は改行を許可し、通常のEnterで編集終了
+    if (e.shiftKey) return;
     e.preventDefault();
     finishNameEdit();
   };

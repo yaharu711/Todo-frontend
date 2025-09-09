@@ -14,7 +14,7 @@ import { CiCircleCheck } from "react-icons/ci";
 import NotificationDateTimeSetting from "./NotificationDateTimeSetting/NotificationDateTimeSetting";
 import { format } from "date-fns";
 import { isMobile } from "react-device-detect";
-import TextInput from "../../../../components/TextInput/TextInput";
+// 名前編集も単一行ではなくTextareaで行う
 
 const ImcompletedTodoDetailModal = ({
   isOpen,
@@ -59,6 +59,7 @@ const ImcompletedTodoDetailModal = ({
     updateTodoDetail,
     setOpen,
     initialNameEditMode: initialNameEditMode ?? false,
+    isOpen,
   });
 
   return (
@@ -107,16 +108,22 @@ const ImcompletedTodoDetailModal = ({
                 }
               />
               {isNameEditMode ? (
-                <TextInput
+                <Textarea
                   name="edit_todo_name_in_modal"
                   value={inputedTodoName}
                   placeholder={target.name}
-                  onChange={onChangeInputedTodoName}
+                  onChange={(e) => onChangeInputedTodoName(e)}
                   onBlur={finishNameEdit}
                   onKeyDown={nameEditOnKeyDown}
                   errorMessage={nameEditInputError}
                   autoFocus={true}
-                  style={{ width: isMobile ? "180px" : "300px" }}
+                  containerStyle={{ flex: 1 }}
+                  style={{
+                    width: "auto",
+                    height: "auto",
+                    minHeight: isMobile ? "60px" : "80px",
+                    overflowY: "auto",
+                  }}
                 />
               ) : (
                 <p className={styles.todo_name} onClick={() => startNameEdit()}>

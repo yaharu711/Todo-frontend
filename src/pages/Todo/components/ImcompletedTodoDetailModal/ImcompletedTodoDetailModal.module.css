@@ -35,15 +35,15 @@
 .todo_name_wrapper {
   display: flex;
   align-items: center;
-  column-gap: 8px;
+  column-gap: 16px;
   margin-bottom: 16px;
+  width: 100%;
+  height: 50px;
 }
 
 .todo_name {
-  font-size: 1.1rem;
-  width: auto;
-  min-width: 200px;
-  line-break: anywhere;
+  font-size: 1.2rem;
+  min-width: 100px;
   margin: 0;
 }
 
