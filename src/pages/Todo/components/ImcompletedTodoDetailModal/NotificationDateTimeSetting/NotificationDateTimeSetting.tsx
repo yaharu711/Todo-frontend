@@ -91,7 +91,7 @@ const NotificationDateTimeSetting = ({
           setStep("date");
         }}
         timeFormat="HH:mm"
-        dateFormat="M月d日 H時m分"
+        dateFormat="M月d日 (EEE) H時m分"
         placeholderText="日時を選択"
         minDate={now} // Prevent selecting past dates
         locale={ja}
