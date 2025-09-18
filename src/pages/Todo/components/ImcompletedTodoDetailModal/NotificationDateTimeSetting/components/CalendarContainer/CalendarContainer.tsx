@@ -1,6 +1,7 @@
 // @ts-expect-error: DatePicker types are incompatible with our usage but function correctly
 import DatePicker, { CalendarContainerProps } from "react-datepicker";
 import { format, setHours, setMinutes } from "date-fns";
+import { ja } from "date-fns/locale/ja";
 import Button from "../../../../../../../components/Button/Button";
 import { TimeValue, TimeWheelPicker } from "../TimeWheelPicker/TimeWheelPicker";
 import styles from "./CalendarContainer.module.css";
@@ -37,7 +38,11 @@ const CalendarContainer = ({
         <div className={styles.timeStepWrapper}>
           <div className={styles.draftDate}>
             {draftDate
-              ? format(draftDate, `M月d日 ${tm.hour}時${tm.minute}分`)
+              ? format(
+                  draftDate,
+                  `M月d日 (EEE) ${tm.hour}時${tm.minute}分`,
+                  { locale: ja }
+                )
               : "Select date"}
           </div>
           <TimeWheelPicker
