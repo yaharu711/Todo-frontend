@@ -12,7 +12,7 @@ const defaultSelectedImcompletedTodoType: ImcompletedTodoType = {
   name: "default",
   memo: "",
   notificate_at: null,
-  created_at: "",
+  created_at: new Date(),
   imcompleted_at: "",
   updateDetailStatus: "",
   updateTodoStatus: "",

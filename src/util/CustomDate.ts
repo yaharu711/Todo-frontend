@@ -1,5 +1,8 @@
-import dayjs from "dayjs";
+import { format } from "date-fns";
+import { ja } from "date-fns/locale/ja";
 
-export const formatDate = (dateStr: string): string => {
-  return dayjs(dateStr).format("M月D日 H時m分");
+// Date専用。和暦ではなく、西暦の日本語ロケールで表記
+// 例: 9月19日 (金) 14時05分
+export const formatDateTime = (date: Date): string => {
+  return format(date, "M月d日 (EEE) H時m分", { locale: ja });
 };

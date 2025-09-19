@@ -1,7 +1,7 @@
 import styles from "./AdditionalInfo.module.css";
 import { MdOutlineStickyNote2 } from "react-icons/md";
 import { FaRegBell } from "react-icons/fa";
-import { formatDate } from "../../../../../../util/CustomDate";
+import { formatDateTime } from "../../../../../../util/CustomDate";
 import { ImcompletedTodoType } from "../../../../types";
 import AdditionalInfoViewModel from "./AdditionalInfoViewModel";
 
@@ -31,7 +31,8 @@ const AdditionalInfo = ({ target, toggleModal }: Props) => {
         >
           <FaRegBell size={15} />
           <span className={styles.additional_text}>
-            {target.notificate_at !== null && formatDate(target.notificate_at)}
+            {target.notificate_at !== null &&
+              formatDateTime(target.notificate_at)}
           </span>
         </div>
       )}

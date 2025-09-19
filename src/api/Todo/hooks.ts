@@ -36,11 +36,21 @@ export const useGetTodos = () => {
       const imcompletedTodosWithStatus = data.todos.map(function (
         imcompletedTodo
       ) {
+        const parsedNotificateAt =
+          imcompletedTodo.notificate_at === "" || imcompletedTodo.notificate_at === null
+            ? null
+            : new Date(imcompletedTodo.notificate_at);
         return {
-          ...imcompletedTodo,
+          id: imcompletedTodo.id,
+          name: imcompletedTodo.name,
+          memo: imcompletedTodo.memo,
+          notificate_at: parsedNotificateAt,
+          created_at: new Date(imcompletedTodo.created_at),
+          completed_at: imcompletedTodo.completed_at,
+          imcompleted_at: imcompletedTodo.imcompleted_at,
           updateDetailStatus: "done",
           updateTodoStatus: "done",
-        };
+        } as ImcompletedTodoType;
       });
 
       return { imcompletedTodosWithStatus };

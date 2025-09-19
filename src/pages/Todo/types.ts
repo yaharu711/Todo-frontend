@@ -5,8 +5,8 @@ export type ImcompletedTodoType = {
   id: number;
   name: string;
   memo: string;
-  notificate_at: string | null;
-  created_at: string;
+  notificate_at: Date | null;
+  created_at: Date;
   completed_at?: string;
   imcompleted_at: string;
   updateDetailStatus: string;
