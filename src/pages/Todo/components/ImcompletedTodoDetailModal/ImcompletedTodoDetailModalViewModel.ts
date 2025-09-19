@@ -17,12 +17,10 @@ const useImcompletedTodoDetailModalViewModdel = ({
   
 }: Props) => {
   const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(
-    target.notificate_at !== null ? new Date(target.notificate_at) : null
+    target.notificate_at
   );
   useEffect(() => {
-    setSelectedDateTime(
-      target.notificate_at !== null ? new Date(target.notificate_at) : null
-    );
+    setSelectedDateTime(target.notificate_at);
   }, [target]);
   const onChangeDateTime = (date: Date | null) => setSelectedDateTime(date);
   const [inputedMemo, setInputedMemo] = useState<string>(target.memo);
@@ -86,9 +84,10 @@ const useImcompletedTodoDetailModalViewModdel = ({
     const isNotUpdatedMemo = inputedMemo === target.memo;
     const isNotSetNotification = !target.notificate_at && !selectedDateTime;
     const isNotUpdatedNotificateAt =
-      selectedDateTime &&
-      format(new Date(selectedDateTime), "yyyy-MM-dd HH:mm:ss") ===
-        target.notificate_at;
+      selectedDateTime !== null &&
+      target.notificate_at !== null &&
+      format(selectedDateTime, "yyyy-MM-dd HH:mm") ===
+        format(target.notificate_at, "yyyy-MM-dd HH:mm");
     if (
       isNotUpdatedName &&
       isNotUpdatedMemo &&

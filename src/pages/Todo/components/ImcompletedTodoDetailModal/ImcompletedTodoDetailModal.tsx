@@ -8,7 +8,7 @@ import useImcompletedTodoDetailModalViewModdel from "./ImcompletedTodoDetailModa
 import Textarea from "../../../../components/TextArea/Textarea";
 import Button from "../../../../components/Button/Button";
 import styles from "./ImcompletedTodoDetailModal.module.css";
-import { formatDate } from "../../../../util/CustomDate";
+import { formatDateTime } from "../../../../util/CustomDate";
 import IconButton from "../../../../components/IconButton/IconButton";
 import { CiCircleCheck } from "react-icons/ci";
 import NotificationDateTimeSetting from "./NotificationDateTimeSetting/NotificationDateTimeSetting";
@@ -155,7 +155,7 @@ const ImcompletedTodoDetailModal = ({
               </div>
             )}
             <span className={styles.created_at}>
-              作成日: {formatDate(target.created_at)}
+              作成日: {formatDateTime(target.created_at)}
             </span>
             <Button onClick={() => onComplete(target)}>閉じる</Button>
           </div>
