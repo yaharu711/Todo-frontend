@@ -20,7 +20,7 @@ const AdditionalInfo = ({ target, toggleModal }: Props) => {
           className={styles.additional_info}
           onClick={() => toggleModal(target)}
         >
-          <MdOutlineStickyNote2 size={15} />
+          <MdOutlineStickyNote2 size={14} />
           <span className={styles.additional_text}>メモ</span>
         </div>
       )}
@@ -29,7 +29,7 @@ const AdditionalInfo = ({ target, toggleModal }: Props) => {
           className={styles.additional_info}
           onClick={() => toggleModal(target)}
         >
-          <FaRegBell size={15} />
+          <FaRegBell size={13} />
           <span className={styles.additional_text}>
             {target.notificate_at !== null &&
               formatDateTime(target.notificate_at)}

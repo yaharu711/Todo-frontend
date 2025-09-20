@@ -2,8 +2,6 @@ import { ImcompletedTodoType, UpdateTodoDetailParams } from "../../types";
 import styles from "./ImcompletedTodo.module.css";
 import IconButton from "../../../../components/IconButton/IconButton";
 import { CiCircleCheck, CiEdit, CiTrash } from "react-icons/ci";
-//
-// インライン編集は廃止し、モーダルで編集する
 import AdditionalInfo from "./components/AdditionalInfo/AdditionalInfo";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
