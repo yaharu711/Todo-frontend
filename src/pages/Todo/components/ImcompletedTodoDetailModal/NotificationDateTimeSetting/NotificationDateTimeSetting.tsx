@@ -67,6 +67,7 @@ const NotificationDateTimeSetting = ({
         selected={selectedDateTime}
         onChange={onChangeDateTime}
         onSelect={onSelectDate}
+        dateFormatCalendar="yyyy年M月"
         customInput={<CustomDateDisplay />}
         calendarContainer={(props) => (
           <CalendarContainer

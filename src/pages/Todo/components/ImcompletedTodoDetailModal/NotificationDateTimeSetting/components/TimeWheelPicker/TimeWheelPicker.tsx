@@ -1,6 +1,6 @@
 // TimeWheelPicker.tsx
 import Picker from "react-mobile-picker";
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import styles from "./TimeWheelPicker.module.css";
 
 export type TimeValue = { hour: number; minute: number };
@@ -21,52 +21,40 @@ export function TimeWheelPicker({
     return a;
   }, [minuteStep]);
 
-  const hourValueObj = useMemo(() => ({ h: value.hour }), [value.hour]);
-  const minuteValueObj = useMemo(() => ({ m: value.minute }), [value.minute]);
+  // 1つのPickerにhourとminuteの両カラムをまとめる
+  const pickerValue = useMemo(
+    () => ({ h: value.hour, m: value.minute }),
+    [value.hour, value.minute]
+  );
+  const handlePickerChange = useCallback(
+    (newValue: { h?: number; m?: number }) => {
+      const nextHour = newValue.h ?? value.hour;
+      const nextMinute = newValue.m ?? value.minute;
+      if (nextHour !== value.hour || nextMinute !== value.minute) {
+        onChange({ hour: nextHour, minute: nextMinute });
+      }
+    },
+    [onChange, value.hour, value.minute]
+  );
 
   return (
-    <div className={styles.container}>
-      <div>
-        <div className={styles.label}>時</div>
-        <Picker
-          value={hourValueObj}
-          onChange={(data) => {
-            const newHour = data.h;
-            if (newHour !== value.hour) {
-              onChange({ hour: newHour, minute: value.minute });
-            }
-          }}
-        >
-          <Picker.Column name="h">
-            {hours.map((h) => (
-              <Picker.Item key={h} value={h}>
-                {String(h).padStart(2, "0")}
-              </Picker.Item>
-            ))}
-          </Picker.Column>
-        </Picker>
-      </div>
-      <div>
-        <div className={styles.label}>分</div>
-        <Picker
-          value={minuteValueObj}
-          onChange={(data) => {
-            const newMinute = data.m;
-            if (newMinute !== value.minute) {
-              // ← 値が本当に変わったときだけ更新
-              onChange({ hour: value.hour, minute: newMinute });
-            }
-          }}
-        >
-          <Picker.Column name="m">
-            {minutes.map((m) => (
-              <Picker.Item key={m} value={m}>
-                {String(m).padStart(2, "0")}
-              </Picker.Item>
-            ))}
-          </Picker.Column>
-        </Picker>
-      </div>
+    <div className={styles.pickerContainer}>
+      <Picker value={pickerValue} onChange={handlePickerChange}>
+        <Picker.Column name="h" className={styles.column}>
+          {hours.map((h) => (
+            <Picker.Item key={h} value={h}>
+              {String(h).padStart(2, "0")}
+            </Picker.Item>
+          ))}
+        </Picker.Column>
+        <Picker.Column name="m" className={styles.column}>
+          {minutes.map((m) => (
+            <Picker.Item key={m} value={m}>
+              {String(m).padStart(2, "0")}
+            </Picker.Item>
+          ))}
+        </Picker.Column>
+      </Picker>
     </div>
   );
 }
