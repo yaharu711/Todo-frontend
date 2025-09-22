@@ -4,7 +4,7 @@ import { setHours, setMinutes } from "date-fns";
 import Button from "../../../../../../../components/Button/Button";
 import { TimeValue, TimeWheelPicker } from "../TimeWheelPicker/TimeWheelPicker";
 import styles from "./CalendarContainer.module.css";
-import React from "react";
+import React, { useCallback, useTransition } from "react";
 import { formatDateTime } from "../../../../../../../util/CustomDate";
 
 type CustomCalendarContainerProps = CalendarContainerProps & {
@@ -30,6 +30,12 @@ const CalendarContainer = ({
   onChangeDateTime,
   datePickerRef,
 }: CustomCalendarContainerProps) => {
+  const [isPending, startTransition] = useTransition();
+  const setTmTransition = useCallback(
+    (next: TimeValue) => startTransition(() => setTm(next)),
+    [setTm]
+  );
+
   return (
     <div className={`${className} ${styles.container}`}>
       {step === "date" ? (
@@ -45,17 +51,19 @@ const CalendarContainer = ({
           </div>
           <TimeWheelPicker
             value={tm}
-            onChange={setTm}
+            onChange={setTmTransition}
             minuteStep={minuteStep}
           />
           <div className={styles.buttonContainer}>
             <Button
+              disabled={isPending}
               onClick={() => setStep("date")}
               style={{ width: "70px", height: "45px" }}
             >
               戻る
             </Button>
             <Button
+              disabled={isPending || !draftDate}
               onClick={() => {
                 if (!draftDate) return;
                 let d = setHours(draftDate, tm.hour);

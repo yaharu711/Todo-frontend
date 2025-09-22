@@ -58,9 +58,6 @@ const NotificationDateTimeSetting = ({
     setStep("time");
   };
 
-  // css moduleにするリファクタリングも行うこと
-  // 時刻選択時のスクロールのがたつきはどうにかならないのか、、
-
   return (
     <div className={styles.wrapper}>
       <span className={styles.label}>リマインド:</span>
@@ -70,6 +67,7 @@ const NotificationDateTimeSetting = ({
         selected={selectedDateTime}
         onChange={onChangeDateTime}
         onSelect={onSelectDate}
+        dateFormatCalendar="yyyy年M月"
         customInput={<CustomDateDisplay />}
         calendarContainer={(props) => (
           <CalendarContainer
