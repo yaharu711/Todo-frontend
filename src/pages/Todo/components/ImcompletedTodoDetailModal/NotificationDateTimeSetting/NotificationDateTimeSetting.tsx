@@ -58,9 +58,6 @@ const NotificationDateTimeSetting = ({
     setStep("time");
   };
 
-  // css moduleにするリファクタリングも行うこと
-  // 時刻選択時のスクロールのがたつきはどうにかならないのか、、
-
   return (
     <div className={styles.wrapper}>
       <span className={styles.label}>リマインド:</span>
