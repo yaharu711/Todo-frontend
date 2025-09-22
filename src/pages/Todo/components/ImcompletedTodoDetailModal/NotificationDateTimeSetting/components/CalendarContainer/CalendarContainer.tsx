@@ -56,12 +56,14 @@ const CalendarContainer = ({
           />
           <div className={styles.buttonContainer}>
             <Button
+              disabled={isPending}
               onClick={() => setStep("date")}
               style={{ width: "70px", height: "45px" }}
             >
               戻る
             </Button>
             <Button
+              disabled={isPending || !draftDate}
               onClick={() => {
                 if (!draftDate) return;
                 let d = setHours(draftDate, tm.hour);
