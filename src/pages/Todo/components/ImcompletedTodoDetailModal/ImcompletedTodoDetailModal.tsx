@@ -67,7 +67,6 @@ const ImcompletedTodoDetailModal = ({
       repositionInputs={false}
       dismissible={isOpenDatePicker ? false : true} // モーダルonモーダルになり、スクロールが伝播してしまうため、日時選択中は閉じないようにする
     >
-      {/* Portalのせいで変なところに表示されていた。コメントアウトすると表示される！ */}
       <Drawer.Portal>
         <Drawer.Overlay className={styles.overlay} />
         <Drawer.Content
@@ -77,7 +76,6 @@ const ImcompletedTodoDetailModal = ({
           }}
         >
           <div className={styles.content}>
-            {/* TODO: ここは、メモと同じように編集モードを作る。また、一行編集にならないようにtextタグでやろうかな */}
             <div className={styles.todo_name_wrapper}>
               <IconButton
                 onClick={() => {

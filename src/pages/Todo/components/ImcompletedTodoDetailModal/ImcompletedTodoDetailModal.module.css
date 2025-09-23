@@ -38,13 +38,15 @@
   column-gap: 16px;
   margin-bottom: 16px;
   width: 100%;
-  height: 50px;
 }
 
 .todo_name {
   font-size: 1.2rem;
   min-width: 100px;
   margin: 0;
+  white-space: wrap;
+  overflow-wrap: anywhere;
+  line-break: strict; /* 禁則処理を厳格に適用 */
 }
 
 .created_at {
