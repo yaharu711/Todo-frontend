@@ -1,25 +1,17 @@
 import apiClient from "../client/axios";
 import { checkExistValidFCMTokenResponse, SaveFCMTokenRequest } from "./types";
 
-const ENDPOINT: string = import.meta.env.VITE_API_URL;
-
 const saveFCMToken = async (request: SaveFCMTokenRequest) => {
-  await apiClient.post(ENDPOINT + "/api/fcm", request);
+  await apiClient.post("/api/fcm", request);
 };
 
 const invalidateLatestFCMToken = async () => {
-  await apiClient.post(
-    ENDPOINT + "/api/fcm/invalidate",
-    {}
-  );
+  await apiClient.post("/api/fcm/invalidate", {});
 };
 
 const checkExistValidFCMToken =
   async (): Promise<checkExistValidFCMTokenResponse> => {
-    const response = await apiClient.get(
-      ENDPOINT + "/api/fcm/check-exist-valid-token",
-      {}
-    );
+    const response = await apiClient.get("/api/fcm/check-exist-valid-token", {});
     return response.data;
   };
 

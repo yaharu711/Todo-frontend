@@ -7,8 +7,6 @@ import {
   RegistRequest,
 } from "./type";
 
-const ENDPOINT: string = import.meta.env.VITE_API_URL;
-
 const regist = async (request: RegistRequest): Promise<AxiosResponse> => {
   const res = await apiClient.post("/regist", request);
   return res;

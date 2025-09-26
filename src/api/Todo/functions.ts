@@ -6,14 +6,12 @@ import {
   UpdateTodosRequest,
 } from "./types";
 
-const ENDPOINT: string = import.meta.env.VITE_API_URL;
-
 const getHelloMessage = async (): Promise<string> => {
-  const res = await apiClient.get(ENDPOINT + "/api/hello-message");
+  const res = await apiClient.get("/api/hello-message");
   return res.data;
   // TODO: interceptorを使って共通化するか。
   // try {
-  //   const res = await axios.get(ENDPOINT + "/api/hello-message", {
+  //   const res = await axios.get("/api/hello-message", {
   //     withCredentials: true,
   //   });
   //   return res.data;
@@ -29,12 +27,12 @@ const getHelloMessage = async (): Promise<string> => {
 };
 
 const getTodos = async (): Promise<GetTodosResponse> => {
-  const res = await apiClient.get(ENDPOINT + "/api/todos");
+  const res = await apiClient.get("/api/todos");
   return res.data;
 };
 
 const getCompletedTodos = async (): Promise<GetCompletedTodosResponse> => {
-  const res = await apiClient.get(ENDPOINT + "/api/todos", {
+  const res = await apiClient.get("/api/todos", {
     params: {
       is_completed_only: true,
     },
@@ -43,7 +41,7 @@ const getCompletedTodos = async (): Promise<GetCompletedTodosResponse> => {
 };
 
 const createTodo = async (parapms: CreateTodoRequest) => {
-  await apiClient.post(ENDPOINT + "/api/todos", parapms);
+  await apiClient.post("/api/todos", parapms);
 };
 
 const updateTodos = async ({
@@ -54,7 +52,7 @@ const updateTodos = async ({
   is_completed,
 }: UpdateTodosRequest) => {
   await apiClient.patch(
-    ENDPOINT + "/api/todos/" + id,
+    "/api/todos/" + id,
     {
       name,
       memo,
@@ -66,13 +64,13 @@ const updateTodos = async ({
 };
 
 const deleteTodo = async (id: number) => {
-  await apiClient.delete(ENDPOINT + "/api/todos/" + id);
+  await apiClient.delete("/api/todos/" + id);
 };
 
 const sortTodos = async (sorted_todo_ids: number[]) => {
   await apiClient.put(
     // 完了のTODOでも並び替えたいケースができたら、クエリパラメータで切り替えようかな
-    ENDPOINT + "/api/todos/sort",
+    "/api/todos/sort",
     {
       todos_order: sorted_todo_ids,
     },
