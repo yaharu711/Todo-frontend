@@ -27,8 +27,12 @@ const checkLogined = async (): Promise<CheckLoginedResponse> => {
   return res.data;
 };
 
-const createLineAuthUrl = async (): Promise<CreateLineAuthUrlResponse> => {
-  const res = await apiClient.get("/line-auth/url");
+const createLineAuthUrl = async (
+  returnTo?: string
+): Promise<CreateLineAuthUrlResponse> => {
+  const res = await apiClient.get("/line-auth/url", {
+    params: returnTo ? { return_to: returnTo } : undefined,
+  });
   return res.data;
 };
 
