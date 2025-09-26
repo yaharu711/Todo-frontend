@@ -6,26 +6,6 @@ import {
   UpdateTodosRequest,
 } from "./types";
 
-const getHelloMessage = async (): Promise<string> => {
-  const res = await apiClient.get("/api/hello-message");
-  return res.data;
-  // TODO: interceptorを使って共通化するか。
-  // try {
-  //   const res = await axios.get("/api/hello-message", {
-  //     withCredentials: true,
-  //   });
-  //   return res.data;
-  // } catch (error) {
-  //   const axiosError = error as AxiosError;
-  //   if (axiosError.status === 401) {
-  //     errorHandle?.onUnAuthorized?.();
-  //   } else {
-  //     errorHandle?.onDefault?.();
-  //   }
-  //   throw error;
-  // }
-};
-
 const getTodos = async (): Promise<GetTodosResponse> => {
   const res = await apiClient.get("/api/todos");
   return res.data;
@@ -79,7 +59,6 @@ const sortTodos = async (sorted_todo_ids: number[]) => {
 };
 
 const TodoApi = {
-  getHelloMessage,
   getTodos,
   getCompletedTodos,
   createTodo,

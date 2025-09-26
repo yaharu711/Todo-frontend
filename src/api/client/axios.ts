@@ -1,5 +1,4 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 import { queryClient } from "../../lib/react-query";
 
 const apiClient = axios.create({
@@ -12,8 +11,6 @@ apiClient.interceptors.response.use(
   (error) => {
     const status = error?.response?.status;
     if (status === 401) {
-      // トーストをここで出すと一元化できる
-      toast.error("セッションが切れました。再度ログインしてください");
       // シングルトンQueryClientで認証状態を即時反映
       queryClient.setQueryData(["auth", "check-login"], { is_logined: false });
     }

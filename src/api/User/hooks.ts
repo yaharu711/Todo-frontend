@@ -35,7 +35,8 @@ export const useLogin = (
   const navigate = useNavigate();
   const location = useLocation();
   const { markAuthenticated } = useAuth();
-  const from = ((location.state as { from?: string } | null) || {})?.from ?? "/todos";
+  const from =
+    ((location.state as { from?: string } | null) || {})?.from ?? "/todos";
 
   return useMutation({
     // 本当はselector使ってレスポンスの型はアプリケーションに揃えたいね
@@ -73,7 +74,8 @@ export const useLogout = () => {
 
 export const useCheckLogined = () => {
   return useQuery({
-    queryKey: ["users", "check-login"],
+    // 認証状態の単一情報源に合わせてキーを統一
+    queryKey: ["auth", "check-login"],
     queryFn: UserApi.checkLogined,
   });
 };
