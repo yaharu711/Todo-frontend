@@ -3,7 +3,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { APIErrorHandler } from "../api/ErrorBoundary";
 import { useAuth } from "../auth/AuthProvider";
 import { useEffect, useRef } from "react";
-import { saveAuthFrom } from "../auth/redirectFrom";
+// import { saveAuthFrom } from "../auth/redirectFrom";
 
 const PrivateLayout = () => {
   // 以下のようにOutletと認証状態かどうか確認するカスタムフックの呼び出しをラップして
