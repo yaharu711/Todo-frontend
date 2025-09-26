@@ -6,6 +6,11 @@ import { AxiosError } from "axios";
 import { registErrorHandler } from "./errorHandlers";
 import { showSuccessToast } from "../../util/CustomToast";
 import { useAuth } from "../../auth/AuthProvider";
+import {
+  clearAuthFrom,
+  resolveAuthRedirectTarget,
+  FromParts,
+} from "../../auth/redirectFrom";
 
 export const useRegist = (
   setInputError: React.Dispatch<
@@ -35,8 +40,12 @@ export const useLogin = (
   const navigate = useNavigate();
   const location = useLocation();
   const { markAuthenticated } = useAuth();
-  const from =
-    ((location.state as { from?: string } | null) || {})?.from ?? "/todos";
+  // 遷移先の一元解決（state → sessionStorage → デフォルト）
+  const getRedirectFrom = (): string =>
+    resolveAuthRedirectTarget({
+      stateFrom: ((location.state as { from?: FromParts } | null) || {})?.from,
+      defaultPath: "/todos",
+    });
 
   return useMutation({
     // 本当はselector使ってレスポンスの型はアプリケーションに揃えたいね
@@ -44,7 +53,9 @@ export const useLogin = (
       await UserApi.login(credential),
     onSuccess: () => {
       markAuthenticated();
-      navigate(from, { replace: true });
+      const to = getRedirectFrom();
+      clearAuthFrom();
+      navigate(to, { replace: true });
     },
     onError: (error: AxiosError) => {
       if (error.status === 401)

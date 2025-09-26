@@ -3,6 +3,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { APIErrorHandler } from "../api/ErrorBoundary";
 import { useAuth } from "../auth/AuthProvider";
 import { useEffect, useRef } from "react";
+import { saveAuthFrom } from "../auth/redirectFrom";
 
 const PrivateLayout = () => {
   // 以下のようにOutletと認証状態かどうか確認するカスタムフックの呼び出しをラップして
@@ -14,15 +15,12 @@ const PrivateLayout = () => {
   const savedRef = useRef(false);
   useEffect(() => {
     if (status === "unauthenticated" && !savedRef.current) {
-      try {
-        const from = {
-          pathname: location.pathname,
-          search: location.search,
-          hash: location.hash,
-        };
-        sessionStorage.setItem("auth:from", JSON.stringify(from));
-        savedRef.current = true;
-      } catch {}
+      // saveAuthFrom({
+      //   pathname: location.pathname,
+      //   search: location.search,
+      //   hash: location.hash,
+      // });
+      savedRef.current = true;
     } else if (status === "authenticated") {
       savedRef.current = false;
     }
