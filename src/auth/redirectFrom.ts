@@ -8,7 +8,7 @@ export type FromParts = {
 
 const buildUrl = (
   { pathname, search, hash }: FromParts,
-  fallback = DEFAULT_AFTER_LOGIN
+  fallback: string = DEFAULT_AFTER_LOGIN
 ) => {
   const p = pathname && pathname.length > 0 ? pathname : fallback;
   const s = search || "";
