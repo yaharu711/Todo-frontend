@@ -8,8 +8,7 @@ const NAME_MAX_LENGTH_OVER =
 
 export const createTodoErrorHandler = (
   setInputError: React.Dispatch<React.SetStateAction<string>>,
-  error: Error,
-  navigate: NavigateFunction
+  error: Error
 ) => {
   const axiosError = error as AxiosError;
   if (axiosError.status === 422) {
@@ -45,7 +44,6 @@ export const createTodoErrorHandler = (
 export const updateTodoDetailErrorHandler = (
   setInputError: React.Dispatch<React.SetStateAction<string>>,
   error: Error,
-  navigate: NavigateFunction,
   updateCache: () => void,
   updateCacheToPrevious: () => void
 ) => {
@@ -84,10 +82,7 @@ export const updateTodoDetailErrorHandler = (
   }
 };
 
-export const updateTodoErrorHandler = (
-  error: Error,
-  navigate: NavigateFunction
-) => {
+export const updateTodoErrorHandler = (error: Error) => {
   const axiosError = error as AxiosError;
   if (axiosError.status === 401) {
     // 401は呼び出し元で未認証化＋遷移（PrivateLayout）に委任
