@@ -1,6 +1,6 @@
 import axios from "axios";
-import { emitUnauthenticated } from "../../auth/authEvents";
 import { toast } from "react-toastify";
+import { queryClient } from "../../lib/react-query";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -14,8 +14,8 @@ apiClient.interceptors.response.use(
     if (status === 401) {
       // トーストをここで出すと一元化できる
       toast.error("セッションが切れました。再度ログインしてください");
-
-      emitUnauthenticated();
+      // シングルトンQueryClientで認証状態を即時反映
+      queryClient.setQueryData(["auth", "check-login"], { is_logined: false });
     }
     return Promise.reject(error);
   }

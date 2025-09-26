@@ -1,7 +1,6 @@
-import { createContext, useContext, ReactNode, useMemo, useEffect } from "react";
+import { createContext, useContext, ReactNode, useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import UserApi from "../api/User/functions";
-import { onUnauthenticated } from "./authEvents";
 
 type AuthStatus = "checking" | "authenticated" | "unauthenticated";
 
@@ -44,19 +43,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         queryClient.setQueryData(["auth", "check-login"], { is_logined: true });
       },
       markUnauthenticated: () => {
-        queryClient.setQueryData(["auth", "check-login"], { is_logined: false });
+        queryClient.setQueryData(["auth", "check-login"], {
+          is_logined: false,
+        });
       },
     }),
     [status, refetch, queryClient]
   );
-
-  // axiosインターセプタ（非React）からの未認証イベントを購読
-  useEffect(() => {
-    const off = onUnauthenticated(() => {
-      queryClient.setQueryData(["auth", "check-login"], { is_logined: false });
-    });
-    return off;
-  }, [queryClient]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
