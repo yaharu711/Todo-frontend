@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { ROUTE_PATHS } from "../../routes/paths";
 import { toast } from "react-toastify";
 
 // Suspenseを使うなら、エラーは投げっぱなしにするのでエラーハンドリングはErrorBoundaryという仕組みを使う
@@ -14,7 +15,7 @@ export const APIErrorHandler = ({ error }: { error: AxiosError }) => {
       // 401はaxiosインターセプタでトースト＋未認証化を一元処理
       return;
     } else {
-      navigate("/500", { replace: true });
+      navigate(ROUTE_PATHS.error500, { replace: true });
       toast.error(
         "予期しないバグが発生しました。時間をおいて再度アクセスしてください"
       );

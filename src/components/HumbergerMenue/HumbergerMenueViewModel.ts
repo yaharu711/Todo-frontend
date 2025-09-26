@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ROUTE_PATHS } from "../../routes/paths";
 import { useLogout } from "../../api/User/hooks";
 
 const useHumbergerMenueViewModel = () => {
@@ -10,12 +11,12 @@ const useHumbergerMenueViewModel = () => {
 
   const onClickSettingMenue = () => {
     changeIsOpen(false);
-    navigate("/settings");
+    navigate(ROUTE_PATHS.settings);
   };
 
   const onClickCompletedTodoMenue = () => {
     changeIsOpen(false);
-    navigate("/todos/completed");
+    navigate(ROUTE_PATHS.todosCompleted);
   };
 
   const onClickLogoutMenue = () => {

@@ -1,24 +1,20 @@
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthProvider";
-import { clearAuthFrom, FromParts, resolveAuthRedirectTarget } from "../../auth/redirectFrom";
+import { useAuthRedirect } from "../../auth/redirectFrom";
+import { ROUTE_PATHS } from "../../routes/paths";
 
 const useLoginPageViewModel = () => {
   const { status } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
+  const { target } = useAuthRedirect({ defaultPath: ROUTE_PATHS.todos });
   // 認証状態が確定してauthenticatedならTODOへ
   useEffect(() => {
     if (status === "authenticated") {
-      // 直前のアクセス先（state or session）を優先して復元
-      const to = resolveAuthRedirectTarget({
-        stateFrom: ((location.state as { from?: FromParts } | null) || {})?.from,
-        defaultPath: "/todos",
-      });
-      clearAuthFrom();
-      navigate(to, { replace: true });
+      // 直前のアクセス先（state）を優先して復元
+      navigate(target, { replace: true });
     }
-  }, [status, navigate, location.state]);
+  }, [status, navigate, target]);
 
   return {
     isPendingForCheckLogined: status === "checking",
