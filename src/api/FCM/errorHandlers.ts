@@ -4,11 +4,12 @@ import { toast } from "react-toastify";
 
 export const commonFCMApiErrorHandler = (
   error: Error,
-  navigate: NavigateFunction
+  _navigate?: NavigateFunction
 ) => {
   const axiosError = error as AxiosError;
   if (axiosError.status === 401) {
-    navigate("/login?isFrom401=true", { replace: true });
+    // 401は呼び出し元で未認証化＋遷移（PrivateLayout）に委任
+    return;
     // 500エラーの時はstatusがundefinedになる
   } else if (axiosError.status === undefined || axiosError.status === 500) {
     toast.error(

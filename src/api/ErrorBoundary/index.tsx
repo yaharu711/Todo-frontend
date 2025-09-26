@@ -11,7 +11,8 @@ export const APIErrorHandler = ({ error }: { error: AxiosError }) => {
   // これによりレンダリングとの処理が分離できるので予期せぬバグが起きない
   useEffect(() => {
     if (error.response?.status === 401) {
-      navigate("/login?isFrom401=true", { replace: true });
+      // 401はaxiosインターセプタでトースト＋未認証化を一元処理
+      return;
     } else {
       navigate("/500", { replace: true });
       toast.error(

@@ -24,7 +24,8 @@ export const createTodoErrorHandler = (
       setInputError("TODO名は100文字までです");
     }
   } else if (axiosError.status === 401) {
-    navigate("/login?isFrom401=true", { replace: true });
+    // 401は呼び出し元で未認証化＋遷移（PrivateLayout）に委任
+    return;
     // 500エラーの時はstatusがundefinedになる
   } else if (axiosError.status === undefined) {
     toast.error(
@@ -62,8 +63,9 @@ export const updateTodoDetailErrorHandler = (
     }
     updateCache();
   } else if (axiosError.status === 401) {
+    // 401は呼び出し元で未認証化＋遷移（PrivateLayout）に委任
     updateCacheToPrevious();
-    navigate("/login?isFrom401=true", { replace: true });
+    return;
     // 500エラーの時はstatusがundefinedになる
   } else if (axiosError.status === undefined) {
     toast.error(
@@ -88,7 +90,8 @@ export const updateTodoErrorHandler = (
 ) => {
   const axiosError = error as AxiosError;
   if (axiosError.status === 401) {
-    navigate("/login?isFrom401=true", { replace: true });
+    // 401は呼び出し元で未認証化＋遷移（PrivateLayout）に委任
+    return;
     // 500エラーの時はstatusがundefinedになる
   } else if (axiosError.status === undefined) {
     toast.error(

@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import PublicLayout from "./components/PublicLayout";
 import PrivateLayout from "./components/PrivateLayout";
 import ToastProvider from "./util/ToastProvider";
+import { AuthProvider } from "./auth/AuthProvider";
 import { lazy, Suspense } from "react";
 
 export type ButtonProps = {
@@ -29,7 +30,8 @@ const App = () => {
   return (
     <div className="App">
       <ToastProvider>
-        <Routes>
+        <AuthProvider>
+          <Routes>
           <Route element={<PublicLayout />}>
             <Route
               path="/"
@@ -98,7 +100,8 @@ const App = () => {
               </Suspense>
             }
           />
-        </Routes>
+          </Routes>
+        </AuthProvider>
       </ToastProvider>
     </div>
   );

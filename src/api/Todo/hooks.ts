@@ -18,6 +18,7 @@ import {
   UpdateTodoDetailParams,
 } from "../../pages/Todo/types";
 import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
 import { DragEndEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 
@@ -37,7 +38,8 @@ export const useGetTodos = () => {
         imcompletedTodo
       ) {
         const parsedNotificateAt =
-          imcompletedTodo.notificate_at === "" || imcompletedTodo.notificate_at === null
+          imcompletedTodo.notificate_at === "" ||
+          imcompletedTodo.notificate_at === null
             ? null
             : new Date(imcompletedTodo.notificate_at);
         return {
@@ -98,6 +100,8 @@ export const useCreateTodo = () => {
     mutationFn: (params: CreateTodoParams) =>
       TodoApi.createTodo(params.request),
     onError: (error: Error, { setInputError }) => {
+      const axiosError = error as AxiosError;
+      if (axiosError.status === 401) return; // 401はインターセプタが処理
       createTodoErrorHandler(setInputError, error, navigate);
     },
     onSettled: async () => {
@@ -138,6 +142,11 @@ export const useUpdateDetailTodos = () => {
         if (context === undefined) return;
         queryClient.setQueryData(["todos"], context.previousTodos);
       };
+      const axiosError = error as AxiosError;
+      if (axiosError.status === 401) {
+        updateCacheToPrevious();
+        return;
+      }
       updateTodoDetailErrorHandler(
         setInputError,
         error,
@@ -176,6 +185,11 @@ export const useUpdateTodos = () => {
       return { previousTodos };
     },
     onError: (error: Error, _variables, context) => {
+      const axiosError = error as AxiosError;
+      if (axiosError.status === 401) {
+        if (context) queryClient.setQueryData(["todos"], context.previousTodos);
+        return;
+      }
       updateTodoErrorHandler(error, navigate);
       if (context === undefined) return;
       queryClient.setQueryData(["todos"], context.previousTodos);
@@ -214,6 +228,11 @@ export const useCompleteTodo = () => {
       return { previousTodos };
     },
     onError: (error: Error, _variables, context) => {
+      const axiosError = error as AxiosError;
+      if (axiosError.status === 401) {
+        if (context) queryClient.setQueryData(["todos"], context.previousTodos);
+        return;
+      }
       updateTodoErrorHandler(error, navigate);
       if (context === undefined) return;
       queryClient.setQueryData(["todos"], context.previousTodos);
@@ -252,6 +271,12 @@ export const useImcompleteTodo = () => {
       return { previousTodos };
     },
     onError: (error: Error, _variables, context) => {
+      const axiosError = error as AxiosError;
+      if (axiosError.status === 401) {
+        if (context)
+          queryClient.setQueryData(["completed-todos"], context.previousTodos);
+        return;
+      }
       updateTodoErrorHandler(error, navigate);
       if (context === undefined) return;
       queryClient.setQueryData(["completed-todos"], context.previousTodos);
@@ -294,6 +319,11 @@ export const useDeleteTodo = () => {
       return { previousTodos };
     },
     onError: (error: Error, _variables, context) => {
+      const axiosError = error as AxiosError;
+      if (axiosError.status === 401) {
+        if (context) queryClient.setQueryData(["todos"], context.previousTodos);
+        return;
+      }
       updateTodoErrorHandler(error, navigate);
       if (context === undefined) return;
       queryClient.setQueryData(["todos"], context.previousTodos);

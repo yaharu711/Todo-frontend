@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiClient from "../client/axios";
 import {
   CheckLineBotFriendResponse,
   GetLineNotificationStatusResponse,
@@ -8,29 +8,23 @@ const ENDPOINT: string = import.meta.env.VITE_API_URL + "/api";
 
 const getLineNotificationStatus =
   async (): Promise<GetLineNotificationStatusResponse> => {
-    const res = await axios.get(ENDPOINT + "/line/notifications", {
-      withCredentials: true,
-    });
+    const res = await apiClient.get(ENDPOINT + "/line/notifications");
     return res.data;
   };
 
 const switchLineNotificationStatus = async (
   is_notification: boolean
 ): Promise<void> => {
-  const res = await axios.patch(
+  const res = await apiClient.patch(
     ENDPOINT + "/line/notifications",
     { is_notification: is_notification },
-    {
-      withCredentials: true,
-    }
+    {}
   );
   return res.data;
 };
 
 const checkLineBotFriend = async (): Promise<CheckLineBotFriendResponse> => {
-  const res = await axios.get(ENDPOINT + "/line/check-friend", {
-    withCredentials: true,
-  });
+  const res = await apiClient.get(ENDPOINT + "/line/check-friend");
 
   return res.data;
 };
