@@ -1,5 +1,4 @@
 import { AxiosError } from "axios";
-import { NavigateFunction } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // 本当はメッセージよりエラーcodeにした方がよい。

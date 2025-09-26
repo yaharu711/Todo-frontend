@@ -17,7 +17,6 @@ import {
   ImcompletedTodoType,
   UpdateTodoDetailParams,
 } from "../../pages/Todo/types";
-import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { DragEndEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
@@ -95,14 +94,13 @@ export const useGetCompletedTodos = () => {
 
 export const useCreateTodo = () => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   return useMutation({
     mutationFn: (params: CreateTodoParams) =>
       TodoApi.createTodo(params.request),
     onError: (error: Error, { setInputError }) => {
       const axiosError = error as AxiosError;
       if (axiosError.status === 401) return; // 401はインターセプタが処理
-      createTodoErrorHandler(setInputError, error, navigate);
+      createTodoErrorHandler(setInputError, error);
     },
     onSettled: async () => {
       // 楽観的更新はisPendingの時にvariablesを表示しているのでinvalidateするまで待つ必要ある
@@ -114,7 +112,6 @@ export const useCreateTodo = () => {
 
 export const useUpdateDetailTodos = () => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   return useMutation({
     mutationFn: (params: UpdateTodoDetailParams) =>
       TodoApi.updateTodos(params.request),
@@ -150,7 +147,6 @@ export const useUpdateDetailTodos = () => {
       updateTodoDetailErrorHandler(
         setInputError,
         error,
-        navigate,
         updateCache,
         updateCacheToPrevious
       );
@@ -167,7 +163,6 @@ export const useUpdateDetailTodos = () => {
 
 export const useUpdateTodos = () => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   return useMutation({
     mutationFn: (request: UpdateTodosRequest) => TodoApi.updateTodos(request),
     onMutate: async (request) => {
@@ -190,7 +185,7 @@ export const useUpdateTodos = () => {
         if (context) queryClient.setQueryData(["todos"], context.previousTodos);
         return;
       }
-      updateTodoErrorHandler(error, navigate);
+      updateTodoErrorHandler(error);
       if (context === undefined) return;
       queryClient.setQueryData(["todos"], context.previousTodos);
     },
@@ -204,7 +199,6 @@ export const useUpdateTodos = () => {
 
 export const useCompleteTodo = () => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   return useMutation({
     mutationFn: (id: number) =>
       TodoApi.updateTodos({
@@ -233,7 +227,7 @@ export const useCompleteTodo = () => {
         if (context) queryClient.setQueryData(["todos"], context.previousTodos);
         return;
       }
-      updateTodoErrorHandler(error, navigate);
+      updateTodoErrorHandler(error);
       if (context === undefined) return;
       queryClient.setQueryData(["todos"], context.previousTodos);
     },
@@ -247,7 +241,6 @@ export const useCompleteTodo = () => {
 
 export const useImcompleteTodo = () => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   return useMutation({
     mutationFn: (id: number) =>
       TodoApi.updateTodos({
@@ -277,7 +270,7 @@ export const useImcompleteTodo = () => {
           queryClient.setQueryData(["completed-todos"], context.previousTodos);
         return;
       }
-      updateTodoErrorHandler(error, navigate);
+      updateTodoErrorHandler(error);
       if (context === undefined) return;
       queryClient.setQueryData(["completed-todos"], context.previousTodos);
     },
@@ -291,7 +284,6 @@ export const useImcompleteTodo = () => {
 
 export const useDeleteTodo = () => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   return useMutation({
     mutationFn: (id: number) => TodoApi.deleteTodo(id),
     onMutate: async (id) => {
@@ -324,7 +316,7 @@ export const useDeleteTodo = () => {
         if (context) queryClient.setQueryData(["todos"], context.previousTodos);
         return;
       }
-      updateTodoErrorHandler(error, navigate);
+      updateTodoErrorHandler(error);
       if (context === undefined) return;
       queryClient.setQueryData(["todos"], context.previousTodos);
     },
