@@ -1,4 +1,5 @@
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import apiClient from "../client/axios";
 import {
   CheckLoginedResponse,
   CreateLineAuthUrlResponse,
@@ -6,40 +7,28 @@ import {
   RegistRequest,
 } from "./type";
 
-const ENDPOINT: string = import.meta.env.VITE_API_URL;
-
 const regist = async (request: RegistRequest): Promise<AxiosResponse> => {
-  const res = await axios.post(ENDPOINT + "/regist", request, {
-    withCredentials: true,
-  });
+  const res = await apiClient.post("/regist", request);
   return res;
 };
 
 const login = async (request: LoginRequest): Promise<AxiosResponse> => {
-  const res = await axios.post(ENDPOINT + "/login", request, {
-    withCredentials: true,
-  });
+  const res = await apiClient.post("/login", request);
   return res;
 };
 
 const logout = async (): Promise<AxiosResponse> => {
-  const res = await axios.post(ENDPOINT + "/logout", undefined, {
-    withCredentials: true,
-  });
+  const res = await apiClient.post("/logout");
   return res;
 };
 
 const checkLogined = async (): Promise<CheckLoginedResponse> => {
-  const res = await axios.post(ENDPOINT + "/check-login", undefined, {
-    withCredentials: true,
-  });
+  const res = await apiClient.post("/check-login");
   return res.data;
 };
 
 const createLineAuthUrl = async (): Promise<CreateLineAuthUrlResponse> => {
-  const res = await axios.get(ENDPOINT + "/line-auth/url", {
-    withCredentials: true,
-  });
+  const res = await apiClient.get("/line-auth/url");
   return res.data;
 };
 

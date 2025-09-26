@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiClient from "../client/axios";
 import {
   CreateTodoRequest,
   GetCompletedTodosResponse,
@@ -6,40 +6,13 @@ import {
   UpdateTodosRequest,
 } from "./types";
 
-const ENDPOINT: string = import.meta.env.VITE_API_URL;
-
-const getHelloMessage = async (): Promise<string> => {
-  const res = await axios.get(ENDPOINT + "/api/hello-message", {
-    withCredentials: true,
-  });
-  return res.data;
-  // TODO: interceptorを使って共通化するか。
-  // try {
-  //   const res = await axios.get(ENDPOINT + "/api/hello-message", {
-  //     withCredentials: true,
-  //   });
-  //   return res.data;
-  // } catch (error) {
-  //   const axiosError = error as AxiosError;
-  //   if (axiosError.status === 401) {
-  //     errorHandle?.onUnAuthorized?.();
-  //   } else {
-  //     errorHandle?.onDefault?.();
-  //   }
-  //   throw error;
-  // }
-};
-
 const getTodos = async (): Promise<GetTodosResponse> => {
-  const res = await axios.get(ENDPOINT + "/api/todos", {
-    withCredentials: true,
-  });
+  const res = await apiClient.get("/api/todos");
   return res.data;
 };
 
 const getCompletedTodos = async (): Promise<GetCompletedTodosResponse> => {
-  const res = await axios.get(ENDPOINT + "/api/todos", {
-    withCredentials: true,
+  const res = await apiClient.get("/api/todos", {
     params: {
       is_completed_only: true,
     },
@@ -48,9 +21,7 @@ const getCompletedTodos = async (): Promise<GetCompletedTodosResponse> => {
 };
 
 const createTodo = async (parapms: CreateTodoRequest) => {
-  await axios.post(ENDPOINT + "/api/todos", parapms, {
-    withCredentials: true,
-  });
+  await apiClient.post("/api/todos", parapms);
 };
 
 const updateTodos = async ({
@@ -60,41 +31,34 @@ const updateTodos = async ({
   notificate_at,
   is_completed,
 }: UpdateTodosRequest) => {
-  await axios.patch(
-    ENDPOINT + "/api/todos/" + id,
+  await apiClient.patch(
+    "/api/todos/" + id,
     {
       name,
       memo,
       notificate_at,
       is_completed,
     },
-    {
-      withCredentials: true,
-    }
+    {}
   );
 };
 
 const deleteTodo = async (id: number) => {
-  await axios.delete(ENDPOINT + "/api/todos/" + id, {
-    withCredentials: true,
-  });
+  await apiClient.delete("/api/todos/" + id);
 };
 
 const sortTodos = async (sorted_todo_ids: number[]) => {
-  await axios.put(
+  await apiClient.put(
     // 完了のTODOでも並び替えたいケースができたら、クエリパラメータで切り替えようかな
-    ENDPOINT + "/api/todos/sort",
+    "/api/todos/sort",
     {
       todos_order: sorted_todo_ids,
     },
-    {
-      withCredentials: true,
-    }
+    {}
   );
 };
 
 const TodoApi = {
-  getHelloMessage,
   getTodos,
   getCompletedTodos,
   createTodo,

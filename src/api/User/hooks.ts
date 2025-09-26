@@ -1,10 +1,16 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import UserApi from "./functions";
 import { LoginRequest, RegistRequest } from "./type";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { registErrorHandler } from "./errorHandlers";
 import { showSuccessToast } from "../../util/CustomToast";
+import { useAuth } from "../../auth/AuthProvider";
+import {
+  clearAuthFrom,
+  resolveAuthRedirectTarget,
+  FromParts,
+} from "../../auth/redirectFrom";
 
 export const useRegist = (
   setInputError: React.Dispatch<
@@ -32,13 +38,24 @@ export const useLogin = (
   setError: React.Dispatch<React.SetStateAction<string>>
 ) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { markAuthenticated } = useAuth();
+  // 遷移先の一元解決（state → sessionStorage → デフォルト）
+  const getRedirectFrom = (): string =>
+    resolveAuthRedirectTarget({
+      stateFrom: ((location.state as { from?: FromParts } | null) || {})?.from,
+      defaultPath: "/todos",
+    });
 
   return useMutation({
     // 本当はselector使ってレスポンスの型はアプリケーションに揃えたいね
     mutationFn: async (credential: LoginRequest) =>
       await UserApi.login(credential),
     onSuccess: () => {
-      navigate("/todos");
+      markAuthenticated();
+      const to = getRedirectFrom();
+      clearAuthFrom();
+      navigate(to, { replace: true });
     },
     onError: (error: AxiosError) => {
       if (error.status === 401)
@@ -51,11 +68,13 @@ export const useLogin = (
 
 export const useLogout = () => {
   const navigate = useNavigate();
+  const { markUnauthenticated } = useAuth();
 
   return useMutation({
     mutationFn: () => UserApi.logout(),
     onSuccess: () => {
       showSuccessToast("ログアウトしました✅");
+      markUnauthenticated();
       navigate("/login");
     },
     onError: () => {
@@ -66,7 +85,8 @@ export const useLogout = () => {
 
 export const useCheckLogined = () => {
   return useQuery({
-    queryKey: ["users", "check-login"],
+    // 認証状態の単一情報源に合わせてキーを統一
+    queryKey: ["auth", "check-login"],
     queryFn: UserApi.checkLogined,
   });
 };
