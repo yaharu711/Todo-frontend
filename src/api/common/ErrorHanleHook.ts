@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { ROUTE_PATHS } from "../../routes/paths";
 import { toast } from "react-toastify";
 
 export type apiErrorHandlesType = {
@@ -12,8 +13,8 @@ export const useApiErrorHandles = (): apiErrorHandlesType => {
   return {
     onUnAuthorized: () => {
       toast.error("セッションが切れました。再度ログインしてください");
-      navigate("/login");
+      navigate(ROUTE_PATHS.login);
     },
-    onDefault: () => navigate("/500"),
+    onDefault: () => navigate(ROUTE_PATHS.error500),
   };
 };

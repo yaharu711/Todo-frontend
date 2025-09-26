@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { ROUTE_PATHS } from "./routes/paths";
 import PublicLayout from "./components/PublicLayout";
 import PrivateLayout from "./components/PrivateLayout";
 import ToastProvider from "./util/ToastProvider";
@@ -34,7 +35,7 @@ const App = () => {
           <Routes>
           <Route element={<PublicLayout />}>
             <Route
-              path="/"
+              path={ROUTE_PATHS.root}
               element={
                 <Suspense fallback={<div></div>}>
                   <HomePageLazy />
@@ -42,7 +43,7 @@ const App = () => {
               }
             />
             <Route
-              path="/regist"
+              path={ROUTE_PATHS.regist}
               element={
                 <Suspense fallback={<div></div>}>
                   <RegisterPageLazy />
@@ -50,7 +51,7 @@ const App = () => {
               }
             />
             <Route
-              path="/login"
+              path={ROUTE_PATHS.login}
               element={
                 <Suspense fallback={<div></div>}>
                   <LoginPageLazy />
@@ -58,7 +59,7 @@ const App = () => {
               }
             />
             <Route
-              path="/500"
+              path={ROUTE_PATHS.error500}
               element={
                 <Suspense fallback={<div></div>}>
                   <UnExpectedErrorPageLazy />
@@ -68,7 +69,7 @@ const App = () => {
           </Route>
           <Route element={<PrivateLayout />}>
             <Route
-              path="/todos"
+              path={ROUTE_PATHS.todos}
               element={
                 <Suspense fallback={<div></div>}>
                   <TodoPageLazy />
@@ -76,7 +77,7 @@ const App = () => {
               }
             />
             <Route
-              path="/todos/completed"
+              path={ROUTE_PATHS.todosCompleted}
               element={
                 <Suspense fallback={<div></div>}>
                   <CompletedTodoPageLazy />
@@ -84,7 +85,7 @@ const App = () => {
               }
             />
             <Route
-              path="/settings"
+              path={ROUTE_PATHS.settings}
               element={
                 <Suspense fallback={<div></div>}>
                   <SettingPageLazy />

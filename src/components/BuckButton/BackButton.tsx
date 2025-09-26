@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
+import { ROUTE_PATHS } from "../../routes/paths";
 import { IoChevronBackOutline } from "react-icons/io5";
 import styles from "./BackButton.module.css";
 
 const BackButton = () => {
   const navigate = useNavigate();
   const onClick = () => {
-    navigate("/todos");
+    navigate(ROUTE_PATHS.todos);
   };
 
   return (

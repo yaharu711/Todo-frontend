@@ -1,16 +1,13 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import UserApi from "./functions";
 import { LoginRequest, RegistRequest } from "./type";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { registErrorHandler } from "./errorHandlers";
 import { showSuccessToast } from "../../util/CustomToast";
 import { useAuth } from "../../auth/AuthProvider";
-import {
-  clearAuthFrom,
-  resolveAuthRedirectTarget,
-  FromParts,
-} from "../../auth/redirectFrom";
+import { useAuthRedirect } from "../../auth/redirectFrom";
+import { ROUTE_PATHS } from "../../routes/paths";
 
 export const useRegist = (
   setInputError: React.Dispatch<
@@ -29,7 +26,7 @@ export const useRegist = (
       registErrorHandler(setInputError, error);
     },
     onSuccess: () => {
-      navigate("/login");
+      navigate(ROUTE_PATHS.login);
     },
   });
 };
@@ -38,14 +35,8 @@ export const useLogin = (
   setError: React.Dispatch<React.SetStateAction<string>>
 ) => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { markAuthenticated } = useAuth();
-  // 遷移先の一元解決（state → sessionStorage → デフォルト）
-  const getRedirectFrom = (): string =>
-    resolveAuthRedirectTarget({
-      stateFrom: ((location.state as { from?: FromParts } | null) || {})?.from,
-      defaultPath: "/todos",
-    });
+  const { target } = useAuthRedirect({ defaultPath: ROUTE_PATHS.todos });
 
   return useMutation({
     // 本当はselector使ってレスポンスの型はアプリケーションに揃えたいね
@@ -53,9 +44,7 @@ export const useLogin = (
       await UserApi.login(credential),
     onSuccess: () => {
       markAuthenticated();
-      const to = getRedirectFrom();
-      clearAuthFrom();
-      navigate(to, { replace: true });
+      navigate(target, { replace: true });
     },
     onError: (error: AxiosError) => {
       if (error.status === 401)
@@ -75,7 +64,7 @@ export const useLogout = () => {
     onSuccess: () => {
       showSuccessToast("ログアウトしました✅");
       markUnauthenticated();
-      navigate("/login");
+      navigate(ROUTE_PATHS.login);
     },
     onError: () => {
       showSuccessToast("ログアウトに失敗しました❌");
