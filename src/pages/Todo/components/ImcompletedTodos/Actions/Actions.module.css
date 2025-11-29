@@ -1,0 +1,18 @@
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.sortIcon {
+  display: flex;
+}
+
+.sortIcon[data-is-pending-for-sort-todo="true"] {
+  transition: all 0.4s ease;
+  text-decoration: line-through;
+  color: gray;
+  opacity: 0.6;
+}
