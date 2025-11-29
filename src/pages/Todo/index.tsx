@@ -13,6 +13,8 @@ import { ClipLoader } from "react-spinners";
 
 const TodoPage = () => {
   const {
+    filter,
+    setFilter,
     isPendingForGetTodos,
     imcompletedTodos,
     createTodo,
@@ -57,6 +59,8 @@ const TodoPage = () => {
                   updateTodo={updateTodo}
                   updateTodoDetail={updateTodoDetail}
                   deleteTodo={deleteTodo}
+                  filter={filter}
+                  onChangeFilter={setFilter}
                 />
               </SortableContext>
             </DndContext>

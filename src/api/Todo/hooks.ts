@@ -17,6 +17,7 @@ import {
   ImcompletedTodoType,
   UpdateTodoDetailParams,
 } from "../../pages/Todo/types";
+import { ImcompletedFilter } from "../../pages/Todo/components/ImcompletedTodos/filterOptions";
 import { AxiosError } from "axios";
 import { DragEndEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
@@ -28,11 +29,11 @@ export type useGetCompletedTodosResponse = {
   completedTodosWithStatus: CompletedTodoType[];
 };
 
-export const useGetTodos = () => {
+export const useGetTodos = (filter?: ImcompletedFilter) => {
   const { data, isPending, error } = useQuery({
-    queryKey: ["todos"],
+    queryKey: ["todos", filter],
     queryFn: async (): Promise<useGetTodosResponse> => {
-      const data = await TodoApi.getTodos();
+      const data = await TodoApi.getTodos(filter);
       const imcompletedTodosWithStatus = data.todos.map(function (
         imcompletedTodo
       ) {

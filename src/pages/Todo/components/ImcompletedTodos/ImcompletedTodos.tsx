@@ -9,7 +9,6 @@ import ImcompletedTodoForPending from "../ImcompletedTodoForPending/ImcompletedT
 import UseImcompletedTodosViewModel from "./useImcompletedTodosViewModel";
 import SortableImcompletedTodo from "../SortableImcompletedTodo/SortableImcompletedTodo";
 import ImcompletedTodoDetailModal from "../ImcompletedTodoDetailModal/ImcompletedTodoDetailModal";
-import { useState } from "react";
 import { ImcompletedFilter } from "./filterOptions";
 import Actions from "./Actions/Actions";
 
@@ -20,7 +19,8 @@ type Props = {
   updateTodo: ({ params, successMessage }: UpdateTodoParams) => void;
   updateTodoDetail: (props: UpdateTodoDetailParams) => void;
   deleteTodo: (id: number) => void;
-  onChangeFilter?: (filter: ImcompletedFilter) => void;
+  filter: ImcompletedFilter;
+  onChangeFilter: (filter: ImcompletedFilter) => void;
 };
 
 const ImcompletedTodos = ({
@@ -30,9 +30,9 @@ const ImcompletedTodos = ({
   updateTodo,
   updateTodoDetail,
   deleteTodo,
+  filter,
   onChangeFilter,
 }: Props) => {
-  const [filter, setFilter] = useState<ImcompletedFilter>("all");
   const {
     isSortMode,
     toggleSortMode,
@@ -46,17 +46,11 @@ const ImcompletedTodos = ({
     displayAnimationTodoIds,
   } = UseImcompletedTodosViewModel(todos);
 
-  const handleSelectFilter = (value: ImcompletedFilter) => {
-    setFilter(value);
-    onChangeFilter?.(value);
-  };
-
   return (
     <section className={styles.wrap}>
-      <h2>ホーム</h2>
       <Actions
         filter={filter}
-        onChangeFilter={handleSelectFilter}
+        onChangeFilter={onChangeFilter}
         isSortMode={isSortMode}
         toggleSortMode={toggleSortMode}
         onClickSaveSorted={onClickSaveSorted}
