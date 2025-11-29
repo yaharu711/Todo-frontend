@@ -24,8 +24,11 @@ import { ImcompletedFilter } from "./components/ImcompletedTodos/filterOptions";
 const useTodoViewModel = () => {
   const [filter, setFilter] = useState<ImcompletedFilter>("all");
   // TODOの取得と定義
-  const { data: todos, isPending: isPendingForGetTodos, error } =
-    useGetTodos(filter);
+  const {
+    data: todos,
+    isPending: isPendingForGetTodos,
+    error,
+  } = useGetTodos(filter);
   // 取得系のエラーはとりあえず投げる
   if (error) throw error;
 

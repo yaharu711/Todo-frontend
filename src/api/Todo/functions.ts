@@ -7,7 +7,9 @@ import {
 } from "./types";
 import { ImcompletedFilter } from "../../pages/Todo/components/ImcompletedTodos/filterOptions";
 
-const getTodos = async (filter?: ImcompletedFilter): Promise<GetTodosResponse> => {
+const getTodos = async (
+  filter?: ImcompletedFilter
+): Promise<GetTodosResponse> => {
   const res = await apiClient.get("/api/todos", {
     params: filter ? { filter } : undefined,
   });
