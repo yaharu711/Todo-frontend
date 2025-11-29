@@ -6,12 +6,11 @@ import {
 import ImcompletedTodo from "../ImcompletedTodo/ImcompletedTodo";
 import styles from "./ImcompletedTodos.module.css";
 import ImcompletedTodoForPending from "../ImcompletedTodoForPending/ImcompletedTodoForPending";
-import IconButton from "../../../../components/IconButton/IconButton";
-import { GrSort } from "react-icons/gr";
 import UseImcompletedTodosViewModel from "./useImcompletedTodosViewModel";
-import Button from "../../../../components/Button/Button";
 import SortableImcompletedTodo from "../SortableImcompletedTodo/SortableImcompletedTodo";
 import ImcompletedTodoDetailModal from "../ImcompletedTodoDetailModal/ImcompletedTodoDetailModal";
+import { ImcompletedFilter } from "./filterOptions";
+import Actions from "./Actions/Actions";
 
 type Props = {
   todos: ImcompletedTodoType[];
@@ -20,6 +19,8 @@ type Props = {
   updateTodo: ({ params, successMessage }: UpdateTodoParams) => void;
   updateTodoDetail: (props: UpdateTodoDetailParams) => void;
   deleteTodo: (id: number) => void;
+  filter: ImcompletedFilter;
+  onChangeFilter: (filter: ImcompletedFilter) => void;
 };
 
 const ImcompletedTodos = ({
@@ -29,6 +30,8 @@ const ImcompletedTodos = ({
   updateTodo,
   updateTodoDetail,
   deleteTodo,
+  filter,
+  onChangeFilter,
 }: Props) => {
   const {
     isSortMode,
@@ -45,30 +48,14 @@ const ImcompletedTodos = ({
 
   return (
     <section className={styles.wrap}>
-      <h2>ホーム</h2>
-      <div
-        className={styles.sortIcon}
-        data-is-pending-for-sort-todo={isPendingForSortedTodo}
-      >
-        {/* ソートモードにできるボタンは他の更新がPending中はdisabledにしようかな */}
-        {isSortMode ? (
-          <Button
-            onClick={onClickSaveSorted}
-            style={{ width: "80px", height: "45px" }}
-            disabled={isPendingForSortedTodo}
-          >
-            完了
-          </Button>
-        ) : (
-          <IconButton
-            onClick={toggleSortMode}
-            children={
-              <GrSort size={25} style={{ color: "var(--color-icon)" }} />
-            }
-            disabled={isPendingForSortedTodo}
-          />
-        )}
-      </div>
+      <Actions
+        filter={filter}
+        onChangeFilter={onChangeFilter}
+        isSortMode={isSortMode}
+        toggleSortMode={toggleSortMode}
+        onClickSaveSorted={onClickSaveSorted}
+        isPendingForSortedTodo={isPendingForSortedTodo}
+      />
       <ul className={styles.ul}>
         {isPendingForCreateTodo && (
           <ImcompletedTodoForPending

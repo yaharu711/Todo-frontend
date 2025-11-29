@@ -5,9 +5,14 @@ import {
   GetTodosResponse,
   UpdateTodosRequest,
 } from "./types";
+import { ImcompletedFilter } from "../../pages/Todo/components/ImcompletedTodos/filterOptions";
 
-const getTodos = async (): Promise<GetTodosResponse> => {
-  const res = await apiClient.get("/api/todos");
+const getTodos = async (
+  filter?: ImcompletedFilter
+): Promise<GetTodosResponse> => {
+  const res = await apiClient.get("/api/todos", {
+    params: filter ? { filter } : undefined,
+  });
   return res.data;
 };
 

@@ -8,13 +8,11 @@ export type Props = {
   target: ImcompletedTodoType;
   updateTodoDetail: (props: UpdateTodoDetailParams) => void;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  
 };
 const useImcompletedTodoDetailModalViewModdel = ({
   target,
   updateTodoDetail,
   setOpen,
-  
 }: Props) => {
   const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(
     target.notificate_at
@@ -54,9 +52,7 @@ const useImcompletedTodoDetailModalViewModdel = ({
     }
     setIsNameEditMode(false);
   };
-  const nameEditOnKeyDown = (
-    e: React.KeyboardEvent<HTMLTextAreaElement>
-  ) => {
+  const nameEditOnKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key !== "Enter") return;
     // Shift+Enter は改行を許可し、通常のEnterで編集終了
     if (e.shiftKey) return;
@@ -115,6 +111,7 @@ const useImcompletedTodoDetailModalViewModdel = ({
   const onClose = (target: ImcompletedTodoType) => {
     setIsEditMode(false);
     setIsNameEditMode(false);
+    console.log(target);
     editTodo(target);
   };
   const onComplete = (target: ImcompletedTodoType) => {

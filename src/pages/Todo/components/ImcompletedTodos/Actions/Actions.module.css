@@ -1,0 +1,48 @@
+/* 色味がハードコーディングされているため、index.cssに近々まとめるリファクタリングを行う */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
+}
+
+.filterTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid #2f2f2f;
+  background-color: #242424;
+  color: var(--color-icon, #e5e7eb);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease, transform 0.1s ease;
+}
+
+.filterTrigger:hover {
+  background-color: #2d2d2d;
+  border-color: #3a3a3a;
+}
+
+.filterTrigger[data-active="true"] {
+  border-color: #6fa8ff;
+  background-color: #0f1b35;
+  color: #6fa8ff;
+}
+
+.filterButtonText {
+  font-size: 14px;
+  color: inherit;
+}
+
+.sortIcon {
+  display: flex;
+}
+
+.sortIcon[data-is-pending-for-sort-todo="true"] {
+  transition: all 0.4s ease;
+  color: gray;
+  opacity: 0.6;
+}
