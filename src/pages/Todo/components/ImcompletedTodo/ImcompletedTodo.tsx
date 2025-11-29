@@ -64,7 +64,7 @@ const ImcompletedTodo = ({
             onClick={() => completeTodo(target.id)}
             disabled={isError}
             children={
-              <CiCircleCheck size={30} style={{ color: "var(--color-icon)" }} />
+              <CiCircleCheck size={29} style={{ color: "var(--color-icon)" }} />
             }
           />
         )}
@@ -73,7 +73,7 @@ const ImcompletedTodo = ({
           onClick={() => deleteTodo(target.id)}
           disabled={isError}
           children={
-            <CiTrash size={30} style={{ color: "var(--color-icon)" }} />
+            <CiTrash size={29} style={{ color: "var(--color-icon)" }} />
           }
         />
       </div>
