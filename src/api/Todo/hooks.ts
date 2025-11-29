@@ -21,10 +21,7 @@ import { ImcompletedFilter } from "../../pages/Todo/components/ImcompletedTodos/
 import { AxiosError } from "axios";
 import { DragEndEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
-
-// 共通のクエリキー定義（デフォルトは"all"）
-export const todosQueryKey = (filter: ImcompletedFilter = "all") =>
-  ["todos", filter] as const;
+import { todosQueryKey } from "./queryKey";
 
 export type useGetTodosResponse = {
   imcompletedTodosWithStatus: ImcompletedTodoType[];
