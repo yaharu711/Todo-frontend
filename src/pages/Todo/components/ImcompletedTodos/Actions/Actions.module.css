@@ -1,3 +1,4 @@
+/* 色味がハードコーディングされているため、index.cssに近々まとめるリファクタリングを行う */
 .actions {
   display: flex;
   justify-content: flex-end;
@@ -25,10 +26,6 @@
   border-color: #3a3a3a;
 }
 
-.filterTrigger:active {
-  transform: translateY(1px);
-}
-
 .filterTrigger[data-active="true"] {
   border-color: #6fa8ff;
   background-color: #0f1b35;
@@ -46,7 +43,6 @@
 
 .sortIcon[data-is-pending-for-sort-todo="true"] {
   transition: all 0.4s ease;
-  text-decoration: line-through;
   color: gray;
   opacity: 0.6;
 }
