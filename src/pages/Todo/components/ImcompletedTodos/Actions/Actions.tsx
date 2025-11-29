@@ -23,18 +23,33 @@ const Actions = ({
   onClickSaveSorted,
   isPendingForSortedTodo,
 }: Props) => {
+  const selectedOption = ImcompletedFilterOptions.find(
+    (option) => option.key === filter
+  );
+  const isActiveFilter = filter !== "all";
+
   return (
     <div className={styles.actions}>
-      <Dropdown
-        selectedKey={filter}
-        onSelect={(key: string) => onChangeFilter(key as ImcompletedFilter)}
-        items={ImcompletedFilterOptions}
-        trigger={
-          <IconButton>
-            <LuFilter size={25} style={{ color: "var(--color-icon)" }} />
-          </IconButton>
-        }
-      />
+      {!isSortMode && (
+        <Dropdown
+          selectedKey={filter}
+          onSelect={(key: string) => onChangeFilter(key as ImcompletedFilter)}
+          items={ImcompletedFilterOptions}
+          trigger={
+            <button
+              type="button"
+              aria-label="フィルター"
+              className={styles.filterTrigger}
+              data-active={isActiveFilter}
+            >
+              <LuFilter size={22} />
+              <span className={styles.filterButtonText}>
+                {selectedOption?.label ?? "フィルター"}
+              </span>
+            </button>
+          }
+        />
+      )}
 
       <div
         className={styles.sortIcon}
@@ -54,7 +69,7 @@ const Actions = ({
             aria-label="並び替えモード"
             disabled={isPendingForSortedTodo}
           >
-            <GrSort size={25} style={{ color: "var(--color-icon)" }} />
+            <GrSort size={23} style={{ color: "var(--color-icon)" }} />
           </IconButton>
         )}
       </div>
