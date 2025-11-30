@@ -111,7 +111,6 @@ const useImcompletedTodoDetailModalViewModdel = ({
   const onClose = (target: ImcompletedTodoType) => {
     setIsEditMode(false);
     setIsNameEditMode(false);
-    console.log(target);
     editTodo(target);
   };
   const onComplete = (target: ImcompletedTodoType) => {

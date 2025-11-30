@@ -1,5 +1,8 @@
 import { ImcompletedFilter } from "../../pages/Todo/components/ImcompletedTodos/filterOptions";
 
-// 共通のクエリキー定義（デフォルトは"all"）
+// すべてのTodoクエリで共通のプレフィックス
+export const todosQueryKeyPrefix = ["todos"] as const;
+
+// フィルタ別のクエリキー（デフォルトは"all"）
 export const todosQueryKey = (filter: ImcompletedFilter = "all") =>
-  ["todos", filter] as const;
+  [...todosQueryKeyPrefix, filter] as const;

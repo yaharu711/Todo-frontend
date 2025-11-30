@@ -21,7 +21,7 @@ import { ImcompletedFilter } from "../../pages/Todo/components/ImcompletedTodos/
 import { AxiosError } from "axios";
 import { DragEndEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
-import { todosQueryKey } from "./queryKey";
+import { todosQueryKey, todosQueryKeyPrefix } from "./queryKey";
 
 export type useGetTodosResponse = {
   imcompletedTodosWithStatus: ImcompletedTodoType[];
@@ -107,7 +107,7 @@ export const useCreateTodo = () => {
     onSettled: async () => {
       // 楽観的更新はisPendingの時にvariablesを表示しているのでinvalidateするまで待つ必要ある
       // 待たないと、isPendingはfalseとなり楽観的更新したものも消えて何も更新されていないuIが表示されてしまう
-      await queryClient.invalidateQueries({ queryKey: todosQueryKey() });
+      await queryClient.invalidateQueries({ queryKey: todosQueryKeyPrefix });
     },
   });
 };
@@ -118,9 +118,9 @@ export const useUpdateDetailTodos = () => {
     mutationFn: (params: UpdateTodoDetailParams) =>
       TodoApi.updateTodos(params.request),
     onMutate: async ({ request }) => {
-      await queryClient.cancelQueries({ queryKey: todosQueryKey() });
+      await queryClient.cancelQueries({ queryKey: todosQueryKeyPrefix });
       const previousTodosEntries = queryClient.getQueriesData<useGetTodosResponse>({
-        queryKey: todosQueryKey(),
+        queryKey: todosQueryKeyPrefix,
       });
 
       updateCacheForUpdateTodoDetail({
@@ -161,7 +161,7 @@ export const useUpdateDetailTodos = () => {
       // 成功時のみrefetchする→エラーの時はキャッシュをそのままにしたいため→楽観的更新の部分が消えてしまってエラー状態が分かりにくい
       if (error === null)
         await queryClient.invalidateQueries({
-          queryKey: todosQueryKey(),
+          queryKey: todosQueryKeyPrefix,
         });
     },
   });
@@ -172,9 +172,11 @@ export const useUpdateTodos = () => {
   return useMutation({
     mutationFn: (request: UpdateTodosRequest) => TodoApi.updateTodos(request),
     onMutate: async (request) => {
-      await queryClient.cancelQueries({ queryKey: todosQueryKey() });
+      await queryClient.cancelQueries({ queryKey: todosQueryKeyPrefix });
 
-      const previousTodos = queryClient.getQueryData(todosQueryKey());
+      const previousTodosEntries = queryClient.getQueriesData<useGetTodosResponse>({
+        queryKey: todosQueryKeyPrefix,
+      });
 
       if (request.is_completed) {
         // 完了にする時
@@ -183,21 +185,26 @@ export const useUpdateTodos = () => {
         // 未完了にする時
         updateCacheForImcompleteTodo({ queryClient, request });
       }
-      return { previousTodos };
+      return { previousTodosEntries };
     },
     onError: (error: Error, _variables, context) => {
       const axiosError = error as AxiosError;
       if (axiosError.status === 401) {
-        if (context) queryClient.setQueryData(todosQueryKey(), context.previousTodos);
+        if (context)
+          context.previousTodosEntries?.forEach(([key, value]) => {
+            queryClient.setQueryData(key, value);
+          });
         return;
       }
       updateTodoErrorHandler(error);
       if (context === undefined) return;
-      queryClient.setQueryData(todosQueryKey(), context.previousTodos);
+      context.previousTodosEntries?.forEach(([key, value]) => {
+        queryClient.setQueryData(key, value);
+      });
     },
     onSettled: async () => {
       await queryClient.invalidateQueries({
-        queryKey: todosQueryKey(),
+        queryKey: todosQueryKeyPrefix,
       });
     },
   });
@@ -213,9 +220,11 @@ export const useCompleteTodo = () => {
         is_completed: true,
       }),
     onMutate: async (id) => {
-      await queryClient.cancelQueries({ queryKey: ["todos"] });
+      await queryClient.cancelQueries({ queryKey: todosQueryKeyPrefix });
 
-      const previousTodos = queryClient.getQueryData(todosQueryKey());
+      const previousTodosEntries = queryClient.getQueriesData<useGetTodosResponse>({
+        queryKey: todosQueryKeyPrefix,
+      });
 
       const request: UpdateTodosRequest = {
         id,
@@ -225,21 +234,26 @@ export const useCompleteTodo = () => {
       // 楽観的更新
       updateCacheForCompleteTodo({ queryClient, request });
 
-      return { previousTodos };
+      return { previousTodosEntries };
     },
     onError: (error: Error, _variables, context) => {
       const axiosError = error as AxiosError;
       if (axiosError.status === 401) {
-        if (context) queryClient.setQueryData(todosQueryKey(), context.previousTodos);
+        if (context)
+          context.previousTodosEntries?.forEach(([key, value]) => {
+            queryClient.setQueryData(key, value);
+          });
         return;
       }
       updateTodoErrorHandler(error);
       if (context === undefined) return;
-      queryClient.setQueryData(todosQueryKey(), context.previousTodos);
+      context.previousTodosEntries?.forEach(([key, value]) => {
+        queryClient.setQueryData(key, value);
+      });
     },
     onSettled: async () => {
       await queryClient.invalidateQueries({
-        queryKey: todosQueryKey(),
+        queryKey: todosQueryKeyPrefix,
       });
     },
   });
@@ -293,42 +307,57 @@ export const useDeleteTodo = () => {
   return useMutation({
     mutationFn: (id: number) => TodoApi.deleteTodo(id),
     onMutate: async (id) => {
-      await queryClient.cancelQueries({ queryKey: todosQueryKey() });
+      await queryClient.cancelQueries({ queryKey: todosQueryKeyPrefix });
 
-      const previousTodos = queryClient.getQueryData(todosQueryKey());
-
-      queryClient.setQueryData(todosQueryKey(), (old: useGetTodosResponse) => {
-        const newImcompletedTodos: ImcompletedTodoType[] =
-          old.imcompletedTodosWithStatus.map(function (
-            imcompletedTodoWithStatus
-          ) {
-            return imcompletedTodoWithStatus.id === id
-              ? {
-                  ...imcompletedTodoWithStatus,
-                  updateTodoStatus: "delete_pending",
-                }
-              : imcompletedTodoWithStatus;
-          });
-        return {
-          imcompletedTodosWithStatus: newImcompletedTodos,
-        };
+      const previousTodosEntries = queryClient.getQueriesData<useGetTodosResponse>({
+        queryKey: todosQueryKeyPrefix,
       });
 
-      return { previousTodos };
+      queryClient.setQueriesData<useGetTodosResponse>(
+        { queryKey: todosQueryKeyPrefix },
+        (old) => {
+          const current =
+            old ??
+            ({
+              imcompletedTodosWithStatus: [],
+            } as useGetTodosResponse);
+          const newImcompletedTodos: ImcompletedTodoType[] =
+            current.imcompletedTodosWithStatus.map(function (
+              imcompletedTodoWithStatus
+            ) {
+              return imcompletedTodoWithStatus.id === id
+                ? {
+                    ...imcompletedTodoWithStatus,
+                    updateTodoStatus: "delete_pending",
+                  }
+                : imcompletedTodoWithStatus;
+            });
+          return {
+            imcompletedTodosWithStatus: newImcompletedTodos,
+          };
+        }
+      );
+
+      return { previousTodosEntries };
     },
     onError: (error: Error, _variables, context) => {
       const axiosError = error as AxiosError;
       if (axiosError.status === 401) {
-        if (context) queryClient.setQueryData(todosQueryKey(), context.previousTodos);
+        if (context)
+          context.previousTodosEntries?.forEach(([key, value]) => {
+            queryClient.setQueryData(key, value);
+          });
         return;
       }
       updateTodoErrorHandler(error);
       if (context === undefined) return;
-      queryClient.setQueryData(todosQueryKey(), context.previousTodos);
+      context.previousTodosEntries?.forEach(([key, value]) => {
+        queryClient.setQueryData(key, value);
+      });
     },
     onSettled: async () => {
       await queryClient.invalidateQueries({
-        queryKey: todosQueryKey(),
+        queryKey: todosQueryKeyPrefix,
       });
     },
   });
@@ -342,7 +371,7 @@ export const useSortTodosMutation = () => {
       TodoApi.sortTodos(sorted_imcompleted_todo_ids),
     onSettled: async () => {
       queryClient.invalidateQueries({
-        queryKey: todosQueryKey(),
+        queryKey: todosQueryKeyPrefix,
       });
     },
   });
@@ -356,7 +385,7 @@ export const useSortImcompletedTodoQueryCache = () => {
     // APIリクエストする前に並び替えられた値でキャッシュを更新する
     if (active.id !== over?.id) {
       queryClient.setQueriesData<useGetTodosResponse>(
-        { queryKey: todosQueryKey() },
+        { queryKey: todosQueryKeyPrefix },
         (previousTodos) => {
           const current =
             previousTodos ??
@@ -394,7 +423,7 @@ const updateCacheForUpdateTodoDetail = ({
   updateDetailStatus: string;
 }) => {
   queryClient.setQueriesData<useGetTodosResponse>(
-    { queryKey: todosQueryKey() },
+    { queryKey: todosQueryKeyPrefix },
     (old) => {
       const current =
         old ??
@@ -427,7 +456,9 @@ const updateCacheForCompleteTodo = ({
   queryClient: QueryClient;
   request: UpdateTodosRequest;
 }) => {
-  queryClient.setQueriesData<useGetTodosResponse>({ queryKey: ["todos"] }, (old) => {
+  queryClient.setQueriesData<useGetTodosResponse>(
+    { queryKey: todosQueryKeyPrefix },
+    (old) => {
     const current =
       old ?? ({ imcompletedTodosWithStatus: [] } as useGetTodosResponse);
 
